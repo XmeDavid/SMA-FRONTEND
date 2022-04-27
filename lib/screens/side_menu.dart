@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sma_frontend/screens/login.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -10,44 +11,76 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        children: [
+        children: <Widget>[
           DrawerHeader(
             child: Image.asset("assets/logo.png"),
           ),
-          DrawerListTile(
-            title: "Dashboard",
-            svgSrc: "assets/icons/menu_dashbord.svg",
-            press: () {},
+          ExpansionTile(
+            title: Text("Tickets"),
+            leading: Icon(Icons.dashboard),
+            children: <Widget>[
+              ListTile(
+                title: const Center(
+                  child: Text(
+                    "Create Ticket",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage(title: "Login Page")),
+                );
+              },),
+              ListTile(
+                title: const Center(
+                  child: Text(
+                    "See Unassigned Ticket",
+                    style: TextStyle(fontSize: 12),),
+                ),
+              ),
+            ],
           ),
-          DrawerListTile(
-            title: "Tickets",
-            svgSrc: "assets/icons/menu_task.svg",
-            press: () {},
+          ExpansionTile(
+            title: Text("Tasks"),
+            leading: Icon(Icons.dashboard),
+            children: <Widget>[
+              ListTile(
+                title: const Center(
+                  child: Text(
+                    "Create Task",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage(title: "Login Page")),
+                  );
+                },),
+              ListTile(
+                title: const Center(
+                  child: Text(
+                    "See My Ticket",
+                    style: TextStyle(fontSize: 12),),
+                ),
+              ),
+            ],
           ),
-          DrawerListTile(
-            title: "Tasks",
-            svgSrc: "assets/icons/menu_task.svg",
-            press: () {},
+          ListTile(
+            leading: Icon(Icons.devices),
+            title: Text("Assets"),
+            onTap: (){},
           ),
-          DrawerListTile(
-            title: "Contracts",
-            svgSrc: "assets/icons/menu_doc.svg",
-            press: () {},
+          ListTile(
+            leading: Icon(Icons.description),
+            title: Text("Contracts"),
+            onTap: (){},
           ),
-          DrawerListTile(
-            title: "Assets",
-            svgSrc: "assets/icons/menu_store.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Client",
-            svgSrc: "assets/icons/menu_notification.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Settings",
-            svgSrc: "assets/icons/menu_setting.svg",
-            press: () {},
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text("Settings"),
+            onTap: (){},
           ),
         ],
       ),
