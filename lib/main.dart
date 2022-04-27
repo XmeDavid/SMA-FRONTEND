@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sma_frontend/screens/dashboard.dart';
 import 'package:sma_frontend/screens/login.dart';
+import 'package:sma_frontend/screens/new_ticket_screen.dart';
 
 import 'consts.dart';
 
@@ -25,10 +26,11 @@ class SMA extends StatelessWidget {
             .apply(bodyColor: Colors.white),
         canvasColor: bgColor,
       ),
-      initialRoute: '/dash',
+      initialRoute: '/login',
       routes: {
-        '/dash' : (context) => DashboardScreen(),
+        '/' : (context) => DashboardScreen(),
         '/login' : (context) => const LoginPage(title: "Login Page",),
+        '/tickets/new' : (context) => const NewTicketScreen(),
       },
     );
   }

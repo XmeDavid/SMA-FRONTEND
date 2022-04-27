@@ -16,8 +16,8 @@ class SideMenu extends StatelessWidget {
             child: Image.asset("assets/logo.png"),
           ),
           ExpansionTile(
-            title: Text("Tickets"),
-            leading: Icon(Icons.dashboard),
+            title: const Text("Tickets"),
+            leading: const Icon(Icons.dashboard),
             children: <Widget>[
               ListTile(
                 title: const Center(
@@ -27,13 +27,10 @@ class SideMenu extends StatelessWidget {
                   ),
                 ),
                 onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage(title: "Login Page")),
-                );
+                Navigator.pushNamed(context, '/tickets/new');
               },),
-              ListTile(
-                title: const Center(
+              const ListTile(
+                title:  Center(
                   child: Text(
                     "See Unassigned Ticket",
                     style: TextStyle(fontSize: 12),),
@@ -42,8 +39,8 @@ class SideMenu extends StatelessWidget {
             ],
           ),
           ExpansionTile(
-            title: Text("Tasks"),
-            leading: Icon(Icons.dashboard),
+            title: const Text("Tasks"),
+            leading: const Icon(Icons.dashboard),
             children: <Widget>[
               ListTile(
                 title: const Center(
@@ -58,8 +55,8 @@ class SideMenu extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => const LoginPage(title: "Login Page")),
                   );
                 },),
-              ListTile(
-                title: const Center(
+              const ListTile(
+                title: Center(
                   child: Text(
                     "See My Ticket",
                     style: TextStyle(fontSize: 12),),
@@ -68,18 +65,18 @@ class SideMenu extends StatelessWidget {
             ],
           ),
           ListTile(
-            leading: Icon(Icons.devices),
-            title: Text("Assets"),
+            leading: const Icon(Icons.devices),
+            title: const Text("Assets"),
             onTap: (){},
           ),
           ListTile(
-            leading: Icon(Icons.description),
-            title: Text("Contracts"),
+            leading: const Icon(Icons.description),
+            title: const Text("Contracts"),
             onTap: (){},
           ),
           ListTile(
-            leading: Icon(Icons.settings),
-            title: Text("Settings"),
+            leading: const Icon(Icons.settings),
+            title: const Text("Settings"),
             onTap: (){},
           ),
         ],
