@@ -10,7 +10,12 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width < 1100 ? AppBar(title: const Text ("Dashboard"), backgroundColor: bgColor) : null,
+      appBar: MediaQuery.of(context).size.width < 1100 ? AppBar(
+          title: const Text ("Dashboard"),
+          backgroundColor: bgColor,
+          actions: [
+            DropdownButton(icon: Image.asset("assets/logo.png"),items: null, onChanged: (null))
+          ],) : null,
       drawer: SideMenu(),
       body: SafeArea(
         child: Row(
@@ -26,7 +31,7 @@ class DashboardScreen extends StatelessWidget {
               // It takes 5/6 part of the screen
             Expanded(
               // It takes 5/6 part of the screen
-              flex: 5,
+              flex: 6,
               child: Container(),
             ),
           ],
