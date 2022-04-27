@@ -1,63 +1,37 @@
+import 'package:sma_frontend/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:sma_frontend/screens/side_menu.dart';
+import 'package:provider/provider.dart';
 
-class DashboardPage extends StatefulWidget {
-  const DashboardPage({Key? key,}) : super(key: key);
+import '../../consts.dart';
 
-  @override
-  State<DashboardPage> createState() => _MyDashboardPageState();
-}
 
-class _MyDashboardPageState extends State<DashboardPage> {
-  /**
-   * Search later, something to do with the state
-   * Might be usefull to define the user state after login idk
-   *
-      int _stateVariable = 0;
-      void _loginFunction() {
-      setState(() {
-      _stateVariable++;
-      });
-      }
-   */
-
+class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: MediaQuery.of(context).size.width < 1100 ? AppBar(title: const Text ("SMA"), backgroundColor: bgColor) : null,
+      drawer: SideMenu(),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(defaultPadding),
-          child: Column(
-            children: [
-              Header(),
-              SizedBox(height: defaultPadding),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: Column(
-                      children: [
-                        MyFiles(),
-                        SizedBox(height: defaultPadding),
-                        RecentFiles(),
-                        if (Responsive.isMobile(context)) SizedBox(height: defaultPadding),
-                        if (Responsive.isMobile(context)) StarageDetails(),
-                      ],
-                    ),
-                  ),
-                  if (!Responsive.isMobile(context)) SizedBox(width: defaultPadding),
-                  if (!Responsive.isMobile(context)) Expanded(
-                    flex: 2,
-                    child: StarageDetails(),
-                  ),
-                ],
-              )
-            ],
-          ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // We want this side menu only for large screen
+            if (Responsive.isDesktop(context))
+              Expanded(
+                // default flex = 1
+                // and it takes 1/6 part of the screen
+                child: SideMenu(),
+              ),
+              // It takes 5/6 part of the screen
+            Expanded(
+              // It takes 5/6 part of the screen
+              flex: 5,
+              child: Container(),
+            ),
+          ],
         ),
-      )
+      ),
     );
-
   }
 }

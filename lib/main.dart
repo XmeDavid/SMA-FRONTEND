@@ -17,6 +17,7 @@ class SMA extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'SMA - Support Management Application',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
@@ -24,9 +25,9 @@ class SMA extends StatelessWidget {
             .apply(bodyColor: Colors.white),
         canvasColor: bgColor,
       ),
-      initialRoute: '/login',
+      initialRoute: '/dash',
       routes: {
-        '/' : (context) => const DashboardPage(),
+        '/dash' : (context) => DashboardScreen(),
         '/login' : (context) => const LoginPage(title: "Login Page",),
       },
     );
