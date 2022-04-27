@@ -10,78 +10,95 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        children: <Widget>[
-          DrawerHeader(
-            child: Image.asset("assets/logo.png"),
-          ),
-          ExpansionTile(
-            title: Text("Tickets"),
-            leading: Icon(Icons.dashboard),
+      child: Column(
+        children: [
+          Expanded(child:
+          ListView(
             children: <Widget>[
-              ListTile(
-                title: const Center(
-                  child: Text(
-                    "Create Ticket",
-                    style: TextStyle(fontSize: 12),
+              DrawerHeader(
+                child: Image.asset("assets/logo.png"),
+              ),
+              ExpansionTile(
+                title: Text("Tickets"),
+                leading: Icon(Icons.assignment),
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                      "Create Ticket",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginPage(title: "Login Page")),
+                      );
+                    },),
+                  ListTile(
+                    title: Text(
+                      "See Unassigned Ticket",
+                      style: TextStyle(fontSize: 12),),
                   ),
-                ),
-                onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage(title: "Login Page")),
-                );
-              },),
+                ],
+              ),
+              ExpansionTile(
+                title: Text("Tasks"),
+                leading: Icon(Icons.task_alt),
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                      "Create Task",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginPage(title: "Login Page")),
+                      );
+                    },),
+                  ListTile(
+                    title: Text(
+                      "See My Ticket",
+                      style: TextStyle(fontSize: 12),),
+                  ),
+                ],
+              ),
               ListTile(
-                title: const Center(
-                  child: Text(
-                    "See Unassigned Ticket",
-                    style: TextStyle(fontSize: 12),),
-                ),
+                leading: Icon(Icons.devices),
+                title: Text("Assets"),
+                onTap: (){},
+              ),
+              ListTile(
+                leading: Icon(Icons.description),
+                title: Text("Contracts"),
+                onTap: (){},
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text("Settings"),
+                onTap: (){},
               ),
             ],
           ),
-          ExpansionTile(
-            title: Text("Tasks"),
-            leading: Icon(Icons.dashboard),
-            children: <Widget>[
-              ListTile(
-                title: const Center(
-                  child: Text(
-                    "Create Task",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginPage(title: "Login Page")),
-                  );
-                },),
-              ListTile(
-                title: const Center(
-                  child: Text(
-                    "See My Ticket",
-                    style: TextStyle(fontSize: 12),),
-                ),
-              ),
-            ],
           ),
-          ListTile(
-            leading: Icon(Icons.devices),
-            title: Text("Assets"),
-            onTap: (){},
-          ),
-          ListTile(
-            leading: Icon(Icons.description),
-            title: Text("Contracts"),
-            onTap: (){},
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text("Settings"),
-            onTap: (){},
-          ),
+          Container(
+            // This align moves the children to the bottom
+              child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  // This container holds all the children that will be aligned
+                  // on the bottom and should not scroll with the above ListView
+                  child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          Divider(),
+                          ListTile(
+                              leading: Icon(Icons.person),
+                              title: Text('User'),
+                          ),
+                        ],
+                      )
+                  )
+              )
+          )
         ],
       ),
     );
