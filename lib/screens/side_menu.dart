@@ -16,21 +16,26 @@ class SideMenu extends StatelessWidget {
           ListView(
             children: <Widget>[
               DrawerHeader(
-                child: Image.asset("assets/logo.png"),
+                child: TextButton(
+                  child : Image.asset("assets/logo.png"),
+                  onPressed: (){
+                    Navigator.pushNamed(context, "/");
+                  },
+                ),
               ),
               ExpansionTile(
                 title: Text("Tickets"),
                 leading: Icon(Icons.assignment),
                 children: <Widget>[
                   ListTile(
-                    title: Text(
+                    title: const Text(
                       "Create Ticket",
                       style: TextStyle(fontSize: 12),
                     ),
                     onTap: (){
-                      Navigator.push(
+                      Navigator.pushNamed(
                         context,
-                        MaterialPageRoute(builder: (context) => const LoginPage(title: "Login Page")),
+                        "/tickets/new",
                       );
                     },),
                   ListTile(
