@@ -12,10 +12,7 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       appBar: MediaQuery.of(context).size.width < 1100 ? AppBar(
           title: const Text ("Dashboard"),
-          backgroundColor: bgColor,
-          actions: [
-            DropdownButton(icon: Image.asset("assets/logo.png"),items: null, onChanged: (null))
-          ],) : null,
+          backgroundColor: bgColor,) : null,
       drawer: SideMenu(),
       body: SafeArea(
         child: Row(
