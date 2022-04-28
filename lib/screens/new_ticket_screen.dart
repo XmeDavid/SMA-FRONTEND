@@ -16,6 +16,7 @@ class _NewTicketScreenState extends State<NewTicketScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final ticketTitleController = TextEditingController();
+  final ticketDescriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +49,16 @@ class _NewTicketScreenState extends State<NewTicketScreen> {
                       child: Column(
                         children: [
                           TextField(
-                            labelText: "Ticket Title",
-                            hintText: "Please write the ticket Title",
+                            labelText: "Title",
+                            hintText: "Ticket Title",
                             controller: ticketTitleController,
-                            size: 400,
+                            size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.8) - 98,
                           ),
+                          TextBox(
+                              labelText: "Description",
+                              hintText: "Ticket Description",
+                              controller: ticketDescriptionController,
+                              size: 400)
                         ],
                       ),
                     )
@@ -79,7 +85,7 @@ class TextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(defaultPadding),
+        padding: const EdgeInsets.all(defaultPadding/2),
         child: Row(
           children: [
             Container(
@@ -93,7 +99,7 @@ class TextField extends StatelessWidget {
               height: 40,
               child: Center(
                 child:Padding(
-                  padding: const EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(5),
                   child: Text(
                     labelText,
                     style: const TextStyle(
@@ -132,3 +138,71 @@ class TextField extends StatelessWidget {
     );
   }
 }
+
+class TextBox extends StatelessWidget {
+  const TextBox({Key? key, required this.labelText ,required this.hintText, required this.controller, required this.size}) : super(key: key);
+
+  final String labelText;
+  final String hintText;
+  final TextEditingController controller;
+  final double size;
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(defaultPadding/2),
+      child: Column(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10)
+              ),
+              color: thirdColor5,
+            ),
+            height: 40,
+            child: Center(
+                child:Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Text(
+                      labelText,
+                      style: const TextStyle(
+                          fontSize: 20
+                      ),
+                    )
+                )
+            ),
+          ),
+          Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)
+              ),
+              color: thirdColor3,
+            ),
+            height: 120,
+            child: Center(
+              child:TextFormField(
+                keyboardType: TextInputType.multiline,
+                minLines: 6,
+                maxLines: 6,
+                controller: controller,
+                decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.only(left: 10,bottom: 8),
+                    hintText: hintText,
+                    border: InputBorder.none
+                ),
+                style: const TextStyle(
+                    fontSize: 16
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
