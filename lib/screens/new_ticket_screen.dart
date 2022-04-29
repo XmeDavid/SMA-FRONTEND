@@ -5,6 +5,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:sma_frontend/models/Contract.dart';
 
 import '../models/Asset.dart';
+import '../models/Entity.dart';
 import '../models/model_api.dart';
 import '../responsive.dart';
 import '../consts.dart';
@@ -33,6 +34,7 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
   List<String>? selectedAssets;
   List<Contract> contracts = <Contract>[];
   List<Asset> assets = <Asset>[];
+  List<Entity> entities = <Entity> [];
 
   bool isClient(){
     return false;
@@ -44,10 +46,14 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
   void loadAssets() async{
     assets = await ModelApi.getAssets();
   }
+  void loadEntities() async{
+    entities = await ModelApi.getEntities();
+  }
 
   loadDynamicData(){
     loadContracts();
     loadAssets();
+    loadEntities();
   }
 
   @override
@@ -81,7 +87,7 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            if(!isClient())DropDown(this, label: "Client",items: const ["sampleCategories","Client #1", "Client #2"],callback: (s) =>{
+                            if(!isClient())DropDown(this, label: "Client Entitie",items: entities.map((e) => e.toString()).toList(),callback: (s) =>{
                               _selectedClient = s
                               },
                             ),

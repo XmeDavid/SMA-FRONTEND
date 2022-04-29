@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+
 import '../api_interactions/api_functions.dart';
 import 'Asset.dart';
 import 'Contract.dart';
+import 'Entity.dart';
 
 class ModelApi{
   static Future<List<Contract>> getContracts() async{
@@ -25,5 +27,16 @@ class ModelApi{
       tempAssets.add(asset);
     }
     return tempAssets;
+  }
+
+  static Future<List<Entity>> getEntities() async{
+    List<Entity> tempEntities = <Entity>[];
+    var res = await ApiClient().getAll("entities");
+    dynamic json = jsonDecode(res.body);
+    for(var entityJson in json){
+      Entity entity = Entity.fromJson(entityJson);
+      tempEntities.add(entity);
+    }
+    return tempEntities;
   }
 }
