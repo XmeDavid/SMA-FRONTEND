@@ -259,7 +259,7 @@ class TextBox extends StatelessWidget {
                 maxLines: 20,
                 controller: controller,
                 decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(left: 10,bottom: 8),
+                    contentPadding: const EdgeInsets.only(left: 10),
                     hintText: hintText,
                     border: InputBorder.none
                 ),
