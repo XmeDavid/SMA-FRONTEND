@@ -1,8 +1,11 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:sma_frontend/models/Contract.dart';
 
+import '../models/Asset.dart';
+import '../models/model_api.dart';
 import '../responsive.dart';
 import '../consts.dart';
 import 'side_menu.dart';
@@ -14,33 +17,42 @@ class NewTicketScreen extends StatefulWidget {
   State<NewTicketScreen> createState() => _NewTicketScreenState();
 }
 
-class _NewTicketScreenState extends State<NewTicketScreen> {
+class _NewTicketScreenState  extends State<NewTicketScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
   final ticketTitleController = TextEditingController();
   final ticketDescriptionController = TextEditingController();
 
+
   final sampleCategories = ["I&T Support", "Warranty", "Client Request", "Help Desk support"];
-  final sampleContracts = [
-    "Contract #0001 - Blue Dev Entreprises",
-    "Contract #0002 - inCentea",
-    "Contract #0003 - Inforabreu",
-    "Contract #0004 - Dev Brain"
-  ];
-  final assets = ["Computer #1", " Computer #2", "Computer #3", "Printer #1", "Printer #2"];
 
   String _selectedCategory = "";
   String _selectedContract = "";
   String _selectedClient = "";
   List<String>? selectedAssets;
+  List<Contract> contracts = <Contract>[];
+  List<Asset> assets = <Asset>[];
 
   bool isClient(){
     return false;
   }
 
+  void loadContracts() async {
+    contracts = await ModelApi.getContracts();
+  }
+  void loadAssets() async{
+    assets = await ModelApi.getAssets();
+  }
+
+  loadDynamicData(){
+    loadContracts();
+    loadAssets();
+  }
+
   @override
   Widget build(BuildContext context) {
+    loadDynamicData();
     return Scaffold(
       appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Dashboard"), backgroundColor: bgColor) : null,
       drawer: const SideMenu(),
@@ -88,7 +100,7 @@ class _NewTicketScreenState extends State<NewTicketScreen> {
                                 _selectedCategory = s
                               },
                             ),
-                            DropDown(this, label: "Contract",items: sampleContracts,callback: (s) =>{
+                            DropDown(this, label: "Contract",items: contracts.map((c) => c.toString()).toList(),callback: (s) =>{
                                 _selectedContract = s
                               },
                             ),
@@ -102,7 +114,7 @@ class _NewTicketScreenState extends State<NewTicketScreen> {
                                       color: thirdColor5,
                                     ),
                                     child: DropdownSearch<String>.multiSelection(
-                                      items: assets,
+                                      items: assets.map((a) => a.toString()).toList(),
                                       mode: Responsive.isDesktop(context) ? Mode.MENU : Mode.BOTTOM_SHEET,
                                       showSelectedItems: true,
                                       popupBackgroundColor: thirdColor3,

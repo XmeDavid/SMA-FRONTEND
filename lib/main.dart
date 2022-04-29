@@ -4,10 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sma_frontend/screens/dashboard.dart';
 import 'package:sma_frontend/screens/login.dart';
 import 'package:sma_frontend/screens/new_ticket_screen.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'consts.dart';
 
-void main() {
+void main() async{
+  await dotenv.load(fileName: "../.env");
   runApp(const SMA());
 }
 
