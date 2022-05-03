@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:sma_frontend/models/Contract.dart';
 
-import '../models/Asset.dart';
-import '../models/model_api.dart';
-import '../responsive.dart';
-import '../consts.dart';
-import 'side_menu.dart';
+import '../../models/Asset.dart';
+import '../../models/model_api.dart';
+import '../../responsive.dart';
+import '../../consts.dart';
+import '../side_menu.dart';
 
 class NewTicketScreen extends StatefulWidget {
   const NewTicketScreen({Key? key}) : super(key: key);
