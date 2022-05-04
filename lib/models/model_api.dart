@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 
+import 'package:sma_frontend/models/TicketCategory.dart';
+
 import '../api_interactions/api_functions.dart';
 import 'Asset.dart';
 import 'Contract.dart';
@@ -38,5 +40,16 @@ class ModelApi{
       tempEntities.add(entity);
     }
     return tempEntities;
+  }
+
+  static Future<List<TicketCategory>> getTicketCategories() async{
+    List<TicketCategory> tempTicketCategories = <TicketCategory>[];
+    var res = await ApiClient().getAll("tickets/categories");
+    dynamic json = jsonDecode(res.body);
+    for(var ticketCategoryJson in json){
+      TicketCategory ticketCategory = TicketCategory.fromJson(ticketCategoryJson);
+      tempTicketCategories.add(ticketCategory);
+    }
+    return tempTicketCategories;
   }
 }

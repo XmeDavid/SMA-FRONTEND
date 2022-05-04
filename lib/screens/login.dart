@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:sma_frontend/api_interactions/api_functions.dart';
 import 'package:sma_frontend/register_screen.dart';
 import 'package:sma_frontend/consts.dart';
 
@@ -14,6 +17,25 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
+
+  final emailText = TextEditingController();
+  final passwordText = TextEditingController();
+
+  bool authenticated = false;
+
+  @override
+  void dispose(){
+    emailText.dispose();
+    passwordText.dispose();
+    super.dispose();
+  }
+
+  login() async{
+    dynamic res = await ApiClient().sendLoginRequest(emailText.text, passwordText.text);
+    if(res.statusCode == 200){
+      Navigator.pushNamed(context, '/');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: emailText,
                       validator: (value) => EmailValidator.validate(value!)
                           ? null
                           : "Please enter a valid email",
@@ -63,6 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 20,
                     ),
                     TextFormField(
+                      controller: passwordText,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your password';
@@ -97,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.pushNamed(context, '/');
+                          login();
                         }
                       },
                       style: ElevatedButton.styleFrom(

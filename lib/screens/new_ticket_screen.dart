@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:sma_frontend/models/Contract.dart';
+import 'package:sma_frontend/models/TicketCategory.dart';
 
+import '../api_interactions/api_functions.dart';
 import '../models/Asset.dart';
 import '../models/Entity.dart';
 import '../models/model_api.dart';
@@ -25,16 +27,14 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
   final ticketTitleController = TextEditingController();
   final ticketDescriptionController = TextEditingController();
 
-
-  final sampleCategories = ["I&T Support", "Warranty", "Client Request", "Help Desk support"];
-
   String _selectedCategory = "";
   String _selectedContract = "";
   String _selectedClient = "";
-  List<String>? selectedAssets;
+  List<String>? _selectedAssets;
   List<Contract> contracts = <Contract>[];
   List<Asset> assets = <Asset>[];
   List<Entity> entities = <Entity> [];
+  List<TicketCategory> categories = <TicketCategory> [];
 
   bool isClient(){
     return false;
@@ -49,11 +49,15 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
   void loadEntities() async{
     entities = await ModelApi.getEntities();
   }
+  void loadCategories() async{
+    categories = await ModelApi.getTicketCategories();
+  }
 
   loadDynamicData(){
     loadContracts();
     loadAssets();
     loadEntities();
+    loadCategories();
   }
 
   @override
@@ -102,7 +106,7 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                                 hintText: "Ticket Description",
                                 controller: ticketDescriptionController,
                                 size: 400),
-                            DropDown(this, label: "Category",items: sampleCategories,callback: (s) =>{
+                            DropDown(this, label: "Category",items: categories.map((c) => c.toString()).toList(),callback: (s) =>{
                                 _selectedCategory = s
                               },
                             ),
@@ -131,8 +135,9 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                                       ),
                                       //popupItemDisabled: (String s) => s.startsWith('I'),
                                       showSearchBox: true,
-                                      onSaved: (a){
-                                        selectedAssets = a;
+                                      onChanged: (a){
+                                        print(a);
+                                        _selectedAssets = a;
                                       },
                                     ),
                                   ),
@@ -142,8 +147,15 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                             //TODO Still need a way to input estimated time
                             ElevatedButton(
                                 onPressed: (){
-                                  //TODO Send the create ticket Request and Empty the page
+                                  ApiClient().createTicket(
+                                    entities.where((element) => element.toString() == _selectedClient).first.id,
+                                    1,
+                                    contracts.where((element) => element.toString() == _selectedContract).first.id,
+                                    categories.where((element) => element.toString() == _selectedCategory).first.id,
+                                    "asd"
+                                  );
                                   print("Client: "+ _selectedClient +"\nTitle: " + ticketTitleController.text + "\nDescription: " + ticketDescriptionController.text + "\nCategory: " + _selectedCategory + "\nContract: " + _selectedContract);
+                                  print("Assets: " + _selectedAssets.toString());
                                 },
                                 child: const Text("Create Ticket"))
                           ],

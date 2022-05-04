@@ -9,7 +9,7 @@ class ApiClient{
 
   Future<http.Response> sendLoginRequest(String email, String password) async{
     return http.post(
-        Uri.parse('httpSomethingsomething'),
+        Uri.parse(API_URL + "login"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -25,6 +25,22 @@ class ApiClient{
         Uri.parse(API_URL + s),
         headers: <String, String>{}
     ));
+  }
+  
+  Future<http.Response> createTicket(int clientId, int assistantId, int contractId, int categoryId, String startDate) async{
+    return http.post(
+      Uri.parse(API_URL + "tickets/"),
+      headers: <String,String>{
+
+      },
+      body: jsonEncode(<String, String>{
+        'entities_id': clientId.toString(),
+        'assistant_id': assistantId.toString(),
+        'contracts_id' : contractId.toString(),
+        'categories_id' : categoryId.toString(),
+        'start_date' : startDate,
+      })
+    );
   }
 }
 
