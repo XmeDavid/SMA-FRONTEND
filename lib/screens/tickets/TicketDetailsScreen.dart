@@ -14,6 +14,7 @@ class TicketDetails extends StatefulWidget {
 class _TicketDetailsState extends State<TicketDetails> {
 
   final ticketTitleController = TextEditingController();
+  final ticketContractController = TextEditingController();
   final ticketDescriptionController = TextEditingController();
 
   @override
@@ -29,10 +30,11 @@ class _TicketDetailsState extends State<TicketDetails> {
             children: [
               if (Responsive.isDesktop(context))
                 const Expanded(
+                  flex: 1,
                   child: SideMenu(),
                 ),
               Expanded(
-                flex: 6,
+                flex: 5,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -81,6 +83,12 @@ class _TicketDetailsState extends State<TicketDetails> {
                                         controller: ticketTitleController,
                                         size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 98,
                                       ),
+                                      TextField(
+                                        labelText: "Contract ID",
+                                        hintText: "no. 23213",
+                                        controller: ticketContractController,
+                                        size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 172,
+                                      ),
                                       TextBox(
                                           labelText: "Description",
                                           hintText: "Ticket Description",
@@ -88,22 +96,69 @@ class _TicketDetailsState extends State<TicketDetails> {
                                           size: 400
                                       ),
                                       Container(
-                                        //Ver melhor isto da width para ambientes smartphone
-                                        width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.7 : 0.95) - 98,
+                                        //Ver melhor isto da width para ambientes de telemv
                                         padding: EdgeInsets.all(10),
                                         decoration: const BoxDecoration(
-                                          color: Colors.blue,
+                                          color: thirdColor3,
                                           borderRadius: BorderRadius.all(Radius.circular(5)),
                                         ),
-                                        child: Padding(
-                                          padding: EdgeInsets.zero,
                                           child: Row(
                                             children: [
+                                              Text("Categorias: ", style: TextStyle(fontWeight: FontWeight.bold)),
                                               //Usar um foreach ?
-                                              InputChip(label: Text("Categoria 1")),
-                                              InputChip(label: Text("Categoria 2")),
+                                              SingleChildScrollView(
+                                                scrollDirection: Axis.horizontal,
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding: EdgeInsets.all(2),
+                                                      child: InputChip(
+                                                          label: Text("Categoria 1")),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.all(2),
+                                                      child: InputChip(
+                                                          label: Text("Categoria 2")),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.all(2),
+                                                      child: InputChip(
+                                                          label: Text("Categoria 3")),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.all(2),
+                                                      child: InputChip(
+                                                          label: Text("Categoria 4")),
+                                                    ),
+                                                  ],
+                                                )
+                                              )
                                             ],
                                           ),
+                                        ),
+                                      Container(
+                                        margin: EdgeInsets.all(defaultPadding/2),
+                                        //Ver melhor isto da width para ambientes de telemv
+                                        padding: EdgeInsets.all(10),
+                                        decoration: const BoxDecoration(
+                                          color: thirdColor3,
+                                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Text("Assets: ", style: TextStyle(fontWeight: FontWeight.bold)),
+                                            //Usar um foreach ?
+                                            Padding(
+                                              padding: EdgeInsets.all(2),
+                                              child: InputChip(
+                                                  label: Text("Asset 1")),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(2),
+                                              child: InputChip(
+                                                  label: Text("Asset 2")),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
@@ -139,7 +194,7 @@ class TextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(defaultPadding/2),
+        padding: const EdgeInsets.fromLTRB(defaultPadding/2, defaultPadding/2, defaultPadding/2, 1),
         child: Row(
           children: [
             Container(
@@ -173,7 +228,6 @@ class TextField extends StatelessWidget {
               ),
               height: 40,
               width: size,
-              child: Center(
                 child:TextFormField(
                   controller: controller,
                   decoration: InputDecoration(
@@ -186,7 +240,6 @@ class TextField extends StatelessWidget {
                       fontSize: 20
                   ),
                 ),
-              ),
             ),
           ],
         )
