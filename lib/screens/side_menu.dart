@@ -40,8 +40,14 @@ class SideMenu extends StatelessWidget {
                     },),
                   ListTile(
                     title: Text(
-                      "See Unassigned Ticket",
+                      "See Ticket Details",
                       style: TextStyle(fontSize: 12),),
+                    onTap: (){
+                      Navigator.pushNamed(
+                        context,
+                        "/tickets/details",
+                      );
+                    },
                   ),
                 ],
               ),
