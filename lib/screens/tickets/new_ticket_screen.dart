@@ -5,13 +5,14 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/TicketCategory.dart';
 
-import '../api_interactions/api_functions.dart';
-import '../models/Asset.dart';
-import '../models/Entity.dart';
-import '../models/model_api.dart';
-import '../responsive.dart';
-import '../consts.dart';
-import 'side_menu.dart';
+
+import '../../api_interactions/api_functions.dart';
+import '../../models/Entity.dart';
+import '../../models/Asset.dart';
+import '../../models/model_api.dart';
+import '../../responsive.dart';
+import '../../consts.dart';
+import '../side_menu.dart';
 
 class NewTicketScreen extends StatefulWidget {
   const NewTicketScreen({Key? key}) : super(key: key);
