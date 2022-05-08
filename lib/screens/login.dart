@@ -34,6 +34,8 @@ class _LoginPageState extends State<LoginPage> {
     dynamic res = await ApiClient().sendLoginRequest(emailText.text, passwordText.text);
     if(res.statusCode == 200){
       Navigator.pushNamed(context, '/');
+    }else{
+      
     }
   }
 

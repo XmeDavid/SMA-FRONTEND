@@ -31,38 +31,46 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
   String _selectedContract = "";
   String _selectedClient = "";
   List<String>? _selectedAssets;
+
+  List<Entity> entities = <Entity>[];
   List<Contract> contracts = <Contract>[];
+  List<TicketCategory> categories = <TicketCategory>[];
   List<Asset> assets = <Asset>[];
-  List<Entity> entities = <Entity> [];
-  List<TicketCategory> categories = <TicketCategory> [];
+
 
   bool isClient(){
     return false;
   }
 
-  void loadContracts() async {
-    contracts = await ModelApi.getContracts();
+  Future<List<String>> loadContracts() async {
+    if(contracts.isEmpty){
+      contracts = await ModelApi.getContracts();
+    }
+    return contracts.map((e) => e.toString()).toList();
   }
-  void loadAssets() async{
-    assets = await ModelApi.getAssets();
+  Future<List<String>> loadAssets() async{
+    if(assets.isEmpty){
+      assets = await ModelApi.getAssets();
+    }
+    return assets.map((e) => e.toString()).toList();
   }
-  void loadEntities() async{
-    entities = await ModelApi.getEntities();
+  Future<List<String>> loadEntities() async{
+    if(entities.isEmpty){
+      entities = await ModelApi.getEntities();
+    }
+    return entities.map((e) => e.toString()).toList();
   }
-  void loadCategories() async{
-    categories = await ModelApi.getTicketCategories();
+  Future<List<String>> loadCategories() async{
+    if(categories.isEmpty){
+      categories = await ModelApi.getTicketCategories();
+    }
+    return categories.map((e) => e.toString()).toList();
   }
 
-  loadDynamicData(){
-    loadContracts();
-    loadAssets();
-    loadEntities();
-    loadCategories();
-  }
+
 
   @override
   Widget build(BuildContext context) {
-    loadDynamicData();
     return Scaffold(
       appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Dashboard"), backgroundColor: bgColor) : null,
       drawer: const SideMenu(),
@@ -91,9 +99,10 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            if(!isClient())DropDown(this, label: "Client Entitie",items: entities.map((e) => e.toString()).toList(),callback: (s) =>{
-                              _selectedClient = s
-                              },
+                            if(!isClient())DropDown(this,
+                              label: "Client Entity",
+                              callback: (s) => {_selectedClient = s},
+                              getData: loadEntities,
                             ),
                             TextField(
                               labelText: "Title",
@@ -106,13 +115,15 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                                 hintText: "Ticket Description",
                                 controller: ticketDescriptionController,
                                 size: 400),
-                            DropDown(this, label: "Category",items: categories.map((c) => c.toString()).toList(),callback: (s) =>{
-                                _selectedCategory = s
-                              },
+                            DropDown(this,
+                              label: "Category",
+                              callback: (s) =>{_selectedCategory = s},
+                              getData: loadCategories,
                             ),
-                            DropDown(this, label: "Contract",items: contracts.map((c) => c.toString()).toList(),callback: (s) =>{
-                                _selectedContract = s
-                              },
+                            DropDown(this,
+                              label: "Contract",
+                              callback: (s) =>{_selectedContract = s},
+                              getData: loadContracts,
                             ),
                             Container(
                               padding: const EdgeInsets.all(defaultPadding/2),
@@ -124,7 +135,8 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                                       color: thirdColor5,
                                     ),
                                     child: DropdownSearch<String>.multiSelection(
-                                      items: assets.map((a) => a.toString()).toList(),
+                                      onFind: (String? filter) => loadAssets(),
+                                      //items: assets.map((a) => a.toString()).toList(),
                                       mode: Responsive.isDesktop(context) ? Mode.MENU : Mode.BOTTOM_SHEET,
                                       showSelectedItems: true,
                                       popupBackgroundColor: thirdColor3,
@@ -148,10 +160,10 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                             ElevatedButton(
                                 onPressed: (){
                                   ApiClient().createTicket(
-                                    entities.where((element) => element.toString() == _selectedClient).first.id,
+                                      int.parse(_selectedClient.replaceAll(RegExp('[^0-9]'), '')),
                                     1,
-                                    contracts.where((element) => element.toString() == _selectedContract).first.id,
-                                    categories.where((element) => element.toString() == _selectedCategory).first.id,
+                                      int.parse(_selectedContract.replaceAll(RegExp('[^0-9]'), '')),
+                                      int.parse(_selectedCategory.replaceAll(RegExp('[^0-9]'), '')),
                                     "asd"
                                   );
                                   print("Client: "+ _selectedClient +"\nTitle: " + ticketTitleController.text + "\nDescription: " + ticketDescriptionController.text + "\nCategory: " + _selectedCategory + "\nContract: " + _selectedContract);
@@ -307,12 +319,12 @@ class TextBox extends StatelessWidget {
 
 
 class DropDown extends StatelessWidget {
-  const DropDown(_NewTicketScreenState _newTicketScreenState, {Key? key, required this.label, required this.items, required this.callback}) : super(key: key);
+  const DropDown(_NewTicketScreenState _newTicketScreenState, {Key? key, required this.label, required this.callback, required this.getData}) : super(key: key);
 
   final String label;
-  final List<String> items;
 
   final Function(String s) callback;
+  final Function() getData;
 
   bool whatDropdownMode(BuildContext context){
     return (MediaQuery.of(context).size.width > 800);
@@ -332,7 +344,7 @@ class DropDown extends StatelessWidget {
             ),
             height: 50,
             child: DropdownSearch<String>(
-              items: items,
+              onFind: (String? filter) => getData(),
               mode:whatDropdownMode(context) ? Mode.MENU : Mode.BOTTOM_SHEET,
               showSelectedItems: true,
               popupBackgroundColor: thirdColor3,
