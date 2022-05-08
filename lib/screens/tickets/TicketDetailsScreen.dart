@@ -95,70 +95,58 @@ class _TicketDetailsState extends State<TicketDetails> {
                                           controller: ticketDescriptionController,
                                           size: 400
                                       ),
-                                      Container(
-                                        //Ver melhor isto da width para ambientes de telemv
-                                        padding: EdgeInsets.all(10),
-                                        decoration: const BoxDecoration(
-                                          color: thirdColor3,
-                                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                                        ),
-                                          child: Row(
-                                            children: [
-                                              Text("Categorias: ", style: TextStyle(fontWeight: FontWeight.bold)),
-                                              //Usar um foreach ?
-                                              SingleChildScrollView(
-                                                scrollDirection: Axis.horizontal,
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding: EdgeInsets.all(2),
-                                                      child: InputChip(
-                                                          label: Text("Categoria 1")),
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.all(2),
-                                                      child: InputChip(
-                                                          label: Text("Categoria 2")),
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.all(2),
-                                                      child: InputChip(
-                                                          label: Text("Categoria 3")),
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.all(2),
-                                                      child: InputChip(
-                                                          label: Text("Categoria 4")),
-                                                    ),
-                                                  ],
-                                                )
-                                              )
-                                            ],
+
+                                      Expanded(
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.vertical,
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                            color: thirdColor3,
+                                            ),
+                                            width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 1.025) - 98,
+                                            child:
+                                              Wrap(
+                                                alignment: WrapAlignment.center,
+                                                spacing: 30.0,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text("Categorias: " , style:
+                                                        TextStyle(
+                                                          fontSize: 20,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                  InputChip(
+                                                      label: Text("Categoria 1")),
+                                                  InputChip(
+                                                      label: Text("Categoria 2")),
+                                                  InputChip(
+                                                      label: Text("Categoria 3")),
+                                                  InputChip(
+                                                      label: Text("Categoria 4")),
+                                                  InputChip(
+                                                      label: Text("Categoria 4")),
+                                                  InputChip(
+                                                      label: Text("Categoria 4")),
+                                                  InputChip(
+                                                      label: Text("Categoria 4")),
+                                                  InputChip(
+                                                      label: Text("Categoria 4")),
+                                                  InputChip(
+                                                      label: Text("Categoria 4")),
+                                                  InputChip(
+                                                      label: Text("Categoria 4")),
+                                                  InputChip(
+                                                      label: Text("Categoria 4")),
+                                                  InputChip(
+                                                      label: Text("Categoria 4")),
+                                                ],
+                                            ),
                                           ),
-                                        ),
-                                      Container(
-                                        margin: EdgeInsets.all(defaultPadding/2),
-                                        //Ver melhor isto da width para ambientes de telemv
-                                        padding: EdgeInsets.all(10),
-                                        decoration: const BoxDecoration(
-                                          color: thirdColor3,
-                                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Text("Assets: ", style: TextStyle(fontWeight: FontWeight.bold)),
-                                            //Usar um foreach ?
-                                            Padding(
-                                              padding: EdgeInsets.all(2),
-                                              child: InputChip(
-                                                  label: Text("Asset 1")),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.all(2),
-                                              child: InputChip(
-                                                  label: Text("Asset 2")),
-                                            ),
-                                          ],
                                         ),
                                       ),
                                     ],
