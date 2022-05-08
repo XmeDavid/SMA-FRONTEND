@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../consts.dart';
 import '../../responsive.dart';
+import '../../widgets/ui_fields.dart';
 import '../side_menu.dart';
 
 class TicketDetails extends StatefulWidget {
@@ -19,6 +20,9 @@ class _TicketDetailsState extends State<TicketDetails> {
 
   @override
   Widget build(BuildContext context) {
+    ticketTitleController.text = "New Ticket";
+    ticketContractController.text = "New Contract";
+    ticketDescriptionController.text = "New Description";
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -77,23 +81,26 @@ class _TicketDetailsState extends State<TicketDetails> {
                                 Container(
                                   child: Column(
                                     children:[
-                                      TextField(
+                                      TextLine(
                                         labelText: "Title",
                                         hintText: "Exemplo: Frigorifico deita agua",
                                         controller: ticketTitleController,
                                         size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 98,
+                                        isEnabled: false,
                                       ),
-                                      TextField(
+                                      TextLine(
                                         labelText: "Contract ID",
                                         hintText: "no. 23213",
                                         controller: ticketContractController,
                                         size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 172,
+                                        isEnabled: false,
                                       ),
-                                      TextBox(
-                                          labelText: "Description",
-                                          hintText: "Ticket Description",
-                                          controller: ticketDescriptionController,
-                                          size: 400
+                                      TextArea(
+                                        labelText: "Description",
+                                        hintText: "Ticket Description",
+                                        controller: ticketDescriptionController,
+                                        size: 400,
+                                        isEnabled: false,
                                       ),
                                       Container(
                                         //Ver melhor isto da width para ambientes de telemv
