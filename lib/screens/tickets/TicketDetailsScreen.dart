@@ -42,10 +42,14 @@ class _TicketDetailsState extends State<TicketDetails> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (Responsive.isDesktop(context)) ...[
-                          Padding(
-                            padding: EdgeInsets.only(left: 130, top: 30, bottom: 20),
-                            child: Text("Ticket Details", style: TextStyle(fontSize: 40)),
+                        if (!Responsive.isMobile(context)) ...[
+                          Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Ticket Details", style: TextStyle(fontSize: 40)),
+                              ],
+                            ),
                           ),
                         ],
                         Center(
