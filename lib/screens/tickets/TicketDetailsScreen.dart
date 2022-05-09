@@ -17,6 +17,7 @@ class _TicketDetailsState extends State<TicketDetails> {
   final ticketTitleController = TextEditingController();
   final ticketContractController = TextEditingController();
   final ticketDescriptionController = TextEditingController();
+  final ticketCategoryController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +45,12 @@ class _TicketDetailsState extends State<TicketDetails> {
                       children: [
                         if (!Responsive.isMobile(context)) ...[
                           Center(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Ticket Details", style: TextStyle(fontSize: 40)),
-                              ],
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
+                              child: const Text("Ticket Detail",
+                              style: TextStyle(
+                                fontSize: 48
+                              ),),
                             ),
                           ),
                         ],
@@ -96,7 +98,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                         labelText: "Contract ID",
                                         hintText: "no. 23213",
                                         controller: ticketContractController,
-                                        size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 172,
+                                        size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9)-172,
                                         isEnabled: false,
                                       ),
                                       TextArea(
@@ -106,60 +108,13 @@ class _TicketDetailsState extends State<TicketDetails> {
                                         size: 400,
                                         isEnabled: false,
                                       ),
-
-                                      Expanded(
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.vertical,
-                                          child: Container(
-                                            decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                                            color: thirdColor3,
-                                            ),
-                                            width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 1.025) - 98,
-                                            child:
-                                              Wrap(
-                                                alignment: WrapAlignment.center,
-                                                spacing: 30.0,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Text("Categorias: " , style:
-                                                        TextStyle(
-                                                          fontSize: 20,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-
-                                                  InputChip(
-                                                      label: Text("Categoria 1")),
-                                                  InputChip(
-                                                      label: Text("Categoria 2")),
-                                                  InputChip(
-                                                      label: Text("Categoria 3")),
-                                                  InputChip(
-                                                      label: Text("Categoria 4")),
-                                                  InputChip(
-                                                      label: Text("Categoria 4")),
-                                                  InputChip(
-                                                      label: Text("Categoria 4")),
-                                                  InputChip(
-                                                      label: Text("Categoria 4")),
-                                                  InputChip(
-                                                      label: Text("Categoria 4")),
-                                                  InputChip(
-                                                      label: Text("Categoria 4")),
-                                                  InputChip(
-                                                      label: Text("Categoria 4")),
-                                                  InputChip(
-                                                      label: Text("Categoria 4")),
-                                                  InputChip(
-                                                      label: Text("Categoria 4")),
-                                                ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                      TextLine(
+                                        labelText: "Category",
+                                        hintText: "Category",
+                                        controller: ticketCategoryController,
+                                        size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9)-152,
+                                        isEnabled: false,
+                                      )
                                     ],
                                   ),
                                 ),
