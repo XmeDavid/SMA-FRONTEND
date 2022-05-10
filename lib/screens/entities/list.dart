@@ -106,7 +106,7 @@ class _ListEntitiesState  extends State<ListEntities> {
                                     onChanged: (dynamic newValue){
                                       setState(() {
                                         _selectedFilterEntityTypeId = newValue;
-                                        filteredEntities = entities.where((element) => (element.entityTypeId == _selectedFilterEntityTypeId)||(_selectedFilterEntityTypeId == -1)).toList();
+                                        filteredEntities = entities.where((element) => ((element.name.contains(searchController.text) || element.email.contains(searchController.text) || element.taxNumber.contains(searchController.text)) && ((element.entityTypeId == _selectedFilterEntityTypeId)||(_selectedFilterEntityTypeId == -1)))).toList();
                                       });
                                     },
                                     value: _selectedFilterEntityTypeId,
@@ -124,7 +124,7 @@ class _ListEntitiesState  extends State<ListEntities> {
                                       ),
                                       onChanged: (e){
                                         setState(() {
-                                          filteredEntities = entities.where((element) => (element.name.contains(e) || (element.email.contains(e)) || (element.taxNumber.contains(e)))).toList();
+                                          filteredEntities = entities.where((element) => ((element.name.contains(e) || element.email.contains(e) || element.taxNumber.contains(e)) && ((element.entityTypeId == _selectedFilterEntityTypeId)||(_selectedFilterEntityTypeId == -1)))).toList();
                                         });
                                       },
                                     ),
