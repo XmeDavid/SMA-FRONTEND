@@ -95,7 +95,7 @@ class _ListEntitiesState  extends State<ListEntities> {
                                 borderRadius: BorderRadius.all(Radius.circular(10))
                             ),
                             height: 60,
-                            width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
+                            width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.8 : 0.95),
                             child: Row(
                               children: [
                                 const Padding(padding: EdgeInsets.all(defaultPadding), child: Text("Filters",style: TextStyle(fontSize: 20),),),
@@ -115,7 +115,7 @@ class _ListEntitiesState  extends State<ListEntities> {
                                 ),
                                 Padding(padding: const EdgeInsets.all(defaultPadding),
                                   child: SizedBox(
-                                    width: 200,
+                                    width: (!Responsive.isDesktop(context) ? MediaQuery.of(context).size.width * 0.15 : 160),
                                     child: TextField(
                                       controller: searchController,
                                       decoration: const InputDecoration(
@@ -150,11 +150,10 @@ class _ListEntitiesState  extends State<ListEntities> {
                             color: secondColor3,
                             borderRadius: BorderRadius.all(Radius.circular(20))
                           ),
-                          height: MediaQuery.of(context).size.height * 0.8,
-                          width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
+                          height: MediaQuery.of(context).size.height - 164,
+                          width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.8 : 0.95),
                           child: SingleChildScrollView(scrollDirection: Axis.vertical,child: SingleChildScrollView(
                             physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
                             child: DataTable(
                               columnSpacing:  38,
                               columns: ["Id","Name","Type", "Email", "Phone\nNumber", "Tax\nNumber","Actions"].map((e) => DataColumn(label: Text(e))).toList(),
