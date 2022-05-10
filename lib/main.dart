@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sma_frontend/screens/dashboard.dart';
+import 'package:sma_frontend/screens/entities/list.dart';
 import 'package:sma_frontend/screens/login.dart';
 import 'package:sma_frontend/screens/tickets/TicketDetailsScreen.dart';
 import 'package:sma_frontend/screens/tickets/new_ticket_screen.dart';
@@ -34,6 +35,7 @@ class SMA extends StatelessWidget {
         '/login' : (context) => const LoginPage(title: "Login Page",),
         '/tickets/new' : (context) => const NewTicketScreen(),
         '/tickets/details' : (context) => const TicketDetails(),
+        '/entities/list' : (context) => const ListEntities()
       },
     );
   }
