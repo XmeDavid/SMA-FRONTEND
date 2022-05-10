@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sma_frontend/screens/entities/list.dart';
 import 'package:sma_frontend/screens/login.dart';
 
 class SideMenu extends StatelessWidget {
@@ -82,6 +83,13 @@ class SideMenu extends StatelessWidget {
                 leading: Icon(Icons.description),
                 title: Text("Contracts"),
                 onTap: (){},
+              ),
+              ListTile(
+                leading: Icon(Icons.description),
+                title: Text("Entities"),
+                onTap: (){
+                  Navigator.pushNamed(context, '/entities/list');
+                },
               ),
               ListTile(
                 leading: Icon(Icons.settings),

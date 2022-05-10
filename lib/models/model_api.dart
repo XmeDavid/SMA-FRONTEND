@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 
+import 'package:sma_frontend/models/EntityType.dart';
 import 'package:sma_frontend/models/TicketCategory.dart';
 
 import '../api_interactions/api_functions.dart';
@@ -52,4 +53,16 @@ class ModelApi{
     }
     return tempTicketCategories;
   }
+
+  static Future<List<EntityType>> getEntityTypes() async{
+    List<EntityType> tempEntityType = <EntityType>[];
+    var res = await ApiClient().getAll("entities/types");
+    dynamic json = jsonDecode(res.body);
+    for(var entityTypeJson in json['data']){
+      EntityType entityType = EntityType.fromJson(entityTypeJson);
+      tempEntityType.add(entityType);
+    }
+    return tempEntityType;
+  }
+
 }
