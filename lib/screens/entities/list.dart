@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/EntityType.dart';
@@ -60,7 +61,8 @@ class _ListEntitiesState  extends State<ListEntities> {
   }
 
   detailsClick(Entity e){
-    print(e);
+    print(e.id);
+    Get.toNamed("/entities/" + e.id.toString());
   }
 
   @override
@@ -168,6 +170,7 @@ class _ListEntitiesState  extends State<ListEntities> {
                                         child: TextButton(
                                           onPressed: (){
                                             detailsClick(filteredEntities[index]);
+
                                           },
                                           child: const Text("Details", style: TextStyle(color: Colors.white),),
                                           style: ButtonStyle(
