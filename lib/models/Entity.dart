@@ -21,6 +21,11 @@ class Entity{
     required this.defaultLanguage,
   });
 
+
+  factory Entity.dummy(){
+    return const Entity(id: -1, entityTypeId: -1, email: '', name: '', addressId: -1, taxNumber: '', defaultLanguage: '');
+}
+
   factory Entity.fromJson(Map<String, dynamic> json){
     return Entity(
       id: json['id'],

@@ -1,4 +1,3 @@
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -45,14 +44,22 @@ class _ListEntitiesState  extends State<ListEntities> {
 
   void loadEntities() async{
     if(entities.isEmpty){
-      entities = await ModelApi.getEntities(true);
-      filteredEntities = entities;
+     var tempEntities = await ModelApi.getEntities(true);
+      setState(() {
+        entities = tempEntities;
+        filteredEntities = entities;
+      });
     }
   }
   void loadEntityTypes() async{
+
     if(entityTypes.isEmpty){
-      entityTypes = await ModelApi.getEntityTypes();
-      entityTypes.add(const EntityType(id: -1, name: "Any", description: "Any"));
+      var tempEntityTypes = await ModelApi.getEntityTypes();
+
+      setState(() {
+        entityTypes = tempEntityTypes;
+        entityTypes.add(const EntityType(id: -1, name: "Any", description: "Any"));
+      });
     }
   }
 
@@ -66,9 +73,14 @@ class _ListEntitiesState  extends State<ListEntities> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState(){
+    super.initState();
     loadEntityTypes();
     loadEntities();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Dashboard"), backgroundColor: bgColor) : null,
       drawer: const SideMenu(),

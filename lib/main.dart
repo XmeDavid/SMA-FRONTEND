@@ -42,7 +42,7 @@ class SMA extends StatelessWidget {
         GetPage(name: '/tickets/details', page: () => const TicketDetails()),
         GetPage(name: '/entities/list', page: () => const ListEntities()),
         GetPage(name: '/entities/create', page: () => const NewEntityScreen()),
-        GetPage(name: '/entities/:id', page: () => const EntityDetails()),
+        GetPage(name: '/entities/:id', page: () => const EntityDetailsScreen()),
       ],
     );
   }
