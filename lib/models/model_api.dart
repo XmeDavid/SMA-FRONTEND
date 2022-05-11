@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 
+import 'package:sma_frontend/models/Country.dart';
 import 'package:sma_frontend/models/EntityType.dart';
 import 'package:sma_frontend/models/TicketCategory.dart';
 
@@ -63,6 +64,17 @@ class ModelApi{
       tempEntityType.add(entityType);
     }
     return tempEntityType;
+  }
+
+  static Future<List<Country>> getCountrys() async{
+    List<Country> tempCountry = <Country>[];
+    var res = await ApiClient().getAll("countries");
+    dynamic json = jsonDecode(res.body);
+    for(var countryJson in json){
+      Country country = Country.fromJson(countryJson);
+      tempCountry.add(country);
+    }
+    return tempCountry;
   }
 
 }

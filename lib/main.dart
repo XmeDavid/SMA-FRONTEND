@@ -4,7 +4,9 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sma_frontend/screens/dashboard.dart';
+
 import 'package:sma_frontend/screens/entities/details.dart';
+import 'package:sma_frontend/screens/entities/create.dart';
 import 'package:sma_frontend/screens/entities/list.dart';
 import 'package:sma_frontend/screens/login.dart';
 import 'package:sma_frontend/screens/tickets/TicketDetailsScreen.dart';
@@ -39,6 +41,7 @@ class SMA extends StatelessWidget {
         GetPage(name: '/tickets/new', page: () => const NewTicketScreen()),
         GetPage(name: '/tickets/details', page: () => const TicketDetails()),
         GetPage(name: '/entities/list', page: () => const ListEntities()),
+        GetPage(name: '/entities/create', page: () => const NewEntityScreen()),
         GetPage(name: '/entities/:id', page: () => const EntityDetails()),
       ],
     );

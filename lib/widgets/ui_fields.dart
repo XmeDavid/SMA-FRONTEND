@@ -189,3 +189,71 @@ class DropDown extends StatelessWidget {
     );
   }
 }
+
+
+class AddressField extends StatelessWidget {
+  const AddressField({Key? key, required this.getCountrys, this.enabled = true ,required this.width, required this.height, required this.localController, required this.districtController,required this.streetController, required this.doorController, required this.floorController, required this.roomController, required this.countryController}) : super(key: key);
+
+  final bool enabled;
+  final double width;
+  final double height;
+  final dynamic getCountrys;
+  final TextEditingController countryController;
+  final TextEditingController streetController;
+  final TextEditingController doorController;
+  final TextEditingController floorController;
+  final TextEditingController roomController;
+  final TextEditingController localController;
+  final TextEditingController districtController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(defaultPadding/2),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          color: Color.fromRGBO(secondColor7.red, secondColor7.green, secondColor7.blue, 0.3),
+        ),
+        width: width,//
+        height: height,
+        child: ListView(
+          padding: const EdgeInsets.all(defaultPadding/2),
+          children: [
+            Row(
+              children: const [
+                Text("Address",
+                  style: TextStyle(
+                      fontSize: 16
+                  ),
+                ),
+                Spacer()
+              ],
+            ),
+            Row(children: [
+                TextLine(labelText: "Street", hintText: "Street name", controller: streetController, size: width * 0.6 - 149,isEnabled: enabled,),
+                TextLine(labelText: "Zip Code", hintText: "Zip Code", controller: doorController, size: width * 0.4 - 114, isEnabled: enabled,),
+              ],
+            ),
+            Row(children: [
+                TextLine(labelText: "Door", hintText: "Door number", controller: doorController, size: width * 0.33 - 138, isEnabled: enabled,),
+                TextLine(labelText: "Floor", hintText: "Floor", controller: floorController, size: width * 0.29 - 75 , isEnabled: enabled,),
+                TextLine(labelText: "Room", hintText: "Room", controller: roomController, size: width * 0.38 -84)
+              ],
+            ),
+            DropDown(
+              label: "Country",
+              callback: (s) =>{countryController.text = s},
+              getData: getCountrys,
+            ),
+            Row(children: [
+                TextLine(labelText: "Local", hintText: "Local", controller: localController, size: width * 0.5 - 143, isEnabled: enabled,),
+                TextLine(labelText: "District", hintText: "District", controller: districtController, size: width * 0.5 - 96, isEnabled: enabled,),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
