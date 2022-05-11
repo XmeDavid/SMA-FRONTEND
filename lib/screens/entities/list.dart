@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/EntityType.dart';
 import 'package:sma_frontend/models/TicketCategory.dart';
@@ -43,7 +44,7 @@ class _ListEntitiesState  extends State<ListEntities> {
 
   void loadEntities() async{
     if(entities.isEmpty){
-      entities = await ModelApi.getEntities();
+      entities = await ModelApi.getEntities(true);
       filteredEntities = entities;
     }
   }
@@ -52,10 +53,6 @@ class _ListEntitiesState  extends State<ListEntities> {
       entityTypes = await ModelApi.getEntityTypes();
       entityTypes.add(const EntityType(id: -1, name: "Any", description: "Any"));
     }
-  }
-
-  EntityType getEntityTypeFromId(int id){
-    return entityTypes.where((element) => element.id == id).first;
   }
 
   removeClick(Entity e){
@@ -152,16 +149,16 @@ class _ListEntitiesState  extends State<ListEntities> {
                           ),
                           height: MediaQuery.of(context).size.height - 164,
                           width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.8 : 0.95),
-                          child: SingleChildScrollView(scrollDirection: Axis.vertical,child: SingleChildScrollView(
+                          child: SingleChildScrollView(scrollDirection: Axis.vertical,//child: SingleChildScrollView(
                             physics: const BouncingScrollPhysics(),
-                            child: DataTable(
+                            child: Scrollbar(isAlwaysShown: true,child: DataTable(
                               columnSpacing:  38,
                               columns: ["Id","Name","Type", "Email", "Phone\nNumber", "Tax\nNumber","Actions"].map((e) => DataColumn(label: Text(e))).toList(),
                               rows: List.generate(filteredEntities.length, (index) {
                                 return DataRow(cells: [
                                   DataCell(Container(child: SelectableText(filteredEntities[index].id.toString()))),
                                   DataCell(Container(child: SelectableText(filteredEntities[index].name))),
-                                  DataCell(Container(child: SelectableText(getEntityTypeFromId(filteredEntities[index].entityTypeId).name))),
+                                  DataCell(Container(child: SelectableText(filteredEntities[index].entityTypeName ?? ""))),
                                   DataCell(Container(child: SelectableText(filteredEntities[index].email))),
                                   DataCell(Container(child: SelectableText(filteredEntities[index].phoneNumber?? ""))),
                                   DataCell(Container(child: SelectableText(filteredEntities[index].taxNumber))),
@@ -193,9 +190,9 @@ class _ListEntitiesState  extends State<ListEntities> {
                                   )),
                                 ]);
                               }),
-                            ),
+                            ),)
                           ))
-                        )
+                        //)
                       ]
                   )
               ),

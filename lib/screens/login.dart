@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/api_interactions/api_functions.dart';
-import 'package:sma_frontend/register_screen.dart';
 import 'package:sma_frontend/consts.dart';
 
 class LoginPage extends StatefulWidget {
@@ -33,6 +34,10 @@ class _LoginPageState extends State<LoginPage> {
   login() async{
     dynamic res = await ApiClient().sendLoginRequest(emailText.text, passwordText.text);
     if(res.statusCode == 200){
+      dynamic json = jsonDecode(res.body);
+      GetStorage box = GetStorage();
+      box.write('token', json['access_token']);
+      box.write('refresh_token', json['refresh_token']);
       Navigator.pushNamed(context, '/');
     }else{
       

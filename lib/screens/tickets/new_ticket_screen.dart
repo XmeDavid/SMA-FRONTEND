@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/TicketCategory.dart';
 
@@ -58,7 +59,7 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
   }
   Future<List<String>> loadEntities() async{
     if(entities.isEmpty){
-      entities = await ModelApi.getEntities();
+      entities = await ModelApi.getEntities(false);
     }
     return entities.map((e) => e.toString()).toList();
   }
@@ -73,6 +74,7 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Dashboard"), backgroundColor: bgColor) : null,
       drawer: const SideMenu(),

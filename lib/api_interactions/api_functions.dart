@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -23,7 +24,9 @@ class ApiClient{
   Future<http.Response> getAll(String s) async{
     return await (http.get(
         Uri.parse(API_URL + s),
-        headers: <String, String>{}
+        headers: <String, String>{
+          //'Authorization' : 'Bearer ' + GetStorage().read('token')
+        }
     ));
   }
   
@@ -31,7 +34,7 @@ class ApiClient{
     return http.post(
       Uri.parse(API_URL + "tickets/"),
       headers: <String,String>{
-
+        //'Authorization' : 'Bearer ' + GetStorage().read('token')
       },
       body: jsonEncode(<String, String>{
         'entities_id': clientId.toString(),

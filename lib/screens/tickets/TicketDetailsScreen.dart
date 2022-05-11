@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import '../../consts.dart';
 import '../../responsive.dart';
 import '../../widgets/ui_fields.dart';
@@ -24,6 +25,7 @@ class _TicketDetailsState extends State<TicketDetails> {
     ticketTitleController.text = "New Ticket";
     ticketContractController.text = "New Contract";
     ticketDescriptionController.text = "New Description";
+
     return DefaultTabController(
       length: 4,
       child: Scaffold(

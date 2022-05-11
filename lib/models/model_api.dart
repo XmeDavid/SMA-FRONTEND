@@ -32,12 +32,12 @@ class ModelApi{
     return tempAssets;
   }
 
-  static Future<List<Entity>> getEntities() async{
+  static Future<List<Entity>> getEntities(bool detailed) async{
     List<Entity> tempEntities = <Entity>[];
-    var res = await ApiClient().getAll("entities");
+    var res = await ApiClient().getAll("entities" + (detailed ? "?format=detailed" : ""));
     dynamic json = jsonDecode(res.body);
-    for(var entityJson in json){
-      Entity entity = Entity.fromJson(entityJson);
+    for(var entityJson in json['data']){
+      Entity entity = detailed ? Entity.fromJsonDetailed(entityJson) : Entity.fromJson(entityJson);
       tempEntities.add(entity);
     }
     return tempEntities;
