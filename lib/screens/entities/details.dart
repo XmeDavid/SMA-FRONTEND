@@ -161,6 +161,13 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                 controller: nameController,
                                 size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 119,
                               ),
+                              DropDown(
+                                label: "Entity Type",
+                                callback: (s) => {entityTypeController.text},
+                                getData: getEntityTypesString,
+                                selected: entityTypeController.text,
+                                enabled: entity.entityTypeId == 1 ? false : isEditMode,
+                              ),
                               TextLine(
                                 isEnabled: isEditMode,
                                 labelText: "Entity Type",

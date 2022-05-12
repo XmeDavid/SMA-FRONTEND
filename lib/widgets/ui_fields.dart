@@ -60,9 +60,9 @@ class TextLine extends StatelessWidget {
                       hintText: hintText,
                       border: InputBorder.none
                   ),
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 20,
-                    color: Colors.grey,
+                    color: isEnabled ? Colors.white : Colors.grey,
                   ),
                 ),
               ),
@@ -244,7 +244,7 @@ class AddressField extends StatelessWidget {
             Row(children: [
                 TextLine(labelText: "Door", hintText: "Door number", controller: doorController, size: width * 0.33 - 138, isEnabled: enabled,),
                 TextLine(labelText: "Floor", hintText: "Floor", controller: floorController, size: width * 0.29 - 75 , isEnabled: enabled,),
-                TextLine(labelText: "Room", hintText: "Room", controller: roomController, size: width * 0.38 -84)
+                TextLine(labelText: "Room", hintText: "Room", controller: roomController, size: width * 0.38 -84, isEnabled: enabled,)
               ],
             ),
             DropDown(
