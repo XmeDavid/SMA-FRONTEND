@@ -61,7 +61,8 @@ class TextLine extends StatelessWidget {
                       border: InputBorder.none
                   ),
                   style: const TextStyle(
-                      fontSize: 20
+                      fontSize: 20,
+                    color: Colors.grey,
                   ),
                 ),
               ),
@@ -143,12 +144,15 @@ class TextArea extends StatelessWidget {
 
 
 class DropDown extends StatelessWidget {
-  const DropDown({Key? key, required this.label, required this.callback, required this.getData}) : super(key: key);
+  const DropDown({Key? key, required this.label, required this.callback, required this.getData, this.selected= "", this.enabled = true}) : super(key: key);
 
   final String label;
 
   final Function(String s) callback;
   final Function() getData;
+
+  final String selected;
+  final bool enabled;
 
   bool whatDropdownMode(BuildContext context){
     return (MediaQuery.of(context).size.width > 800);
@@ -168,6 +172,7 @@ class DropDown extends StatelessWidget {
               ),
               height: 50,
               child: DropdownSearch<String>(
+                enabled: enabled,
                 onFind: (String? filter) => getData(),
                 mode:whatDropdownMode(context) ? Mode.MENU : Mode.BOTTOM_SHEET,
                 showSelectedItems: true,
@@ -182,6 +187,7 @@ class DropDown extends StatelessWidget {
                 onChanged: (s){
                   callback(s ?? "");
                 },
+                selectedItem: selected == "" ? null : selected,
               ),
             ),
           ]
@@ -245,6 +251,8 @@ class AddressField extends StatelessWidget {
               label: "Country",
               callback: (s) =>{countryController.text = s},
               getData: getCountrys,
+              selected: countryController.text,
+              enabled: enabled,
             ),
             Row(children: [
                 TextLine(labelText: "Local", hintText: "Local", controller: localController, size: width * 0.5 - 143, isEnabled: enabled,),

@@ -76,7 +76,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
     if(countrys.isEmpty){
       countrys = await ModelApi.getCountrys();
     }
-    return countrys.map((e) => (e.iso.toString() + " - " + e.countryName)).toList();
+    return countrys.map((e) => e.toString()).toList();
   }
 
 
@@ -89,11 +89,18 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
       emailController.text = entity.email;
       phoneNumberController.text = entity.phoneNumber ?? 'No phone number';
       taxNumberController.text = entity.taxNumber;
+      streetController.text = entity.address?.street ?? "";
+      doorController.text = entity.address?.door ?? "";
+      floorController.text = entity.address?.floor ?? "";
+      roomController.text = entity.address?.room ?? "";
+      localController.text = entity.address?.region?.local ?? "";
+      districtController.text = entity.address?.region?.district ?? "";
+      countryController.text = entity.address!.region!.country.toString();
     });
   }
 
   void saveChanges(){
-
+    print(countrys.where((element) => element.toString() == countryController.text).first);
   }
 
   @override
@@ -126,11 +133,11 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                         child: Row(
                           children:  [
                             Text(entity.name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 48
                               ),
                             ),
-                            Spacer()
+                            const Spacer()
                           ],
                         )
                     ),
@@ -241,7 +248,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                       });
                                       saveChanges();
                                     },
-                                    child: Text("Save"),
+                                    child: const Text("Save"),
                                     style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green),),
                                   ),
                                 ),

@@ -20,4 +20,8 @@ class Country{
     );
   }
 
+  @override
+  String toString() {
+    return iso.toString() + " - " + countryName;
+  }
 }
