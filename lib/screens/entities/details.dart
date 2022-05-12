@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -91,6 +92,10 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
     });
   }
 
+  void saveChanges(){
+
+  }
+
   @override
   void initState(){
     super.initState();
@@ -135,7 +140,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                           color: secondColor3,
                           borderRadius: BorderRadius.all(Radius.circular(20))
                       ),
-                      height: MediaQuery.of(context).size.height * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.8,
                       width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
                       child: Form(
                         key: _formKey,
@@ -201,10 +206,46 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                 localController: localController,
                                 getCountrys: getCountrysString,
                               ),
-                              ElevatedButton(
-                                  onPressed: (){
-                                  },
-                                  child: const Text("Create Ticket"))
+                              Row(children: [
+                                Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                    child: OutlinedButton (
+                                      onPressed: (){
+                                        Get.toNamed('/entities');
+                                      },
+                                      child: const Text("Go Back",style: TextStyle(color: Colors.white),),
+                                    ),
+                                ),
+                                const Spacer(),
+                                Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                  child: ElevatedButton(
+                                    onPressed: (){
+                                      setState(() {
+                                        isEditMode = !isEditMode;
+                                      });
+                                    },
+                                    child: ((){
+                                      if(isEditMode){
+                                        return const Text("Cancel");
+                                      }
+                                      return const Text("Edit");
+                                    })(),
+                                    style: isEditMode ? ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(thirdColor5),) : ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(firstColor),),
+                                  ),
+                                ),
+
+                                if(isEditMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                  child: ElevatedButton(
+                                    onPressed: (){
+                                      setState(() {
+                                        isEditMode = false;
+                                      });
+                                      saveChanges();
+                                    },
+                                    child: Text("Save"),
+                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green),),
+                                  ),
+                                ),
+                              ],)
                             ],
                           ),
                         ),

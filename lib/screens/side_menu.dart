@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:sma_frontend/screens/entities/list.dart';
 import 'package:sma_frontend/screens/login.dart';
 
@@ -20,7 +21,7 @@ class SideMenu extends StatelessWidget {
                 child: TextButton(
                   child : Image.asset("assets/logo.png"),
                   onPressed: (){
-                    Navigator.pushNamed(context, "/");
+                    Get.toNamed( "/");
                   },
                 ),
               ),
@@ -34,8 +35,7 @@ class SideMenu extends StatelessWidget {
                       style: TextStyle(fontSize: 12),
                     ),
                     onTap: (){
-                      Navigator.pushNamed(
-                        context,
+                      Get.toNamed(
                         "/tickets/new",
                       );
                     },),
@@ -44,8 +44,7 @@ class SideMenu extends StatelessWidget {
                       "See Ticket Details",
                       style: TextStyle(fontSize: 12),),
                     onTap: (){
-                      Navigator.pushNamed(
-                        context,
+                      Get.toNamed(
                         "/tickets/details",
                       );
                     },
@@ -62,10 +61,7 @@ class SideMenu extends StatelessWidget {
                       style: TextStyle(fontSize: 12),
                     ),
                     onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const LoginPage(title: "Login Page")),
-                      );
+                      Get.toNamed('nothing yet');
                     },),
                   ListTile(
                     title: Text(
@@ -88,7 +84,7 @@ class SideMenu extends StatelessWidget {
                 leading: Icon(Icons.description),
                 title: Text("Entities"),
                 onTap: (){
-                  Navigator.pushNamed(context, '/entities/list');
+                  Get.toNamed('/entities');
                 },
               ),
               ListTile(
