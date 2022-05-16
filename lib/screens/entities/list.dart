@@ -6,6 +6,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/EntityType.dart';
 import 'package:sma_frontend/models/TicketCategory.dart';
+import 'package:sma_frontend/models/paginated_model/Meta.dart';
+import 'package:sma_frontend/models/paginated_model/PaginatedModel.dart';
 
 
 import '../../api_interactions/api_functions.dart';
@@ -28,11 +30,9 @@ class ListEntities extends StatefulWidget {
 
 class _ListEntitiesState  extends State<ListEntities> {
 
-  List<Entity> entities = <Entity>[];
+  PaginatedModel<Entity> paginatedModel = const PaginatedModel(data: [], meta: Meta(current_page: -1, from: -1, last_page: -1, path: "", per_page: 0, to: -1, total: -1));
+
   List<EntityType> entityTypes = <EntityType>[];
-
-  List<Entity> filteredEntities = <Entity>[];
-
   int _selectedFilterEntityTypeId = -1;
 
   var searchController = TextEditingController();
@@ -41,34 +41,28 @@ class _ListEntitiesState  extends State<ListEntities> {
     return false;
   }
 
-
-  void loadEntities() async{
-    if(entities.isEmpty){
-     var tempEntities = await ModelApi.getEntities(true);
-      setState(() {
-        entities = tempEntities;
-        filteredEntities = entities;
-      });
-    }
-  }
-  void loadEntityTypes() async{
-
-    if(entityTypes.isEmpty){
+  void loadEntityTypes() async {
+    if (entityTypes.isEmpty) {
       var tempEntityTypes = await ModelApi.getEntityTypes();
 
       setState(() {
         entityTypes = tempEntityTypes;
-        entityTypes.add(const EntityType(id: -1, name: "Any", description: "Any"));
+        entityTypes.add(
+            const EntityType(id: -1, name: "Any", description: "Any"));
       });
     }
   }
+  void loadEntities(int page) async{
+   var tempPaginatedModel = await ModelApi.getEntitiesPaginated(true,20,page);
+    setState(() {
+      paginatedModel = tempPaginatedModel;
+    });
+  }
 
   removeClick(Entity e){
-    print(e);
   }
 
   detailsClick(Entity e){
-    print(e.id);
     Get.toNamed("/entities/" + e.id.toString());
   }
 
@@ -76,7 +70,7 @@ class _ListEntitiesState  extends State<ListEntities> {
   void initState(){
     super.initState();
     loadEntityTypes();
-    loadEntities();
+    loadEntities(1);
   }
 
   @override
@@ -117,7 +111,6 @@ class _ListEntitiesState  extends State<ListEntities> {
                                     onChanged: (dynamic newValue){
                                       setState(() {
                                         _selectedFilterEntityTypeId = newValue;
-                                        filteredEntities = entities.where((element) => ((element.name.contains(searchController.text) || element.email.contains(searchController.text) || element.taxNumber.contains(searchController.text)) && ((element.entityTypeId == _selectedFilterEntityTypeId)||(_selectedFilterEntityTypeId == -1)))).toList();
                                       });
                                     },
                                     value: _selectedFilterEntityTypeId,
@@ -135,7 +128,6 @@ class _ListEntitiesState  extends State<ListEntities> {
                                       ),
                                       onChanged: (e){
                                         setState(() {
-                                          filteredEntities = entities.where((element) => ((element.name.contains(e) || element.email.contains(e) || element.taxNumber.contains(e)) && ((element.entityTypeId == _selectedFilterEntityTypeId)||(_selectedFilterEntityTypeId == -1)))).toList();
                                         });
                                       },
                                     ),
@@ -144,7 +136,7 @@ class _ListEntitiesState  extends State<ListEntities> {
                                 const Spacer(),
                                 Padding(padding: const EdgeInsets.all(defaultPadding),
                                   child: TextButton(
-                                    onPressed: (){Navigator.pushNamed(context, '/entities/new');},
+                                    onPressed: (){Get.toNamed("/entities/create");},
                                     child: const Text("New Entity", style: TextStyle(color: Colors.white),),
                                     style: ButtonStyle(
                                       backgroundColor: MaterialStateProperty.all<Color>(firstColor),
@@ -168,21 +160,20 @@ class _ListEntitiesState  extends State<ListEntities> {
                             child: Scrollbar(isAlwaysShown: true,child: DataTable(
                               columnSpacing:  38,
                               columns: ["Id","Name","Type", "Email", "Phone\nNumber", "Tax\nNumber","Actions"].map((e) => DataColumn(label: Text(e))).toList(),
-                              rows: List.generate(filteredEntities.length, (index) {
+                              rows: List.generate(paginatedModel.data.length, (index) {
                                 return DataRow(cells: [
-                                  DataCell(Container(child: SelectableText(filteredEntities[index].id.toString()))),
-                                  DataCell(Container(child: SelectableText(filteredEntities[index].name))),
-                                  DataCell(Container(child: SelectableText(filteredEntities[index].entityTypeName ?? ""))),
-                                  DataCell(Container(child: SelectableText(filteredEntities[index].email))),
-                                  DataCell(Container(child: SelectableText(filteredEntities[index].phoneNumber?? ""))),
-                                  DataCell(Container(child: SelectableText(filteredEntities[index].taxNumber))),
+                                  DataCell(Container(child: SelectableText(paginatedModel.data[index].id.toString()))),
+                                  DataCell(Container(child: SelectableText(paginatedModel.data[index].name))),
+                                  DataCell(Container(child: SelectableText(paginatedModel.data[index].entityType?.name ?? ""))),
+                                  DataCell(Container(child: SelectableText(paginatedModel.data[index].email))),
+                                  DataCell(Container(child: SelectableText(paginatedModel.data[index].phoneNumber?? ""))),
+                                  DataCell(Container(child: SelectableText(paginatedModel.data[index].taxNumber))),
                                   DataCell(Row(
                                     children: [
                                       Padding(padding: const EdgeInsets.all(5),
                                         child: TextButton(
                                           onPressed: (){
-                                            detailsClick(filteredEntities[index]);
-
+                                            detailsClick(paginatedModel.data[index]);
                                           },
                                           child: const Text("Details", style: TextStyle(color: Colors.white),),
                                           style: ButtonStyle(
@@ -193,7 +184,7 @@ class _ListEntitiesState  extends State<ListEntities> {
                                       Padding(padding: const EdgeInsets.all(5),
                                         child: TextButton(
                                           onPressed: (){
-                                            removeClick(filteredEntities[index]);
+                                            removeClick(paginatedModel.data[index]);
                                           },
                                           child: const Text("Remove",style: TextStyle(color: Colors.white),),
                                           style: ButtonStyle(
@@ -206,7 +197,42 @@ class _ListEntitiesState  extends State<ListEntities> {
                                 ]);
                               }),
                             ),)
-                          ))
+                          )),
+                        Row(children: [
+                          const Spacer(),
+                          const Padding(padding: EdgeInsets.all(defaultPadding), child: Spacer(),),
+                          if(paginatedModel.meta.current_page != 1)TextButton(
+                            onPressed: (){
+                              loadEntities(paginatedModel.meta.current_page+1);
+                            },
+                            child: const Text("<<",style: TextStyle(color: Colors.white),),
+                          ),
+                          if(paginatedModel.meta.current_page != 1)TextButton(
+                              onPressed: (){
+                                loadEntities(paginatedModel.meta.current_page-1);
+                              },
+                              child: const Text("<",style: TextStyle(color: Colors.white),)
+                          ),
+                          Padding(padding: const EdgeInsets.all(defaultPadding),
+                            child: TextButton(
+                                onPressed: null,
+                                child: Text(paginatedModel.meta.current_page.toString(),style: const TextStyle(color: Colors.white),)
+                            ),
+                          ),
+                          if(paginatedModel.meta.current_page != paginatedModel.meta.last_page)TextButton(
+                              onPressed: (){
+                                loadEntities(paginatedModel.meta.current_page+1);
+                              },
+                              child: const Text(">",style: TextStyle(color: Colors.white),)
+                          ),
+                          if(paginatedModel.meta.current_page != paginatedModel.meta.last_page)TextButton(
+                              onPressed: (){
+                                loadEntities(paginatedModel.meta.last_page);
+                              },
+                              child: const Text(">>",style: TextStyle(color: Colors.white),)
+                          ),
+                          const Spacer(),
+                        ],)
                         //)
                       ]
                   )

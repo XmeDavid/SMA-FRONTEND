@@ -85,7 +85,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
     setState(() {
       entity = entities.where((element) => element.id == int.parse(Get.parameters['id'] ?? '')).first;
       nameController.text = entity.name;
-      entityTypeController.text = entity.entityTypeName ?? 'unknow';
+      entityTypeController.text = entity.entityType?.name ?? 'unknow';
       emailController.text = entity.email;
       phoneNumberController.text = entity.phoneNumber ?? 'No phone number';
       taxNumberController.text = entity.taxNumber;
@@ -93,9 +93,9 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
       doorController.text = entity.address?.door ?? "";
       floorController.text = entity.address?.floor ?? "";
       roomController.text = entity.address?.room ?? "";
-      localController.text = entity.address?.region?.local ?? "";
-      districtController.text = entity.address?.region?.district ?? "";
-      countryController.text = entity.address!.region!.country.toString();
+      localController.text = entity.address?.local ?? "";
+      districtController.text = entity.address?.district ?? "";
+      countryController.text = entity.address?.country ?? "";
     });
   }
 

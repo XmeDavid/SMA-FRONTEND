@@ -1,9 +1,10 @@
 import 'package:sma_frontend/models/Address.dart';
+import 'package:sma_frontend/models/EntityType.dart';
 
 class Entity{
   final int id;
   final int entityTypeId;
-  final String? entityTypeName;
+  final EntityType? entityType;
   final String name;
   final String email;
   final String? phoneNumber;
@@ -15,7 +16,7 @@ class Entity{
   const Entity({
     required this.id,
     required this.entityTypeId,
-    this.entityTypeName,
+    this.entityType,
     required this.email,
     required this.name,
     this.phoneNumber,
@@ -46,13 +47,13 @@ class Entity{
   factory Entity.fromJsonDetailed(Map<String, dynamic> json){
     return Entity(
       id: json['id'],
-      entityTypeId: json['entities_types_id']['id'],
-      entityTypeName: json['entities_types_id']['name'],
+      entityTypeId: json['entities_type']['id'],
+      entityType: EntityType.fromJson(json['entities_type']),
       name: json['full_name'],
       email: json['email'],
       phoneNumber: json['phone_numbers'],
-      addressId:  json['adresses_id']['id'],
-      address: Address.fromJsonDetailed(json['adresses_id']),
+      addressId:  json['address']['id'],
+      address: Address.fromJson(json['address']),
       taxNumber: json['taxpayer_number'],
       defaultLanguage: json['default_language'],
     );

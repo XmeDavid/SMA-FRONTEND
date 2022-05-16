@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:sma_frontend/models/Country.dart';
 import 'package:sma_frontend/models/EntityType.dart';
 import 'package:sma_frontend/models/TicketCategory.dart';
+import 'package:sma_frontend/models/paginated_model/Meta.dart';
+import 'package:sma_frontend/models/paginated_model/PaginatedModel.dart';
 
 import '../api_interactions/api_functions.dart';
 import 'Asset.dart';
@@ -42,6 +44,22 @@ class ModelApi{
       tempEntities.add(entity);
     }
     return tempEntities;
+  }
+
+  static Future<PaginatedModel<Entity>> getEntitiesPaginated(bool detailed, int paginate, int page) async{
+    var res = await ApiClient().getAll("entities?" + (detailed ? "format=detailed&" : "")+"paginate=" + paginate.toString() + "&page=" + page.toString());
+    dynamic json = jsonDecode(res.body);
+    List<Entity> data = <Entity>[];
+    for(var entityJson in json['data']){
+      print(entityJson);
+      Entity entity = detailed ? Entity.fromJsonDetailed(entityJson) : Entity.fromJson(entityJson);
+      print(entity);
+      data.add(entity);
+    }
+    return PaginatedModel(
+        data: data,
+        meta: Meta.fromJson(json['meta']),
+    );
   }
 
   static Future<List<TicketCategory>> getTicketCategories() async{
