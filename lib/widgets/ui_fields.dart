@@ -62,7 +62,7 @@ class TextLine extends StatelessWidget {
                   ),
                   style: TextStyle(
                       fontSize: 20,
-                    color: isEnabled ? Colors.white : Colors.grey,
+                    color: isEnabled ? Colors.white : Colors.white70,
                   ),
                 ),
               ),
