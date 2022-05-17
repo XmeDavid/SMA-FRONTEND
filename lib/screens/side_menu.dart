@@ -78,7 +78,9 @@ class SideMenu extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.description),
                 title: Text("Contracts"),
-                onTap: (){},
+                onTap: (){
+                  Get.toNamed('/contracts');
+                },
               ),
               ListTile(
                 leading: Icon(Icons.description),

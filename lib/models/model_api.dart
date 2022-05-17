@@ -24,6 +24,20 @@ class ModelApi{
     return tempContracts;
   }
 
+  static Future<PaginatedModel<Contract>> getContractsPaginated(int paginate, int page) async{
+    var res = await ApiClient().getAll("contracts?format=detailed&paginate=$paginate&page=$page");
+    dynamic json = jsonDecode(res.body);
+    List<Contract> data = <Contract>[];
+    for(var contractJson in json['data']){
+      Contract contract = Contract.fromJson(contractJson);
+      data.add(contract);
+    }
+    return PaginatedModel(
+      data: data,
+      meta: Meta.fromJson(json['meta']),
+    );
+  }
+
   static Future<List<Asset>> getAssets() async{
     List<Asset> tempAssets = <Asset>[];
     var res = await ApiClient().getAll("assets");
@@ -104,5 +118,9 @@ class ModelApi{
 
   static void removeEntity(int entityId) async{
     await ApiClient().remove('entities/' + entityId.toString());
+  }
+
+  static void removeContract(int contractId) async{
+    await ApiClient().remove('contracts/' + contractId.toString());
   }
 }

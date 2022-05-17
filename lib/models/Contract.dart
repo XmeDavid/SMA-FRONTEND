@@ -41,9 +41,9 @@ class Contract{
       endDate: json['end_date'],
       cover: json['cover'],
       allowsSurplus: json['allow_surplus'],
-      autoRenovation: json['auto_renovation'],
+      autoRenovation: json['auto_renovation']==0 ? false : true,
       lastRenovation : json['last_renovation_at'],
-      isValidated: json['is_validated'],
+      isValidated: json['is_validated']==0 ? false : true,
       budget: json['budget'],
     );
   }
