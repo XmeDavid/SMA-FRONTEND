@@ -1,13 +1,15 @@
+import 'package:sma_frontend/models/Country.dart';
+
 class Address{
   final int id;
   final String street;
   final String door;
   final String floor;
   final String room;
-  final String? zipCode;
-  final String? local;
-  final String? district;
-  final String? country;
+  final String zipCode;
+  final String local;
+  final String district;
+  final Country country;
 
   const Address({
     required this.id,
@@ -15,10 +17,10 @@ class Address{
     required this.door,
     required this.floor,
     required this.room,
-    this.zipCode,
-    this.local,
-    this.district,
-    this.country
+    required this.zipCode,
+    required this.local,
+    required this.district,
+    required this.country
   });
 
   factory Address.fromJson(Map<String, dynamic> json){
@@ -31,7 +33,7 @@ class Address{
       zipCode: json['zip_code'],
       local: json['local'],
       district: json['district'],
-      country: json['country']
+      country: Country.fromJson(json['country'])
     );
   }
 }

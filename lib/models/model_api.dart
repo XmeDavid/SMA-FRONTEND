@@ -46,8 +46,8 @@ class ModelApi{
     return tempEntities;
   }
 
-  static Future<PaginatedModel<Entity>> getEntitiesPaginated(bool detailed, int paginate, int page) async{
-    var res = await ApiClient().getAll("entities?" + (detailed ? "format=detailed&" : "")+"paginate=" + paginate.toString() + "&page=" + page.toString());
+  static Future<PaginatedModel<Entity>> getEntitiesPaginated(bool detailed, int paginate, int page,int filterEntityType) async{
+    var res = await ApiClient().getAll("entities?" + (detailed ? "format=detailed&" : "")+"paginate=$paginate&page=$page" + (filterEntityType != -1 ? "&entities_types_id=$filterEntityType" : ""));
     dynamic json = jsonDecode(res.body);
     List<Entity> data = <Entity>[];
     for(var entityJson in json['data']){
@@ -95,4 +95,8 @@ class ModelApi{
     return tempCountry;
   }
 
+
+  static void removeEntity(int entityId) async{
+    await ApiClient().remove('entities/' + entityId.toString());
+  }
 }

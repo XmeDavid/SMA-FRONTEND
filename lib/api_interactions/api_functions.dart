@@ -45,5 +45,14 @@ class ApiClient{
       })
     );
   }
+
+  Future<http.Response> remove(String s) async{
+    return await (http.delete(
+        Uri.parse(API_URL + s),
+        headers: <String, String>{
+          //'Authorization' : 'Bearer ' + GetStorage().read('token')
+        }
+    ));
+  }
 }
 

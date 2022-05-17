@@ -47,19 +47,23 @@ class _ListEntitiesState  extends State<ListEntities> {
 
       setState(() {
         entityTypes = tempEntityTypes;
-        entityTypes.add(
-            const EntityType(id: -1, name: "Any", description: "Any"));
+        entityTypes.add(const EntityType(id: -1, name: "Any", description: "Any"));
       });
     }
   }
   void loadEntities(int page) async{
-   var tempPaginatedModel = await ModelApi.getEntitiesPaginated(true,20,page);
+   var tempPaginatedModel = await ModelApi.getEntitiesPaginated(true,20,page,_selectedFilterEntityTypeId);
     setState(() {
       paginatedModel = tempPaginatedModel;
     });
   }
 
   removeClick(Entity e){
+    ModelApi.removeEntity(e.id);
+    //loadEntities(paginatedModel.meta.current_page);
+    setState(() {
+      paginatedModel.data.removeAt(paginatedModel.data.indexWhere((element) => element.id == e.id));
+    });
   }
 
   detailsClick(Entity e){
@@ -112,6 +116,7 @@ class _ListEntitiesState  extends State<ListEntities> {
                                       setState(() {
                                         _selectedFilterEntityTypeId = newValue;
                                       });
+                                      loadEntities(paginatedModel.meta.current_page);
                                     },
                                     value: _selectedFilterEntityTypeId,
                                     underline: DropdownButtonHideUnderline(child: Container(),),
@@ -203,7 +208,7 @@ class _ListEntitiesState  extends State<ListEntities> {
                           const Padding(padding: EdgeInsets.all(defaultPadding), child: Spacer(),),
                           if(paginatedModel.meta.current_page != 1)TextButton(
                             onPressed: (){
-                              loadEntities(paginatedModel.meta.current_page+1);
+                              loadEntities(1);
                             },
                             child: const Text("<<",style: TextStyle(color: Colors.white),),
                           ),

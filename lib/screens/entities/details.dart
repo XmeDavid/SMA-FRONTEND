@@ -95,7 +95,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
       roomController.text = entity.address?.room ?? "";
       localController.text = entity.address?.local ?? "";
       districtController.text = entity.address?.district ?? "";
-      countryController.text = entity.address?.country ?? "";
+      countryController.text = entity.address?.country.countryName ?? "";
     });
   }
 
