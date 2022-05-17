@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/Country.dart';
@@ -93,6 +94,7 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
         zipCodeController.text,
         countrys.where((element) => element.toString() == countryController.text).first.id
     );
+    Get.toNamed("/entities");
   }
 
   @override
