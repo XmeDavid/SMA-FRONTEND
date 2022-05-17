@@ -88,9 +88,7 @@ class ModelApi{
     dynamic json = jsonDecode(res.body);
     List<Entity> data = <Entity>[];
     for(var entityJson in json['data']){
-      print(entityJson);
       Entity entity = detailed ? Entity.fromJsonDetailed(entityJson) : Entity.fromJson(entityJson);
-      print(entity);
       data.add(entity);
     }
     return PaginatedModel(
@@ -135,5 +133,11 @@ class ModelApi{
 
   static void removeEntity(int entityId) async{
     await ApiClient().remove('entities/' + entityId.toString());
+  }
+
+  static Future<Entity> getEntity(int entityId) async{
+    var res = await ApiClient().getAll('entities/$entityId?format=detailed');
+    dynamic json = jsonDecode(res.body);
+    return Entity.fromJsonDetailed(json);
   }
 }

@@ -82,9 +82,9 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
 
 
   void loadEntity() async{
-    var entities = await ModelApi.getEntities(true);
+    var _entity = await ModelApi.getEntity(int.parse(Get.parameters['id'] ?? ''));
     setState(() {
-      entity = entities.where((element) => element.id == int.parse(Get.parameters['id'] ?? '')).first;
+      entity = _entity;
       nameController.text = entity.name;
       entityTypeController.text = entity.entityType?.name ?? 'unknow';
       emailController.text = entity.email;
