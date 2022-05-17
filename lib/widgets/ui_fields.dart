@@ -198,7 +198,7 @@ class DropDown extends StatelessWidget {
 
 
 class AddressField extends StatelessWidget {
-  const AddressField({Key? key, required this.getCountrys, this.enabled = true ,required this.width, required this.height, required this.localController, required this.districtController,required this.streetController, required this.doorController, required this.floorController, required this.roomController, required this.countryController}) : super(key: key);
+  const AddressField({Key? key, required this.zipCodeController, required this.getCountrys, this.enabled = true ,required this.width, required this.height, required this.localController, required this.districtController,required this.streetController, required this.doorController, required this.floorController, required this.roomController, required this.countryController}) : super(key: key);
 
   final bool enabled;
   final double width;
@@ -211,6 +211,7 @@ class AddressField extends StatelessWidget {
   final TextEditingController roomController;
   final TextEditingController localController;
   final TextEditingController districtController;
+  final TextEditingController zipCodeController;
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +239,7 @@ class AddressField extends StatelessWidget {
             ),
             Row(children: [
                 TextLine(labelText: "Street", hintText: "Street name", controller: streetController, size: width * 0.6 - 149,isEnabled: enabled,),
-                TextLine(labelText: "Zip Code", hintText: "Zip Code", controller: doorController, size: width * 0.4 - 114, isEnabled: enabled,),
+                TextLine(labelText: "Zip Code", hintText: "Zip Code", controller: zipCodeController, size: width * 0.4 - 114, isEnabled: enabled,),
               ],
             ),
             Row(children: [

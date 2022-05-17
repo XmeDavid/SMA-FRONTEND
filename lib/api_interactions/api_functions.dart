@@ -46,6 +46,16 @@ class ApiClient{
     );
   }
 
+  Future<http.Response> create(String path,String jsonEntity) async{
+    return http.post(
+        Uri.parse(API_URL + path),
+        headers: <String,String>{
+          //'Authorization' : 'Bearer ' + GetStorage().read('token')
+        },
+        body: jsonEntity
+    );
+  }
+
   Future<http.Response> remove(String s) async{
     return await (http.delete(
         Uri.parse(API_URL + s),

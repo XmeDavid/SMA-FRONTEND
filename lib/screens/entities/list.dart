@@ -52,7 +52,7 @@ class _ListEntitiesState  extends State<ListEntities> {
     }
   }
   void loadEntities(int page) async{
-   var tempPaginatedModel = await ModelApi.getEntitiesPaginated(true,20,page,_selectedFilterEntityTypeId);
+   var tempPaginatedModel = await ModelApi.getEntitiesPaginated(true,20,page,_selectedFilterEntityTypeId, searchController.text);
     setState(() {
       paginatedModel = tempPaginatedModel;
     });
@@ -131,9 +131,8 @@ class _ListEntitiesState  extends State<ListEntities> {
                                         border: OutlineInputBorder(),
                                         labelText: "Search"
                                       ),
-                                      onChanged: (e){
-                                        setState(() {
-                                        });
+                                      onEditingComplete: (){
+                                        loadEntities(paginatedModel.meta.current_page);
                                       },
                                     ),
                                   ),

@@ -40,7 +40,7 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
   final countryController = TextEditingController();
   final districtController = TextEditingController();
   final localController = TextEditingController();
-
+  final zipCodeController = TextEditingController();
 
 
   String _selectedDefaultLanguage = "";
@@ -67,7 +67,7 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
     if(countrys.isEmpty){
       countrys = await ModelApi.getCountrys();
     }
-    return countrys.map((e) => (e.iso.toString() + " - " + e.countryName)).toList();
+    return countrys.map((e) => e.toString()).toList();
   }
   Future<List<String>> loadCategories() async{
     if(categories.isEmpty){
@@ -76,7 +76,24 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
     return categories.map((e) => e.toString()).toList();
   }
 
-
+  createEntity(){
+    ModelApi.createEntity(
+        entityTypes.where((element) => element.name == _selectedEntityType).first.id,
+        nameController.text,
+        emailController.text,
+        phoneNumberController.text,
+        taxNumberController.text,
+        countrys.where((element) => element.toString() == _selectedDefaultLanguage).first.iso,
+        streetController.text,
+        doorController.text,
+        int.parse(floorController.text),
+        roomController.text,
+        localController.text,
+        districtController.text,
+        zipCodeController.text,
+        countrys.where((element) => element.toString() == countryController.text).first.id
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,10 +184,12 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
                             countryController: countryController,
                             districtController: districtController,
                             localController: localController,
+                            zipCodeController: zipCodeController,
                             getCountrys: getCountrysString,
                           ),
                           ElevatedButton(
                               onPressed: (){
+                                createEntity();
                               },
                               child: const Text("Create Ticket"))
                         ],

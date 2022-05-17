@@ -47,6 +47,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   final districtController = TextEditingController();
   final localController = TextEditingController();
   final entityTypeController = TextEditingController();
+ final zipCodeController = TextEditingController();
 
 
   bool isEditMode = false;
@@ -54,7 +55,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   String _selectedDefaultLanguage = "";
   String _selectedEntityType = "";
   List<String>? _selectedAssets;
-  Entity entity = Entity.dummy();
+  late Entity entity;
 
   List<EntityType> entityTypes = <EntityType>[];
   List<Country> countrys = <Country>[];
@@ -96,6 +97,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
       localController.text = entity.address?.local ?? "";
       districtController.text = entity.address?.district ?? "";
       countryController.text = entity.address?.country.countryName ?? "";
+      zipCodeController.text = entity.address?.zipCode ?? "";
     });
   }
 
@@ -218,6 +220,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                 countryController: countryController,
                                 districtController: districtController,
                                 localController: localController,
+                                zipCodeController: zipCodeController,
                                 getCountrys: getCountrysString,
                               ),
                               Row(children: [

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:sma_frontend/models/Country.dart';
 import 'package:sma_frontend/models/EntityType.dart';
 import 'package:sma_frontend/models/TicketCategory.dart';
@@ -13,6 +14,42 @@ import 'Contract.dart';
 import 'Entity.dart';
 
 class ModelApi{
+
+  static Future<Entity> createEntity(
+      int entityTypeId,
+      String fullName,
+      String email,
+      String phoneNumber,
+      String taxNumber,
+      String defaultLanguage,
+      String streetName,
+      String door,
+      int floor,
+      String room,
+      String local,
+      String district,
+      String zipCode,
+      int countryId
+    ) async{
+    var res = await ApiClient().create("entities",jsonEncode(<String, dynamic>{
+      'entities_types_id': entityTypeId,
+      'full_name': fullName,
+      'email' : email,
+      'phone_numbers' : phoneNumber,
+      'taxpayer_number' : taxNumber,
+      'default_language' : defaultLanguage,
+      'street_name' : streetName,
+      'door' : door,
+      'floor' : floor,
+      'room' : room,
+      'local' : local,
+      'district' : district,
+      'zip_code' : zipCode,
+      'countries_id' : countryId,
+    }));
+    return Entity.fromJsonDetailed(jsonDecode(res.body));
+  }
+
   static Future<List<Contract>> getContracts() async{
     List<Contract> tempContracts = <Contract>[];
     var res = await ApiClient().getAll("contracts");
@@ -46,8 +83,8 @@ class ModelApi{
     return tempEntities;
   }
 
-  static Future<PaginatedModel<Entity>> getEntitiesPaginated(bool detailed, int paginate, int page,int filterEntityType) async{
-    var res = await ApiClient().getAll("entities?" + (detailed ? "format=detailed&" : "")+"paginate=$paginate&page=$page" + (filterEntityType != -1 ? "&entities_types_id=$filterEntityType" : ""));
+  static Future<PaginatedModel<Entity>> getEntitiesPaginated(bool detailed, int paginate, int page,int filterEntityType, String search) async{
+    var res = await ApiClient().getAll("entities?" + (detailed ? "format=detailed&" : "")+"paginate=$paginate&page=$page" + (filterEntityType != -1 ? "&entities_types_id=$filterEntityType" : "") + (search != "" ? "&search=$search" : ""));
     dynamic json = jsonDecode(res.body);
     List<Entity> data = <Entity>[];
     for(var entityJson in json['data']){
