@@ -72,6 +72,12 @@ class ModelApi{
     }
     return tempTicketCategories;
   }
+  
+  static Future<Contract> getContract(int id) async {
+    var res = await ApiClient().getAll("contracts/$id?format=detailed");
+    dynamic json = jsonDecode(res.body);
+    return Contract.fromJson(json);
+  }
 
   static Future<List<EntityType>> getEntityTypes() async{
     List<EntityType> tempEntityType = <EntityType>[];

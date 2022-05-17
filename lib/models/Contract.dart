@@ -1,36 +1,49 @@
 class Contract{
   final int id;
+  final String title;
   final String description;
   final int entitiesId;
   final String startDate;
   final String duration;
   final String endDate;
+  final String? cover;
   final bool autoRenovation;
   final String? lastRenovation;
   final double budget;
+  final int allowsSurplus;
+  final bool isValidated;
 
   const Contract(  {
     required this.id,
+    required this.title,
     required this.description,
     required this.entitiesId,
     required this.startDate,
     required this.duration,
     required this.endDate,
+    required this.cover,
     required this.autoRenovation,
     required this.lastRenovation,
     required this.budget,
+    required this.allowsSurplus,
+    required this.isValidated,
+
   });
 
   factory Contract.fromJson(Map<String, dynamic> json){
     return Contract(
       id: json['id'],
+      title: json['title'],
       description: json['description'],
       entitiesId: json ['entities_id'],
       startDate: json['start_date'],
-      duration: json['duration'],
+      duration: json['duration_months'],
       endDate: json['end_date'],
-      autoRenovation: json['auto_renovation'] == 1 ? true : false,
-      lastRenovation : json['last_renovation'],
+      cover: json['cover'],
+      allowsSurplus: json['allow_surplus'],
+      autoRenovation: json['auto_renovation'],
+      lastRenovation : json['last_renovation_at'],
+      isValidated: json['is_validated'],
       budget: json['budget'],
     );
   }
