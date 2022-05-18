@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sma_frontend/screens/contracts/create.dart';
 import 'package:sma_frontend/screens/contracts/details.dart';
 import 'package:sma_frontend/screens/contracts/list.dart';
 import 'package:sma_frontend/screens/dashboard.dart';
@@ -47,6 +48,7 @@ class SMA extends StatelessWidget {
         GetPage(name: '/entities/:id', page: () => const EntityDetailsScreen()),
         GetPage(name: '/contracts/:id', page: () => const ContractsDetailsScreen()),
         GetPage(name: '/contracts/', page: () => const ListContracts()),
+        GetPage(name: '/contract/create', page: () =>  const NewContractScreen()),
 
       ],
     );

@@ -3,6 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/Contract.dart';
+
 
 class ApiClient{
 
@@ -44,6 +46,36 @@ class ApiClient{
         'start_date' : startDate,
       })
     );
+  }
+
+  Future<Contract> createContract(String title, String description, int entityId, String startDate, int duration, bool allow_surplus, bool auto_renovation, String cover, double budget) async{
+    final response = await http.post(
+      Uri.parse(API_URL + "contracts/"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'title': title,
+        'description': description,
+        'entities_id': entityId.toString(),
+        'start_date': startDate,
+        'duration_months': duration.toString(),
+        'allow_surplus': allow_surplus.toString(),
+        'auto_renovation': auto_renovation.toString(),
+        'cover': cover.toString(),
+        'budget': budget.toString(),
+      }),
+    );
+    if (response.statusCode == 201) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print("ok");
+      return Contract.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create album.');
+    }
   }
 
   Future<http.Response> remove(String s) async{

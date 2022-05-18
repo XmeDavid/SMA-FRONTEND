@@ -24,6 +24,7 @@ class ModelApi{
     return tempContracts;
   }
 
+
   static Future<PaginatedModel<Contract>> getContractsPaginated(int paginate, int page) async{
     var res = await ApiClient().getAll("contracts?format=detailed&paginate=$paginate&page=$page");
     dynamic json = jsonDecode(res.body);
@@ -123,4 +124,6 @@ class ModelApi{
   static void removeContract(int contractId) async{
     await ApiClient().remove('contracts/' + contractId.toString());
   }
+
+
 }
