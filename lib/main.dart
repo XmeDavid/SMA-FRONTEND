@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sma_frontend/screens/confirmPasswordScreen.dart';
 import 'package:sma_frontend/screens/dashboard.dart';
 
 import 'package:sma_frontend/screens/entities/details.dart';
@@ -38,6 +39,7 @@ class SMA extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => DashboardScreen()),
         GetPage(name: '/login', page: () => const LoginPage(title: "Login Page")),
+        GetPage(name: '/password/reset', page: () => const ResetPasswordScreen()),
         GetPage(name: '/tickets/new', page: () => const NewTicketScreen()),
         GetPage(name: '/tickets/details', page: () => const TicketDetails()),
         GetPage(name: '/entities', page: () => const ListEntities()),
