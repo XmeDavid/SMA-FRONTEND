@@ -2,6 +2,7 @@ import 'dart:convert';
 
 
 import 'package:flutter/cupertino.dart';
+import 'package:sma_frontend/models/Address.dart';
 import 'package:sma_frontend/models/Country.dart';
 import 'package:sma_frontend/models/EntityType.dart';
 import 'package:sma_frontend/models/TicketCategory.dart';
@@ -137,7 +138,21 @@ class ModelApi{
 
   static Future<Entity> getEntity(int entityId) async{
     var res = await ApiClient().getAll('entities/$entityId?format=detailed');
+    return Entity.fromJsonDetailed(jsonDecode(res.body));
+  }
+
+  static updateAddress(int id,String street, String door, String floor, String room, String zipCode, String local, String district, int countryId) async{
+    var res = await ApiClient().update("addresses/$id",jsonEncode(<String, dynamic>{
+      'street_name' : street,
+      'door' : door,
+      'floor' : floor,
+      'room' : room,
+      'zip_code' : zipCode,
+      'local' : local,
+      'district' : district,
+      'country_id' : countryId,
+    }));
     dynamic json = jsonDecode(res.body);
-    return Entity.fromJsonDetailed(json);
+    return Address.fromJson(json);
   }
 }

@@ -65,5 +65,18 @@ class ApiClient{
         }
     ));
   }
+
+  Future<http.Response> update(String s, String json) async{
+    return await (http.put(
+        Uri.parse(API_URL + s),
+        headers: <String, String>{
+          //'Authorization' : 'Bearer ' + GetStorage().read('token')
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept' : 'application/json'
+        },
+      body: json
+    ));
+  }
+
 }
 
