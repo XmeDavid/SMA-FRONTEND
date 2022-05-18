@@ -30,7 +30,7 @@ class ModelApi{
     dynamic json = jsonDecode(res.body);
     List<Contract> data = <Contract>[];
     for(var contractJson in json['data']){
-      Contract contract = Contract.fromJson(contractJson);
+      Contract contract = Contract.fromJsonDetailed(contractJson);
       data.add(contract);
     }
     return PaginatedModel(
@@ -91,7 +91,7 @@ class ModelApi{
   static Future<Contract> getContract(int id) async {
     var res = await ApiClient().getAll("contracts/$id?format=detailed");
     dynamic json = jsonDecode(res.body);
-    return Contract.fromJson(json);
+    return Contract.fromJsonDetailed(json);
   }
 
   static Future<List<EntityType>> getEntityTypes() async{

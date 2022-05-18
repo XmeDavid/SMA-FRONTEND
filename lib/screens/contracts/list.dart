@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sma_frontend/models/Contract.dart';
-import 'package:sma_frontend/models/EntityType.dart';
 import 'package:sma_frontend/models/paginated_model/Meta.dart';
 import 'package:sma_frontend/models/paginated_model/PaginatedModel.dart';
 
@@ -29,7 +28,6 @@ class _ListContracts extends State<ListContracts> {
           to: -1,
           total: -1));
 
-  int _selectedFilterEntityTypeId = -1;
 
   var searchController = TextEditingController();
 

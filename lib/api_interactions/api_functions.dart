@@ -49,21 +49,25 @@ class ApiClient{
   }
 
   Future<Contract> createContract(String title, String description, int entityId, String startDate, int duration, bool allow_surplus, bool auto_renovation, String cover, double budget) async{
+    var yeah = jsonEncode(<String, dynamic> {
+      'hours_total' : 12,
+      'dislocation_km' : 12
+    });
     final response = await http.post(
-      Uri.parse(API_URL + "contracts/"),
+      Uri.parse(API_URL + "contracts"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, dynamic>{
         'title': title,
         'description': description,
-        'entities_id': entityId.toString(),
+        'entities_id': entityId,
         'start_date': startDate,
-        'duration_months': duration.toString(),
-        'allow_surplus': allow_surplus.toString(),
-        'auto_renovation': auto_renovation.toString(),
-        'cover': cover.toString(),
-        'budget': budget.toString(),
+        'duration_months': duration,
+        'allow_surplus': allow_surplus,
+        'auto_renovation': auto_renovation,
+        'cover': yeah,
+        'budget': budget,
       }),
     );
     if (response.statusCode == 201) {
@@ -74,7 +78,7 @@ class ApiClient{
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
-      throw Exception('Failed to create album.');
+      throw Exception('Failed to create.');
     }
   }
 

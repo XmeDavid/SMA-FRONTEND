@@ -22,13 +22,12 @@ class NewContractScreen extends StatefulWidget {
 class _NewContractScreen extends State<NewContractScreen> {
   DateTimeRange? dateRange;
   bool _isAutoRenovationChecked = true;
-  bool _isValidatedChecked = true;
 
   String getFrom() {
     if (dateRange == null) {
       return 'From';
     } else {
-      return DateFormat('dd/MM/yyyy').format(dateRange!.start);
+      return DateFormat('yyyy-MM-dd').format(dateRange!.start);
     }
   }
 
@@ -36,7 +35,7 @@ class _NewContractScreen extends State<NewContractScreen> {
     if (dateRange == null) {
       return 'Until';
     } else {
-      return DateFormat('dd/MM/yyyy').format(dateRange!.end);
+      return DateFormat('yyyy-MM-dd').format(dateRange!.end);
     }
   }
 
@@ -214,22 +213,13 @@ class _NewContractScreen extends State<NewContractScreen> {
                                     },
                                 ),
                                 const Text("Auto Renovation" ,style: TextStyle(color: Colors.white),),
-                                Checkbox(
-                                    checkColor: Colors.white,
-                                    fillColor: MaterialStateProperty.all<Color>(firstColor),
-                                    value: _isValidatedChecked,
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        _isValidatedChecked = newValue!;
-                                      });
-                                    },
-                                ),
-                                const Text("Validated" ,style: TextStyle(color: Colors.white),),
                               ],
                             ),
                             ElevatedButton(
                                 onPressed: () {
-                                  ApiClient().createContract(titleController.text, descriptionController.text, int.parse(_selectedEntity),
+                                   int entityNo = entities.firstWhere((element) => element.id.toString() + " - " + element.name == _selectedEntity).id;
+
+                                  ApiClient().createContract(titleController.text, descriptionController.text, entityNo,
                                       getFrom(), int.parse(durationController.text), allowsSurplusController.text.toLowerCase()=="true" ? true : false, autoRenovationController.text.toLowerCase()=="true" ? true : false,
                                       coverController.text, double.parse(budgetController.text));
                                 },

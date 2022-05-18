@@ -5,13 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0e2811f8-48fc-4a25-9718-2434da2a1635" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/screens/contracts/create.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/api_interactions/api_functions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/api_interactions/api_functions.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/Contract.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Contract.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/models/model_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/model_api.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/contracts/create.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/contracts/create.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/contracts/list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/contracts/list.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
