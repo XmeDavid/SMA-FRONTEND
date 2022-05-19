@@ -58,6 +58,17 @@ class _ListEntitiesState  extends State<ListEntities> {
     });
   }
 
+  Color isEntityTypeColor(entity){
+    switch(entity.entityType?.name){
+      case "Clients":
+        return Colors.grey;
+      case "Suppliers":
+        return Colors.white;
+      default:
+        return Colors.cyan;
+    }
+  }
+
   removeClick(Entity e){
     ModelApi.removeEntity(e.id);
     //loadEntities(paginatedModel.meta.current_page);
@@ -260,12 +271,7 @@ class _ListEntitiesState  extends State<ListEntities> {
                     Text(
                       entity.entityType?.name ?? "" ,
                       style: TextStyle(color:
-                      switch(entity.entityType?.name){
-                        case "Clients": {
-
-                         }
-                        }
-                          entity.entityType?.name=="Clients" ? Colors.grey : Colors.cyan),
+                      isEntityTypeColor(entity)),
                     ),
                     onTap: (){
                       detailsClick(entity);

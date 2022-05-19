@@ -146,7 +146,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                           color: secondColor3,
                           borderRadius: BorderRadius.all(Radius.circular(20))
                       ),
-                      height: MediaQuery.of(context).size.height * 0.8,
+                      height: Responsive.isDesktop(context) ? MediaQuery.of(context).size.height * 0.8 : MediaQuery.of(context).size.height * 0.75,
                       width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
                       child: Form(
                         key: _formKey,
@@ -181,7 +181,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                 controller: emailController,
                                 size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 112,
                               ),
-                              Row(
+                              Responsive.isDesktop(context) ? Row(
                                 children: [
                                   TextLine(
                                     isEnabled: isEditMode,
@@ -196,6 +196,23 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                     hintText: "Entity tax payer number",
                                     controller: taxNumberController,
                                     size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) * 0.5 - 146,
+                                  ),
+                                ],
+                              ) : Column(
+                                children: [
+                                  TextLine(
+                                    isEnabled: isEditMode,
+                                    labelText: "Phone No.",
+                                    hintText: "Entity phone number",
+                                    controller: phoneNumberController,
+                                    size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 156,
+                                  ),
+                                  TextLine(
+                                    isEnabled: isEditMode,
+                                    labelText: "Tax No.",
+                                    hintText: "Entity tax payer number",
+                                    controller: taxNumberController,
+                                    size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) -128,
                                   ),
                                 ],
                               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:sma_frontend/models/Contract.dart';
+import 'package:sma_frontend/responsive.dart';
 
 import '../consts.dart';
 
@@ -170,7 +171,7 @@ class DropDown extends StatelessWidget {
                 //borderRadius: whatDropdownMode(context)? const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)) : const BorderRadius.all(Radius.circular(10)),
                 color: thirdColor5,
               ),
-              height: 50,
+              height: Responsive.isMobile(context) ? 60 : 50,
               child: DropdownSearch<String>(
                 enabled: enabled,
                 onFind: (String? filter) => getData(),
@@ -236,15 +237,26 @@ class AddressField extends StatelessWidget {
                 Spacer()
               ],
             ),
-            Row(children: [
+            Responsive.isDesktop(context) ?  Row(children: [
                 TextLine(labelText: "Street", hintText: "Street name", controller: streetController, size: width * 0.6 - 149,isEnabled: enabled,),
                 TextLine(labelText: "Zip Code", hintText: "Zip Code", controller: doorController, size: width * 0.4 - 114, isEnabled: enabled,),
               ],
+            ) : Column(
+              children: [
+                TextLine(labelText: "Street", hintText: "Street name", controller: streetController, size: width -149,isEnabled: enabled,),
+                TextLine(labelText: "Zip Code", hintText: "Zip Code", controller: doorController, size: width-179, isEnabled: enabled,),
+              ],
             ),
-            Row(children: [
+            Responsive.isDesktop(context) ? Row(children: [
                 TextLine(labelText: "Door", hintText: "Door number", controller: doorController, size: width * 0.33 - 138, isEnabled: enabled,),
                 TextLine(labelText: "Floor", hintText: "Floor", controller: floorController, size: width * 0.29 - 75 , isEnabled: enabled,),
                 TextLine(labelText: "Room", hintText: "Room", controller: roomController, size: width * 0.38 -84, isEnabled: enabled,)
+              ],
+            ): Column(
+              children: [
+                TextLine(labelText: "Door", hintText: "Door number", controller: doorController, size: width -138, isEnabled: enabled,),
+                TextLine(labelText: "Floor", hintText: "Floor", controller: floorController, size: width -139, isEnabled: enabled,),
+                TextLine(labelText: "Room", hintText: "Room", controller: roomController, size: width -148, isEnabled: enabled,)
               ],
             ),
             DropDown(
@@ -254,9 +266,14 @@ class AddressField extends StatelessWidget {
               selected: countryController.text,
               enabled: enabled,
             ),
-            Row(children: [
+            Responsive.isDesktop(context) ? Row(children: [
                 TextLine(labelText: "Local", hintText: "Local", controller: localController, size: width * 0.5 - 143, isEnabled: enabled,),
                 TextLine(labelText: "District", hintText: "District", controller: districtController, size: width * 0.5 - 96, isEnabled: enabled,),
+              ],
+            ) : Column(
+              children: [
+                TextLine(labelText: "Local", hintText: "Local", controller: localController, size: width -143, isEnabled: enabled,),
+                TextLine(labelText: "District", hintText: "District", controller: districtController, size: width -160, isEnabled: enabled,),
               ],
             ),
           ],
