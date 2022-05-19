@@ -184,9 +184,9 @@ class _ListEntitiesState  extends State<ListEntities> {
                                           ),
                                         ),
                                       ),
-                                      Padding(padding: const EdgeInsets.all(5),
+                                      if(paginatedModel.data[index].entityTypeId != 1)Padding(padding: const EdgeInsets.all(5),
                                         child: TextButton(
-                                          onPressed: (){
+                                          onPressed:(){
                                             removeClick(paginatedModel.data[index]);
                                           },
                                           child: const Text("Remove",style: TextStyle(color: Colors.white),),

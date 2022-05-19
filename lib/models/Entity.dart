@@ -55,7 +55,7 @@ class Entity{
       email: json['email'],
       phoneNumber: json['phone_number'],
       addressId:  json['address']['id'],
-      address: Address.fromJson(json['address']),
+      address: Address.fromJsonDetailed(json['address']),
       taxNumber: json['taxpayer_number'],
       defaultLanguage: json['default_language'],
     );

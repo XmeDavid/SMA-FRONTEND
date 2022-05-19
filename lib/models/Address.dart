@@ -9,7 +9,8 @@ class Address{
   final String zipCode;
   final String local;
   final String district;
-  final Country country;
+  final int? countryId;
+  final Country? country;
 
   const Address({
     required this.id,
@@ -20,7 +21,8 @@ class Address{
     required this.zipCode,
     required this.local,
     required this.district,
-    required this.country
+    this.country,
+    this.countryId
   });
 
   factory Address.fromJson(Map<String, dynamic> json){
@@ -33,7 +35,21 @@ class Address{
       zipCode: json['zip_code'],
       local: json['local'],
       district: json['district'],
-      country: Country.fromJson(json['country'])
+      countryId: json['country_id']
+    );
+  }
+
+  factory Address.fromJsonDetailed(Map<String, dynamic> json){
+    return Address(
+        id: json['id'],
+        street: json['street_name'],
+        door: json['door'],
+        floor: json['floor'],
+        room: json['room'],
+        zipCode: json['zip_code'],
+        local: json['local'],
+        district: json['district'],
+        country: Country.fromJson(json['country'])
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sma_frontend/models/Address.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/Country.dart';
 import 'package:sma_frontend/models/EntityType.dart';
@@ -95,13 +96,15 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
       roomController.text = entity.address?.room ?? "";
       localController.text = entity.address?.local ?? "";
       districtController.text = entity.address?.district ?? "";
-      countryController.text = entity.address?.country.countryName ?? "";
+      countryController.text = entity.address?.country.toString() ?? "";
       zipCodeController.text = entity.address?.zipCode ?? "";
     });
   }
 
-  void saveChanges(){
-    print(countrys.where((element) => element.toString() == countryController.text).first);
+  void saveChanges() async{
+    if(countrys.isEmpty) countrys = await ModelApi.getCountrys();
+    int countryId = countrys.where((element) => element.toString() == countryController.text).first.id;
+    ModelApi.updateAddress(entity.addressId,streetController.text, doorController.text, floorController.text, roomController.text, zipCodeController.text, localController.text, districtController.text, countryId);
   }
 
   @override
