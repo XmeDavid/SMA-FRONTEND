@@ -80,7 +80,7 @@ class _ListEntitiesState  extends State<ListEntities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Dashboard"), backgroundColor: bgColor) : null,
+      appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Entities"), backgroundColor: bgColor) : null,
       drawer: const SideMenu(),
       body: SafeArea(
         child: Responsive.isDesktop(context) ? Row(
@@ -256,7 +256,17 @@ class _ListEntitiesState  extends State<ListEntities> {
                   child: ListTile(
                     tileColor: bgColor,
                     title: Text(entity.name),
-                    subtitle: Text(entity.entityType?.name ?? "" , style: const TextStyle(color: Colors.grey),),
+                    subtitle:
+                    Text(
+                      entity.entityType?.name ?? "" ,
+                      style: TextStyle(color:
+                      switch(entity.entityType?.name){
+                        case "Clients": {
+
+                         }
+                        }
+                          entity.entityType?.name=="Clients" ? Colors.grey : Colors.cyan),
+                    ),
                     onTap: (){
                       detailsClick(entity);
                     },
