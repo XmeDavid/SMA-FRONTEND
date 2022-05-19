@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:sma_frontend/models/Country.dart';
+
+import '../api_interactions/api_functions.dart';
 
 class Address{
   final int id;
@@ -52,4 +56,20 @@ class Address{
         country: Country.fromJson(json['country'])
     );
   }
+  static Future<Address> update(int addressId, String street, String door, String floor, String room, String zipCode, String local, String district, int countryId) async{
+    var res = await ClientApi.update("addresses/$addressId",jsonEncode(<String, dynamic> {
+      "street_name": street,
+      "door": door,
+      "floor": floor,
+      "room": room,
+      "zip_code": zipCode,
+      "local": local,
+      "district": district,
+      "country_id": countryId
+    }));
+    return Address.fromJson(jsonDecode(res.body));
+  }
+
+
+
 }

@@ -3,9 +3,12 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sma_frontend/screens/confirmPasswordScreen.dart';
-import 'package:sma_frontend/screens/dashboard.dart';
 
+import 'package:sma_frontend/screens/confirmPasswordScreen.dart';
+import 'package:sma_frontend/screens/contracts/create.dart';
+import 'package:sma_frontend/screens/contracts/details.dart';
+import 'package:sma_frontend/screens/contracts/list.dart';
+import 'package:sma_frontend/screens/dashboard.dart';
 import 'package:sma_frontend/screens/entities/details.dart';
 import 'package:sma_frontend/screens/entities/create.dart';
 import 'package:sma_frontend/screens/entities/list.dart';
@@ -45,6 +48,9 @@ class SMA extends StatelessWidget {
         GetPage(name: '/entities', page: () => const ListEntities()),
         GetPage(name: '/entities/create', page: () => const NewEntityScreen()),
         GetPage(name: '/entities/:id', page: () => const EntityDetailsScreen()),
+        GetPage(name: '/contracts/create', page: () =>  const NewContractScreen()),
+        GetPage(name: '/contracts/:id', page: () => const ContractsDetailsScreen()),
+        GetPage(name: '/contracts/', page: () => const ListContracts()),
       ],
     );
   }

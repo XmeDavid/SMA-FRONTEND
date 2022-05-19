@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -102,9 +101,9 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   }
 
   void saveChanges() async{
-    if(countrys.isEmpty) countrys = await ModelApi.getCountrys();
+    if(countrys.isEmpty) countrys = await Country.getAll();
     int countryId = countrys.where((element) => element.toString() == countryController.text).first.id;
-    ModelApi.updateAddress(entity.addressId,streetController.text, doorController.text, floorController.text, roomController.text, zipCodeController.text, localController.text, districtController.text, countryId);
+    Address.update(entity.addressId,streetController.text, doorController.text, floorController.text, roomController.text, zipCodeController.text, localController.text, districtController.text, countryId);
   }
 
   @override
