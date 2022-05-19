@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/Country.dart';
@@ -12,7 +13,6 @@ import 'package:sma_frontend/models/TicketCategory.dart';
 import '../../api_interactions/api_functions.dart';
 import '../../models/Entity.dart';
 import '../../models/Asset.dart';
-import '../../models/model_api.dart';
 import '../../responsive.dart';
 import '../../consts.dart';
 import '../../widgets/ui_fields.dart';
@@ -40,7 +40,7 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
   final countryController = TextEditingController();
   final districtController = TextEditingController();
   final localController = TextEditingController();
-
+  final zipCodeController = TextEditingController();
 
 
   String _selectedDefaultLanguage = "";
@@ -52,35 +52,45 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
   List<TicketCategory> categories = <TicketCategory>[];
   List<Asset> assets = <Asset>[];
 
-
   bool isClient(){
     return false;
   }
 
   Future<List<String>> getEntityTypesString() async {
     if(entityTypes.isEmpty){
-      entityTypes = await ModelApi.getEntityTypes();
+      entityTypes = await EntityType.getAll();
     }
     return entityTypes.where((element) => element.id != 1).map((e) => e.name).toList();
   }
   Future<List<String>> getCountrysString() async{
     if(countrys.isEmpty){
-      countrys = await ModelApi.getCountrys();
+      countrys = await Country.getAll();
     }
-    return countrys.map((e) => (e.iso.toString() + " - " + e.countryName)).toList();
-  }
-  Future<List<String>> loadCategories() async{
-    if(categories.isEmpty){
-      categories = await ModelApi.getTicketCategories();
-    }
-    return categories.map((e) => e.toString()).toList();
+    return countrys.map((e) => e.toString()).toList();
   }
 
-
+  createEntity(){
+    Entity.create(
+        entityTypes.where((element) => element.name == _selectedEntityType).first.id,
+        nameController.text,
+        emailController.text,
+        phoneNumberController.text,
+        taxNumberController.text,
+        countrys.where((element) => element.toString() == _selectedDefaultLanguage).first.iso,
+        streetController.text,
+        doorController.text,
+        int.parse(floorController.text),
+        roomController.text,
+        localController.text,
+        districtController.text,
+        zipCodeController.text,
+        countrys.where((element) => element.toString() == countryController.text).first.id
+    );
+    Get.toNamed("/entities");
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Create Entity"), backgroundColor: bgColor) : null,
       drawer: const SideMenu(),
@@ -167,10 +177,12 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
                             countryController: countryController,
                             districtController: districtController,
                             localController: localController,
+                            zipCodeController: zipCodeController,
                             getCountrys: getCountrysString,
                           ),
                           ElevatedButton(
                               onPressed: (){
+                                createEntity();
                               },
                               child: const Text("Create Ticket"))
                         ],

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sma_frontend/models/Address.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/Country.dart';
 import 'package:sma_frontend/models/EntityType.dart';
@@ -13,7 +14,6 @@ import 'package:sma_frontend/models/TicketCategory.dart';
 import '../../api_interactions/api_functions.dart';
 import '../../models/Entity.dart';
 import '../../models/Asset.dart';
-import '../../models/model_api.dart';
 import '../../responsive.dart';
 import '../../consts.dart';
 import '../../widgets/ui_fields.dart';
@@ -46,6 +46,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   final districtController = TextEditingController();
   final localController = TextEditingController();
   final entityTypeController = TextEditingController();
+ final zipCodeController = TextEditingController();
 
 
   bool isEditMode = false;
@@ -53,7 +54,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   String _selectedDefaultLanguage = "";
   String _selectedEntityType = "";
   List<String>? _selectedAssets;
-  Entity entity = Entity.dummy();
+  late Entity entity;
 
   List<EntityType> entityTypes = <EntityType>[];
   List<Country> countrys = <Country>[];
@@ -67,22 +68,22 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
 
   Future<List<String>> getEntityTypesString() async {
     if(entityTypes.isEmpty){
-      entityTypes = await ModelApi.getEntityTypes();
+      entityTypes = await EntityType.getAll();
     }
     return entityTypes.where((element) => element.id != 1).map((e) => e.name).toList();
   }
   Future<List<String>> getCountrysString() async{
     if(countrys.isEmpty){
-      countrys = await ModelApi.getCountrys();
+      countrys = await Country.getAll();
     }
     return countrys.map((e) => e.toString()).toList();
   }
 
 
   void loadEntity() async{
-    var entities = await ModelApi.getEntities(true);
+    var _entity = await Entity.get(int.parse(Get.parameters['id'] ?? ''),true);
     setState(() {
-      entity = entities.where((element) => element.id == int.parse(Get.parameters['id'] ?? '')).first;
+      entity = _entity;
       nameController.text = entity.name;
       entityTypeController.text = entity.entityType?.name ?? 'unknow';
       emailController.text = entity.email;
@@ -94,12 +95,15 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
       roomController.text = entity.address?.room ?? "";
       localController.text = entity.address?.local ?? "";
       districtController.text = entity.address?.district ?? "";
-      countryController.text = entity.address?.country.countryName ?? "";
+      countryController.text = entity.address?.country.toString() ?? "";
+      zipCodeController.text = entity.address?.zipCode ?? "";
     });
   }
 
-  void saveChanges(){
-    print(countrys.where((element) => element.toString() == countryController.text).first);
+  void saveChanges() async{
+    if(countrys.isEmpty) countrys = await Country.getAll();
+    int countryId = countrys.where((element) => element.toString() == countryController.text).first.id;
+    Address.update(entity.addressId,streetController.text, doorController.text, floorController.text, roomController.text, zipCodeController.text, localController.text, districtController.text, countryId);
   }
 
   @override
@@ -234,6 +238,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                 countryController: countryController,
                                 districtController: districtController,
                                 localController: localController,
+                                zipCodeController: zipCodeController,
                                 getCountrys: getCountrysString,
                               ),
                               Row(children: [

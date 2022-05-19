@@ -6,7 +6,7 @@ import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/Entity.dart';
 import 'package:sma_frontend/api_interactions/api_functions.dart';
 
-import '../../models/model_api.dart';
+
 import '../../responsive.dart';
 import '../../consts.dart';
 import '../../widgets/ui_fields.dart';
@@ -60,7 +60,7 @@ class _NewContractScreen extends State<NewContractScreen> {
 
   Future<List<String>> getEntities() async {
     if (entities.isEmpty) {
-      entities = await ModelApi.getEntities(false);
+      entities = await Entity.getAll();
     }
     return entities.map((e) => (e.id.toString() + " - " + e.name)).toList();
   }
@@ -233,7 +233,7 @@ class _NewContractScreen extends State<NewContractScreen> {
                                 onPressed: () {
                                    int entityNo = entities.firstWhere((element) => element.id.toString() + " - " + element.name == _selectedEntity).id;
 
-                                    Future<Contract> contract = ApiClient().createContract(titleController.text, descriptionController.text, entityNo,
+                                    Future<Contract> contract = Contract.create(titleController.text, descriptionController.text, entityNo,
                                       getFrom(), int.parse(durationController.text), allowsSurplusController.text.toLowerCase()=="true" ? true : false, autoRenovationController.text.toLowerCase()=="true" ? true : false,
                                       totalHoursController.text, kmController.text, double.parse(budgetController.text));
 

@@ -1,19 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/models/Contract.dart';
-import 'package:sma_frontend/models/Country.dart';
 import 'package:sma_frontend/models/EntityType.dart';
-import 'package:sma_frontend/models/TicketCategory.dart';
 
-
-import '../../api_interactions/api_functions.dart';
-import '../../models/Entity.dart';
-import '../../models/Asset.dart';
-import '../../models/model_api.dart';
 import '../../responsive.dart';
 import '../../consts.dart';
 import '../../widgets/ui_fields.dart';
@@ -56,7 +45,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
 
 
   void getEntityType() async {
-    List<EntityType> entityTypes = await ModelApi.getEntityTypes();
+    List<EntityType> entityTypes = await EntityType.getAll();
     entityTypes.where((element) => element.id != 1).map((e) => e.name).toList();
     setState(() {
       entityType = entityTypes.where((element) => element.id == contract.entitiesId).first;
@@ -67,7 +56,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
 
   void loadContract() async{
     //var contracts = await ModelApi.getContracts();
-    var _contract = await ModelApi.getContract(int.parse(Get.parameters['id'] ?? ''));
+    var _contract = await Contract.get(int.parse(Get.parameters['id'] ?? ''), true);
     setState(() {
       contract = _contract;
       titleController.text = contract.title;

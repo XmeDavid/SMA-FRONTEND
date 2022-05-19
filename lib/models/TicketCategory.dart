@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import '../api_interactions/api_functions.dart';
+
 class TicketCategory{
   final int id;
   final String name;
@@ -13,6 +17,16 @@ class TicketCategory{
     return TicketCategory(id: json['id'], name: json['name'], description: json['description']);
   }
 
+  static Future<List<TicketCategory>> getAll() async{
+    List<TicketCategory> tempTicketCategories = <TicketCategory>[];
+    var res = await ClientApi.get("tickets/categories");
+    dynamic json = jsonDecode(res.body);
+    for(var ticketCategoryJson in json){
+      TicketCategory ticketCategory = TicketCategory.fromJson(ticketCategoryJson);
+      tempTicketCategories.add(ticketCategory);
+    }
+    return tempTicketCategories;
+  }
 
   @override
   String toString() {

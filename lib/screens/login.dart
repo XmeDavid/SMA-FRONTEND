@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   login() async{
-    dynamic res = await ApiClient().sendLoginRequest(emailText.text, passwordText.text);
+    dynamic res = await ClientApi.login(emailText.text, passwordText.text);
     if(res.statusCode == 200){
       dynamic json = jsonDecode(res.body);
       GetStorage box = GetStorage();

@@ -10,7 +10,6 @@ import 'package:sma_frontend/models/TicketCategory.dart';
 import '../../api_interactions/api_functions.dart';
 import '../../models/Entity.dart';
 import '../../models/Asset.dart';
-import '../../models/model_api.dart';
 import '../../responsive.dart';
 import '../../consts.dart';
 import '../../widgets/ui_fields.dart';
@@ -45,27 +44,28 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
     return false;
   }
 
+  Future<List<String>> loadEntities() async{
+    if(entities.isEmpty){
+      entities = await Entity.getAll();
+    }
+    return entities.map((e) => e.toString()).toList();
+  }
+
   Future<List<String>> loadContracts() async {
     if(contracts.isEmpty){
-      contracts = await ModelApi.getContracts();
+      contracts = await Contract.getAll();
     }
     return contracts.map((e) => e.toString()).toList();
   }
   Future<List<String>> loadAssets() async{
     if(assets.isEmpty){
-      assets = await ModelApi.getAssets();
+      assets = await Asset.getAll();
     }
     return assets.map((e) => e.toString()).toList();
   }
-  Future<List<String>> loadEntities() async{
-    if(entities.isEmpty){
-      entities = await ModelApi.getEntities(false);
-    }
-    return entities.map((e) => e.toString()).toList();
-  }
   Future<List<String>> loadCategories() async{
     if(categories.isEmpty){
-      categories = await ModelApi.getTicketCategories();
+      categories = await TicketCategory.getAll();
     }
     return categories.map((e) => e.toString()).toList();
   }
@@ -163,13 +163,6 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                             //TODO Still need a way to input estimated time
                             ElevatedButton(
                                 onPressed: (){
-                                  ApiClient().createTicket(
-                                      int.parse(_selectedClient.replaceAll(RegExp('[^0-9]'), '')),
-                                    1,
-                                      int.parse(_selectedContract.replaceAll(RegExp('[^0-9]'), '')),
-                                      int.parse(_selectedCategory.replaceAll(RegExp('[^0-9]'), '')),
-                                    "asd"
-                                  );
                                   print("Client: "+ _selectedClient +"\nTitle: " + ticketTitleController.text + "\nDescription: " + ticketDescriptionController.text + "\nCategory: " + _selectedCategory + "\nContract: " + _selectedContract);
                                   print("Assets: " + _selectedAssets.toString());
                                 },

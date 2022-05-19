@@ -4,7 +4,6 @@ import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/paginated_model/Meta.dart';
 import 'package:sma_frontend/models/paginated_model/PaginatedModel.dart';
 
-import '../../models/model_api.dart';
 import '../../responsive.dart';
 import '../../consts.dart';
 import '../side_menu.dart';
@@ -36,14 +35,14 @@ class _ListContracts extends State<ListContracts> {
 
   void loadContracts(int page) async {
     var tempContractPaginatedModel =
-        await ModelApi.getContractsPaginated(20, page);
+        await Contract.getPaginated(true,20,page,"");
     setState(() {
       paginatedContractModel = tempContractPaginatedModel;
     });
   }
 
   removeClick(Contract e) {
-    ModelApi.removeContract(e.id);
+    Contract.remove(e.id);
     setState(() {
       paginatedContractModel.data.removeAt(paginatedContractModel.data
           .indexWhere((element) => element.id == e.id));
