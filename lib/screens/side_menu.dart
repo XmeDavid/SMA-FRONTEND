@@ -71,27 +71,27 @@ class SideMenu extends StatelessWidget {
                 ],
               ),
               ListTile(
-                leading: Icon(Icons.devices),
-                title: Text("Assets"),
+                leading: const Icon(Icons.devices),
+                title: const Text("Assets"),
                 onTap: (){},
               ),
               ListTile(
-                leading: Icon(Icons.description),
-                title: Text("Contracts"),
+                leading: const Icon(Icons.description),
+                title: const Text("Contracts"),
                 onTap: (){
                   Get.toNamed('/contracts');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.description),
-                title: Text("Entities"),
+                leading: const Icon(Icons.groups),
+                title: const Text("Entities"),
                 onTap: (){
                   Get.toNamed('/entities');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.settings),
-                title: Text("Settings"),
+                leading: const Icon(Icons.settings),
+                title: const Text("Settings"),
                 onTap: (){},
               ),
             ],

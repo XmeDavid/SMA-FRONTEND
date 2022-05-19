@@ -1,9 +1,9 @@
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/Entity.dart';
-import 'package:sma_frontend/models/EntityType.dart';
 import 'package:sma_frontend/api_interactions/api_functions.dart';
 
 import '../../models/model_api.dart';
@@ -46,7 +46,8 @@ class _NewContractScreen extends State<NewContractScreen> {
   final startDateController = TextEditingController();
   final endDateController = TextEditingController();
   final durationController = TextEditingController();
-  final coverController = TextEditingController();
+  final totalHoursController = TextEditingController();
+  final kmController = TextEditingController();
   final budgetController = TextEditingController();
   final autoRenovationController = TextEditingController();
   final allowsSurplusController = TextEditingController();
@@ -180,15 +181,28 @@ class _NewContractScreen extends State<NewContractScreen> {
                                           : 0.9) -
                                   178,
                             ),
-                            TextLine(
-                              labelText: "Cover",
-                              hintText: "This contract Covers",
-                              controller: coverController,
-                              size: MediaQuery.of(context).size.width *
+
+                            Row(
+                              children: [
+                                TextLine(
+                                  labelText: "Hours",
+                                  hintText: "This contract covers this hours",
+                                  controller: totalHoursController,
+                                  size: MediaQuery.of(context).size.width *
                                       (Responsive.isDesktop(context)
                                           ? 0.666
-                                          : 0.9) -
-                                  178,
+                                          : 0.9) * 0.5 - 123,
+                                ),
+                                TextLine(
+                                  labelText: "Dislocation",
+                                  hintText: "Total kms",
+                                  controller: kmController,
+                                  size: MediaQuery.of(context).size.width *
+                                      (Responsive.isDesktop(context)
+                                          ? 0.666
+                                          : 0.9)  * 0.5 - 130,
+                                ),
+                              ],
                             ),
                             TextLine(
                               labelText: "Duration",
@@ -219,9 +233,11 @@ class _NewContractScreen extends State<NewContractScreen> {
                                 onPressed: () {
                                    int entityNo = entities.firstWhere((element) => element.id.toString() + " - " + element.name == _selectedEntity).id;
 
-                                  ApiClient().createContract(titleController.text, descriptionController.text, entityNo,
+                                    Future<Contract> contract = ApiClient().createContract(titleController.text, descriptionController.text, entityNo,
                                       getFrom(), int.parse(durationController.text), allowsSurplusController.text.toLowerCase()=="true" ? true : false, autoRenovationController.text.toLowerCase()=="true" ? true : false,
-                                      coverController.text, double.parse(budgetController.text));
+                                      totalHoursController.text, kmController.text, double.parse(budgetController.text));
+
+                                     if(contract.toString().isNotEmpty) Get.toNamed("/contracts");
                                 },
                                 child: const Text("Create Ticket"))
                           ],

@@ -83,7 +83,7 @@ class _ListEntitiesState  extends State<ListEntities> {
       appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Dashboard"), backgroundColor: bgColor) : null,
       drawer: const SideMenu(),
       body: SafeArea(
-        child: Row(
+        child: Responsive.isDesktop(context) ? Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // We want this side menu only for large screen
@@ -244,6 +244,27 @@ class _ListEntitiesState  extends State<ListEntities> {
               ),
             ),
           ],
+        ) : Center(
+          child: ListView.builder(
+            itemCount: paginatedModel.data.length,
+            itemBuilder: (context, index){
+              final entity = paginatedModel.data[index];
+              return Card(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30.0),
+                  clipBehavior: Clip.hardEdge,
+                  child: ListTile(
+                    tileColor: bgColor,
+                    title: Text(entity.name),
+                    subtitle: Text(entity.entityType?.name ?? "" , style: const TextStyle(color: Colors.grey),),
+                    onTap: (){
+                      detailsClick(entity);
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

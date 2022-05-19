@@ -48,10 +48,10 @@ class ApiClient{
     );
   }
 
-  Future<Contract> createContract(String title, String description, int entityId, String startDate, int duration, bool allow_surplus, bool auto_renovation, String cover, double budget) async{
-    var yeah = jsonEncode(<String, dynamic> {
-      'hours_total' : 12,
-      'dislocation_km' : 12
+  Future<Contract> createContract(String title, String description, int entityId, String startDate, int duration, bool allow_surplus, bool auto_renovation, String totalHours, String totalKms, double budget) async{
+    var cover = jsonEncode(<String, dynamic> {
+      'hours_total' : int.parse(totalHours),
+      'dislocation_km' : int.parse(totalKms),
     });
     final response = await http.post(
       Uri.parse(API_URL + "contracts"),
@@ -66,11 +66,11 @@ class ApiClient{
         'duration_months': duration,
         'allow_surplus': allow_surplus,
         'auto_renovation': auto_renovation,
-        'cover': yeah,
+        'cover': cover,
         'budget': budget,
       }),
     );
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200 ) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
       print("ok");

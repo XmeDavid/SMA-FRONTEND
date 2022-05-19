@@ -28,7 +28,6 @@ class _ListContracts extends State<ListContracts> {
           to: -1,
           total: -1));
 
-
   var searchController = TextEditingController();
 
   bool isClient() {
@@ -171,110 +170,151 @@ class _ListContracts extends State<ListContracts> {
                             Axis.horizontal, //child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
                         child: SingleChildScrollView(
-                          child: DataTable(
-                            columnSpacing: 4,
-                            columns: [
-                              "Id",
-                              "Title",
-                              //"Description",
-                              "Start Date",
-                              "End Date",
-                              "Duration",
-                              //"Cover",
-                              //"Auto\nRenovation",
-                              "Last\nRenovation",
-                              "Budget",
-                              //"Allow\nSurplus",
-                              "Is\nValidated",
-                              "Actions"
-                            ].map((e) => DataColumn(label: Text(e))).toList(),
-                            rows: List.generate(
-                                paginatedContractModel.data.length, (index) {
-                              return DataRow(cells: [
-                                DataCell(SelectableText(paginatedContractModel
-                                    .data[index].id
-                                    .toString())),
-                                DataCell(/*Expanded(
+                          child: Expanded(
+                            child: DataTable(
+                              columnSpacing: 3,
+                              columns: [
+                                "Id",
+                                "Title",
+                                //"Description",
+                                "Start Date",
+                                "End Date",
+                                "Duration",
+                                //"Cover",
+                                //"Auto\nRenovation",
+                                "Last Renovation",
+                                "Budget",
+                                //"Allow\nSurplus",
+                                "Is Validated",
+                                "Actions"
+                              ].map((e) {
+                                return DataColumn(
+                                    label: Expanded(child: Text(e)));
+                              }).toList(),
+                              rows: List.generate(
+                                  paginatedContractModel.data.length, (index) {
+                                return DataRow(cells: [
+                                  DataCell(
+                                    Expanded(
+                                        child: SelectableText(
+                                            paginatedContractModel
+                                                .data[index].id
+                                                .toString())),
+                                  ),
+                                  DataCell(
+                                    Expanded(
+                                      child: SelectableText(
+                                          paginatedContractModel
+                                              .data[index].title),
+                                    ),
+                                  ),
+                                  /*Expanded(
                                   child: SingleChildScrollView(
                                     child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Container(
                                         width: 150,
-                                        child: */SelectableText(paginatedContractModel
-                                            .data[index].title),
-                                     ),
-                                    //],
+                                        child: */
+
+                                  //],
                                   //)),
-                                //)),
-                                /*DataCell(SelectableText(paginatedContractModel
+                                  //)),
+                                  /*DataCell(SelectableText(paginatedContractModel
                                     .data[index].description)),*/
-                                DataCell(SelectableText(paginatedContractModel
-                                    .data[index].startDate)),
-                                DataCell(SelectableText(paginatedContractModel
-                                    .data[index].endDate)),
-                                DataCell(SelectableText(paginatedContractModel
-                                    .data[index].duration)),
-                                /*DataCell(SelectableText(
+                                  DataCell(
+                                    Expanded(
+                                        child: SelectableText(
+                                            paginatedContractModel
+                                                .data[index].startDate)),
+                                  ),
+                                  DataCell(
+                                    Expanded(
+                                        child: SelectableText(
+                                            paginatedContractModel
+                                                .data[index].endDate)),
+                                  ),
+                                  DataCell(
+                                    Expanded(
+                                        child: SelectableText(
+                                            paginatedContractModel
+                                                .data[index].duration)),
+                                  ),
+                                  /*DataCell(SelectableText(
                                     paginatedContractModel.data[index].cover ??
                                         "No cover")),
                                 DataCell(SelectableText(paginatedContractModel
                                     .data[index].autoRenovation
                                     .toString())),*/
-                                DataCell(SelectableText(paginatedContractModel
-                                        .data[index].lastRenovation ??
-                                    "")),
-                                DataCell(SelectableText(paginatedContractModel
-                                    .data[index].budget
-                                    .toString())),
-                                /*DataCell(SelectableText(paginatedContractModel
+                                  DataCell(
+                                    Expanded(
+                                        child: SelectableText(
+                                            paginatedContractModel.data[index]
+                                                    .lastRenovation ??
+                                                "No renovation yet")),
+                                  ),
+                                  DataCell(
+                                    Expanded(
+                                        child: SelectableText(
+                                            paginatedContractModel
+                                                .data[index].budget
+                                                .toString())),
+                                  ),
+                                  /*DataCell(SelectableText(paginatedContractModel
                                     .data[index].allowsSurplus
                                     .toString())),*/
-                                DataCell(SelectableText(paginatedContractModel
-                                    .data[index].isValidated
-                                    .toString())),
-                                DataCell(Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          detailsClick(paginatedContractModel
-                                              .data[index]);
-                                        },
-                                        child: const Text(
-                                          "Details",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  firstColor),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(5),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          removeClick(paginatedContractModel
-                                              .data[index]);
-                                        },
-                                        child: const Text(
-                                          "Remove",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.red),
+                                  DataCell(
+                                    Expanded(
+                                        child: SelectableText(
+                                            paginatedContractModel
+                                                .data[index].isValidated
+                                                .toString())),
+                                  ),
+                                  DataCell(Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(5),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            detailsClick(paginatedContractModel
+                                                .data[index]);
+                                          },
+                                          child: const Text(
+                                            "Details",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(firstColor),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                )),
-                              ]);
-                            }),
+                                      Padding(
+                                        padding: const EdgeInsets.all(5),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            removeClick(paginatedContractModel
+                                                .data[index]);
+                                          },
+                                          child: const Text(
+                                            "Remove",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.red),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                                ]);
+                              }),
+                            ),
                           ),
                         ))),
                 Row(
