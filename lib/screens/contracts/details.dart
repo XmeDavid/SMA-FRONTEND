@@ -29,7 +29,8 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
   final startDateController = TextEditingController();
   final endDateController = TextEditingController();
   final durationController = TextEditingController();
-  final coverController = TextEditingController();
+  final totalHoursController = TextEditingController();
+  final totalKmsController = TextEditingController();
   final budgetController = TextEditingController();
   final autoRenovationController = TextEditingController();
   final allowsSurplusController = TextEditingController();
@@ -39,37 +40,36 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
 
   bool isEditMode = false;
 
-  late Contract contract;
+  Contract? contract;
   late EntityType entityType;
 
 
 
-  void getEntityType() async {
+  /*void getEntityType() async {
     List<EntityType> entityTypes = await EntityType.getAll();
     entityTypes.where((element) => element.id != 1).map((e) => e.name).toList();
     setState(() {
       entityType = entityTypes.where((element) => element.id == contract.entitiesId).first;
     });
-  }
+  }*/
 
 
 
   void loadContract() async{
     //var contracts = await ModelApi.getContracts();
-    var _contract = await Contract.get(int.parse(Get.parameters['id'] ?? ''), true);
+    Contract _contract = await Contract.get(int.parse(Get.parameters['id'] ?? ''), true);
     setState(() {
       contract = _contract;
-      titleController.text = contract.title;
-      descriptionController.text = contract.description;
-      //vai ser entityType
-      startDateController.text = contract.startDate;
-      endDateController.text = contract.endDate;
-      durationController.text = contract.duration;
-      coverController.text = contract.cover ?? '';
-      budgetController.text = contract.budget.toString();
-      lastRenovationController.text = contract.lastRenovation ?? '';
+      titleController.text = contract?.title ?? "No Title";
+      descriptionController.text = contract?.description ?? "No Description";
+      startDateController.text = contract?.startDate ?? "No Start Date yet";
+      endDateController.text = contract?.endDate ?? "No End Date yet";
+      durationController.text = contract?.duration ?? "No Duration yet";
+      //coverController.text = contract.cover ?? "No cover yet";
+      budgetController.text = contract?.budget.toString() ?? "No budget";
+      lastRenovationController.text = contract?.lastRenovation ?? "No Last Renovation yet";
     });
-    getEntityType();
+    //getEntityType();
   }
 
   void saveChanges(){
@@ -91,7 +91,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
       appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Contract Details"), backgroundColor: bgColor) : null,
       drawer: const SideMenu(),
       body: SafeArea(
-        child: Row(
+        child: contract!=null ? Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // We want this side menu only for large screen
@@ -107,9 +107,9 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
                         width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
                         child: Row(
                           children:  [
-                            Text(contract.id.toString(),
+                            Text('${contract?.id} - ${contract?.entity?.name}',
                               style: const TextStyle(
-                                  fontSize: 48
+                                  fontSize: 30
                               ),
                             ),
                             const Spacer()
@@ -122,7 +122,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
                           color: secondColor3,
                           borderRadius: BorderRadius.all(Radius.circular(20))
                       ),
-                      height: MediaQuery.of(context).size.height * 0.8,
+                      height: Responsive.isDesktop(context) ? MediaQuery.of(context).size.height * 0.8 : MediaQuery.of(context).size.height * 0.75,
                       width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
                       child: Form(
                         key: _formKey,
@@ -139,9 +139,9 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
                               DropDown(
                                 label: "Entity Type",
                                 callback: (s) => {entityTypeController.text},
-                                getData: getEntityType,
-                                selected: entityTypeController.text,
-                                enabled: contract.entitiesId == 1 ? false : isEditMode,
+                                getData: () {},
+                                selected: contract?.entity?.entityType?.name ?? '',
+                                enabled: contract?.entitiesId == 1 ? false : isEditMode,
                               ),
                               TextArea(
                                 labelText: "Description",
@@ -150,7 +150,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
                                 size: 400,
                                 isEnabled: false,
                               ),
-                              Row(
+                             Responsive.isDesktop(context) ? Row(
                                 children: [
                                   TextLine(
                                     isEnabled: isEditMode,
@@ -167,15 +167,61 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
                                     size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) * 0.5 -148,
                                   ),
                                 ],
+                              ) : Column(
+                               children: [
+                                 TextLine(
+                                   isEnabled: isEditMode,
+                                   labelText: "Start Date",
+                                   hintText: "Start Date",
+                                   controller: startDateController,
+                                   size: MediaQuery.of(context).size.width *  0.9 -159,
+                                 ),
+                                 TextLine(
+                                   isEnabled: isEditMode,
+                                   labelText: "End Date",
+                                   hintText: "End Date",
+                                   controller: endDateController,
+                                   size: MediaQuery.of(context).size.width *  0.9 -148,
+                                 ),
+                               ],
+                             ),
+                              Responsive.isDesktop(context) ? Row(
+                                children: [
+                                  TextLine(
+                                    isEnabled: isEditMode,
+                                    labelText: "Hours",
+                                    hintText: "This contract covers x hours",
+                                    controller: totalHoursController,
+                                    size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 118,
+                                  ),
+                                  TextLine(
+                                    isEnabled: isEditMode,
+                                    labelText: "Dislocations",
+                                    hintText: "This contract covers x dislocations in kms",
+                                    controller: totalKmsController,
+                                    size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 118,
+                                  ),
+                                ],
+                              ) : Column(
+                                children: [
+                                  TextLine(
+                                    isEnabled: isEditMode,
+                                    labelText: "Hours",
+                                    hintText: "This contract covers x hours",
+                                    controller: totalHoursController,
+                                    size: MediaQuery.of(context).size.width * 0.9 -116,
+                                  ),
+                                  TextLine(
+                                    isEnabled: isEditMode,
+                                    labelText: "Dislocations",
+                                    hintText: "This contract covers x dislocations in kms",
+                                    controller: totalKmsController,
+                                    size: MediaQuery.of(context).size.width * 0.9 -180,
+                                  ),
+                                ],
                               ),
-                              TextLine(
-                                isEnabled: isEditMode,
-                                labelText: "Cover",
-                                hintText: "This contract covers",
-                                controller: coverController,
-                                size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 118,
-                              ),
-                              Row(
+
+                             Responsive.isDesktop(context) ? Row(
                                 children: [
                                   TextLine(
                                     isEnabled: isEditMode,
@@ -192,7 +238,24 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
                                     size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) * 0.5 -98,
                                   ),
                                 ],
-                              ),
+                              ) : Column(
+                               children: [
+                                 TextLine(
+                                   isEnabled: isEditMode,
+                                   labelText: "Duration",
+                                   hintText: "Duration in months",
+                                   controller: durationController,
+                                   size: MediaQuery.of(context).size.width *  0.9 -145,
+                                 ),
+                                 TextLine(
+                                   isEnabled: isEditMode,
+                                   labelText: "Budget",
+                                   hintText: "budget available",
+                                   controller: budgetController,
+                                   size: MediaQuery.of(context).size.width * 0.9 -130,
+                                 ),
+                               ],
+                             ),
                               TextLine(
                                 isEnabled: isEditMode,
                                 labelText: "Last Renovation",
@@ -206,14 +269,14 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
                                   Checkbox(
                                     checkColor: Colors.white,
                                     fillColor: MaterialStateProperty.all<Color>(firstColor),
-                                    value: contract.autoRenovation,
+                                    value: contract?.autoRenovation,
                                     onChanged: null
                                   ),
                                   const Text("Auto Renovation" ,style: TextStyle(color: Colors.white),),
                                   Checkbox(
                                       checkColor: Colors.white,
                                       fillColor: MaterialStateProperty.all<Color>(firstColor),
-                                      value: contract.isValidated,
+                                      value: contract?.isValidated,
                                       onChanged: null
                                   ),
                                   const Text("Validated" ,style: TextStyle(color: Colors.white),),
@@ -269,7 +332,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
               ),
             ),
           ],
-        ),
+        ): const Center(child: CircularProgressIndicator()),
       ),
     );
   }

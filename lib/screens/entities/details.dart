@@ -54,7 +54,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   String _selectedDefaultLanguage = "";
   String _selectedEntityType = "";
   List<String>? _selectedAssets;
-  late Entity entity;
+  Entity? entity;
 
   List<EntityType> entityTypes = <EntityType>[];
   List<Country> countrys = <Country>[];
@@ -84,30 +84,31 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
     var _entity = await Entity.get(int.parse(Get.parameters['id'] ?? ''),true);
     setState(() {
       entity = _entity;
-      nameController.text = entity.name;
-      entityTypeController.text = entity.entityType?.name ?? 'unknow';
-      emailController.text = entity.email;
-      phoneNumberController.text = entity.phoneNumber ?? 'No phone number';
-      taxNumberController.text = entity.taxNumber;
-      streetController.text = entity.address?.street ?? "";
-      doorController.text = entity.address?.door ?? "";
-      floorController.text = entity.address?.floor ?? "";
-      roomController.text = entity.address?.room ?? "";
-      localController.text = entity.address?.local ?? "";
-      districtController.text = entity.address?.district ?? "";
-      countryController.text = entity.address?.country.toString() ?? "";
-      zipCodeController.text = entity.address?.zipCode ?? "";
+      nameController.text = entity?.name ?? '';
+      entityTypeController.text = entity?.entityType?.name ?? 'unknow';
+      emailController.text = entity?.email ?? 'No email available';
+      phoneNumberController.text = entity?.phoneNumber ?? 'No phone number';
+      taxNumberController.text = entity?.taxNumber ?? '';
+      streetController.text = entity?.address?.street ?? "";
+      doorController.text = entity?.address?.door ?? "";
+      floorController.text = entity?.address?.floor ?? "";
+      roomController.text = entity?.address?.room ?? "";
+      localController.text = entity?.address?.local ?? "";
+      districtController.text = entity?.address?.district ?? "";
+      countryController.text = entity?.address?.country.toString() ?? "";
+      zipCodeController.text = entity?.address?.zipCode ?? "";
     });
   }
 
   void saveChanges() async{
     if(countrys.isEmpty) countrys = await Country.getAll();
     int countryId = countrys.where((element) => element.toString() == countryController.text).first.id;
-    Address.update(entity.addressId,streetController.text, doorController.text, floorController.text, roomController.text, zipCodeController.text, localController.text, districtController.text, countryId);
+    Address.update(entity!.addressId,streetController.text, doorController.text, floorController.text, roomController.text, zipCodeController.text, localController.text, districtController.text, countryId);
   }
 
   @override
   void initState(){
+    entity=null;
     super.initState();
     loadEntity();
   }
@@ -116,10 +117,10 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Create Entity"), backgroundColor: bgColor) : null,
+      appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Entity Details"), backgroundColor: bgColor) : null,
       drawer: const SideMenu(),
       body: SafeArea(
-        child: Row(
+        child: entity!=null ? Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // We want this side menu only for large screen
@@ -135,7 +136,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                         width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
                         child: Row(
                           children:  [
-                            Text(entity.name,
+                            Text(entity!.name,
                               style: const TextStyle(
                                   fontSize: 48
                               ),
@@ -169,7 +170,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                 callback: (s) => {entityTypeController.text},
                                 getData: getEntityTypesString,
                                 selected: entityTypeController.text,
-                                enabled: entity.entityTypeId == 1 ? false : isEditMode,
+                                enabled: entity?.entityTypeId == 1 ? false : isEditMode,
                               ),
                               TextLine(
                                 isEnabled: isEditMode,
@@ -290,7 +291,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
               ),
             ),
           ],
-        ),
+        ) : const Center(child: CircularProgressIndicator()),
       ),
     );
   }

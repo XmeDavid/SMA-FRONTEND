@@ -70,13 +70,13 @@ class Contract{
       autoRenovation: json['auto_renovation']==0 ? false : true,
       lastRenovation : json['last_renovation_at'],
       isValidated: json['is_validated']==0 ? false : true,
-      budget: json['budget'],
+      budget: double.parse(json['budget'].toString()),
     );
   }
 
   static Future<Contract> get(int id, bool detailed) async {
-    var res = await ClientApi.get("contracts/$id");
-    return Contract.fromJsonDetailed(jsonDecode(res.body));
+    var res = await ClientApi.get("contracts/$id${(detailed ? "?format=detailed" : "")}");
+    return detailed ? Contract.fromJsonDetailed(jsonDecode(res.body)) : Contract.fromJson(jsonDecode(res.body));
   }
 
   static Future<List<Contract>> getAll() async{
