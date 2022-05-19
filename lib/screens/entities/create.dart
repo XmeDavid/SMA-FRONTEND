@@ -13,7 +13,6 @@ import 'package:sma_frontend/models/TicketCategory.dart';
 import '../../api_interactions/api_functions.dart';
 import '../../models/Entity.dart';
 import '../../models/Asset.dart';
-import '../../models/model_api.dart';
 import '../../responsive.dart';
 import '../../consts.dart';
 import '../../widgets/ui_fields.dart';
@@ -53,32 +52,25 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
   List<TicketCategory> categories = <TicketCategory>[];
   List<Asset> assets = <Asset>[];
 
-
   bool isClient(){
     return false;
   }
 
   Future<List<String>> getEntityTypesString() async {
     if(entityTypes.isEmpty){
-      entityTypes = await ModelApi.getEntityTypes();
+      entityTypes = await EntityType.getAll();
     }
     return entityTypes.where((element) => element.id != 1).map((e) => e.name).toList();
   }
   Future<List<String>> getCountrysString() async{
     if(countrys.isEmpty){
-      countrys = await ModelApi.getCountrys();
+      countrys = await Country.getAll();
     }
     return countrys.map((e) => e.toString()).toList();
   }
-  Future<List<String>> loadCategories() async{
-    if(categories.isEmpty){
-      categories = await ModelApi.getTicketCategories();
-    }
-    return categories.map((e) => e.toString()).toList();
-  }
 
   createEntity(){
-    ModelApi.createEntity(
+    Entity.create(
         entityTypes.where((element) => element.name == _selectedEntityType).first.id,
         nameController.text,
         emailController.text,
@@ -99,7 +91,6 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Create Entity"), backgroundColor: bgColor) : null,
       drawer: const SideMenu(),

@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:sma_frontend/api_interactions/api_functions.dart';
+
 class Country{
   final int id;
   final String countryName;
@@ -18,6 +22,16 @@ class Country{
         iso: json['iso'],
         iso3: json['iso3'],
     );
+  }
+
+  static Future<List<Country>> getAll() async{
+    List<Country> tempCountry = <Country>[];
+    var res = await ClientApi.get("countries");
+    for(var countryJson in jsonDecode(res.body)){
+      Country country = Country.fromJson(countryJson);
+      tempCountry.add(country);
+    }
+    return tempCountry;
   }
 
   @override

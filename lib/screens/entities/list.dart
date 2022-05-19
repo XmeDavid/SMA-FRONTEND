@@ -13,7 +13,6 @@ import 'package:sma_frontend/models/paginated_model/PaginatedModel.dart';
 import '../../api_interactions/api_functions.dart';
 import '../../models/Entity.dart';
 import '../../models/Asset.dart';
-import '../../models/model_api.dart';
 import '../../responsive.dart';
 import '../../consts.dart';
 import '../../widgets/ui_fields.dart';
@@ -43,7 +42,7 @@ class _ListEntitiesState  extends State<ListEntities> {
 
   void loadEntityTypes() async {
     if (entityTypes.isEmpty) {
-      var tempEntityTypes = await ModelApi.getEntityTypes();
+      var tempEntityTypes = await EntityType.getAll();
 
       setState(() {
         entityTypes = tempEntityTypes;
@@ -52,14 +51,14 @@ class _ListEntitiesState  extends State<ListEntities> {
     }
   }
   void loadEntities(int page) async{
-   var tempPaginatedModel = await ModelApi.getEntitiesPaginated(true,20,page,_selectedFilterEntityTypeId, searchController.text);
+   var tempPaginatedModel = await Entity.getPaginated(true,20,page,_selectedFilterEntityTypeId, searchController.text);
     setState(() {
       paginatedModel = tempPaginatedModel;
     });
   }
 
   removeClick(Entity e){
-    ModelApi.removeEntity(e.id);
+    Entity.remove(e.id);
     //loadEntities(paginatedModel.meta.current_page);
     setState(() {
       paginatedModel.data.removeAt(paginatedModel.data.indexWhere((element) => element.id == e.id));

@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:sma_frontend/api_interactions/api_functions.dart';
+
 class Contract{
   final int id;
   final String description;
@@ -33,6 +37,16 @@ class Contract{
       lastRenovation : json['last_renovation'],
       budget: json['budget'],
     );
+  }
+
+  static Future<List<Contract>> getAll() async{
+    List<Contract> tempContracts = <Contract>[];
+    var res = await ClientApi.get("contracts");
+    for(var contractJson in jsonDecode(res.body)){
+      Contract contract = Contract.fromJson(contractJson);
+      tempContracts.add(contract);
+    }
+    return tempContracts;
   }
 
   @override

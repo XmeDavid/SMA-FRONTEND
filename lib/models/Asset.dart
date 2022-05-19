@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:sma_frontend/api_interactions/api_functions.dart';
+
 class Asset{
   final int id;
   final int entitiesId;
@@ -42,6 +46,16 @@ class Asset{
       purchasePrice: json['purchase_price'],
       assetTypeId: json['assets_types_id'],
     );
+  }
+
+  static Future<List<Asset>> getAll() async{
+    List<Asset> tempAssets = <Asset>[];
+    var res = await ClientApi.get("assets");
+    for(var assetJson in jsonDecode(res.body)){
+      Asset asset = Asset.fromJson(assetJson);
+      tempAssets.add(asset);
+    }
+    return tempAssets;
   }
 
   @override

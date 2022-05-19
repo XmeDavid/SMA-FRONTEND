@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +31,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   }
 
   reset() async{
-    dynamic res = await ApiClient().sendLoginRequest(emailText.text, passwordText.text);
+    dynamic res = await ClientApi.login(emailText.text, passwordText.text);
     if(res.statusCode == 200){
       dynamic json = jsonDecode(res.body);
       GetStorage box = GetStorage();

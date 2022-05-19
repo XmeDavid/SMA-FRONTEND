@@ -14,7 +14,6 @@ import 'package:sma_frontend/models/TicketCategory.dart';
 import '../../api_interactions/api_functions.dart';
 import '../../models/Entity.dart';
 import '../../models/Asset.dart';
-import '../../models/model_api.dart';
 import '../../responsive.dart';
 import '../../consts.dart';
 import '../../widgets/ui_fields.dart';
@@ -69,20 +68,20 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
 
   Future<List<String>> getEntityTypesString() async {
     if(entityTypes.isEmpty){
-      entityTypes = await ModelApi.getEntityTypes();
+      entityTypes = await EntityType.getAll();
     }
     return entityTypes.where((element) => element.id != 1).map((e) => e.name).toList();
   }
   Future<List<String>> getCountrysString() async{
     if(countrys.isEmpty){
-      countrys = await ModelApi.getCountrys();
+      countrys = await Country.getAll();
     }
     return countrys.map((e) => e.toString()).toList();
   }
 
 
   void loadEntity() async{
-    var _entity = await ModelApi.getEntity(int.parse(Get.parameters['id'] ?? ''));
+    var _entity = await Entity.get(int.parse(Get.parameters['id'] ?? ''),true);
     setState(() {
       entity = _entity;
       nameController.text = entity.name;
