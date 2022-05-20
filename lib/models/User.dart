@@ -60,27 +60,20 @@ class User{
     );
   }
 
-  static Future<Entity> create(int entityTypeId, String fullName, String email, String phoneNumber, String taxNumber, String defaultLanguage, String streetName, String door, int floor, String room, String local, String district, String zipCode, int countryId) async{
-    var res = await ClientApi.create("entities",jsonEncode(<String, dynamic>{
-      'entities_types_id': entityTypeId,
-      'full_name': fullName,
+  static Future<User> create(String firstName, String lastName, String birthDate, String email, String phoneNumber, double perHour, int entityId, bool mfa, String imagePath) async{
+    var res = await ClientApi.create("users",jsonEncode(<String, dynamic>{
+      'first_name': firstName,
+      'last_name': lastName,
+      'birth_date' : birthDate,
       'email' : email,
-      'phone_numbers' : phoneNumber,
-      'taxpayer_number' : taxNumber,
-      'default_language' : defaultLanguage,
-      'street_name' : streetName,
-      'door' : door,
-      'floor' : floor,
-      'room' : room,
-      'local' : local,
-      'district' : district,
-      'zip_code' : zipCode,
-      'countries_id' : countryId,
+      'phone_number' : phoneNumber,
+      'per_hour' : perHour,
+      'mfa' : mfa,
+      'entities_id' : entityId,
+      'image_path' : imagePath,
     }));
-    return Entity.fromJsonDetailed(jsonDecode(res.body));
+    return User.fromJsonDetailed(jsonDecode(res.body));
   }
-
-
 
   static Future<Entity> get(int id, bool detailed) async{
     var res = await ClientApi.get("users/$id${(detailed ? "?format=detailed" : "")}");

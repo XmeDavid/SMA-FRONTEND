@@ -10,7 +10,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width < 1100 ? AppBar(
+      appBar: MediaQuery.of(context).size.width < 1000 ? AppBar(
           title: const Text ("Dashboard"),
           backgroundColor: bgColor,) : null,
       drawer: SideMenu(),

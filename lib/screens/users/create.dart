@@ -18,81 +18,48 @@ import '../../consts.dart';
 import '../../widgets/ui_fields.dart';
 import '../side_menu.dart';
 
-class NewUserScreen extends StatefulWidget {
-  const NewUserScreen({Key? key}) : super(key: key);
+class RegisterUserScreen extends StatefulWidget {
+  const RegisterUserScreen({Key? key}) : super(key: key);
 
   @override
-  State<NewUserScreen> createState() => _NewUserScreenState();
+  State<RegisterUserScreen> createState() => _RegisterUserScreenState();
 }
 
-class _NewUserScreenState  extends State<NewUserScreen> {
-
+class _RegisterUserScreenState  extends State<RegisterUserScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneNumberController = TextEditingController();
-  final taxNumberController = TextEditingController();
-  final streetController = TextEditingController();
-  final doorController = TextEditingController();
-  final floorController = TextEditingController();
-  final roomController = TextEditingController();
-  final countryController = TextEditingController();
-  final districtController = TextEditingController();
-  final localController = TextEditingController();
-  final zipCodeController = TextEditingController();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final startDateController = TextEditingController();
+  final endDateController = TextEditingController();
+  final durationController = TextEditingController();
+  final totalHoursController = TextEditingController();
+  final kmController = TextEditingController();
+  final budgetController = TextEditingController();
+  final autoRenovationController = TextEditingController();
+  final allowsSurplusController = TextEditingController();
+  final isValidatedController = TextEditingController();
+  final lastRenovationController = TextEditingController();
 
+  String _selectedEntity = "";
 
-  String _selectedDefaultLanguage = "";
-  String _selectedEntityType = "";
-  List<String>? _selectedAssets;
+  List<Entity> entities = <Entity>[];
 
-  List<EntityType> entityTypes = <EntityType>[];
-  List<Country> countrys = <Country>[];
-  List<TicketCategory> categories = <TicketCategory>[];
-  List<Asset> assets = <Asset>[];
-
-  bool isClient(){
-    return false;
-  }
-
-  Future<List<String>> getEntityTypesString() async {
-    if(entityTypes.isEmpty){
-      entityTypes = await EntityType.getAll();
+  Future<List<String>> getEntities() async {
+    if (entities.isEmpty) {
+      entities = await Entity.getAll();
     }
-    return entityTypes.where((element) => element.id != 1).map((e) => e.name).toList();
-  }
-  Future<List<String>> getCountrysString() async{
-    if(countrys.isEmpty){
-      countrys = await Country.getAll();
-    }
-    return countrys.map((e) => e.toString()).toList();
+    return entities.map((e) => (e.id.toString() + " - " + e.name)).toList();
   }
 
-  createEntity(){
-    Entity.create(
-        entityTypes.where((element) => element.name == _selectedEntityType).first.id,
-        nameController.text,
-        emailController.text,
-        phoneNumberController.text,
-        taxNumberController.text,
-        countrys.where((element) => element.toString() == _selectedDefaultLanguage).first.iso,
-        streetController.text,
-        doorController.text,
-        int.parse(floorController.text),
-        roomController.text,
-        localController.text,
-        districtController.text,
-        zipCodeController.text,
-        countrys.where((element) => element.toString() == countryController.text).first.id
-    );
-    Get.toNamed("/entities");
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Create Entity"), backgroundColor: bgColor) : null,
+      appBar: !Responsive.isDesktop(context)
+          ? AppBar(
+          title: const Text("Register User"), backgroundColor: bgColor)
+          : null,
       drawer: const SideMenu(),
       body: SafeArea(
         child: Row(
@@ -105,97 +72,149 @@ class _NewUserScreenState  extends State<NewUserScreen> {
               ),
             Expanded(
               flex: 6,
-              child: Center(child:Column(
-                children:[
+              child: Center(
+                child: Column(children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
-                    child: Row(
-                      children: const [
-                        Text("Create Entity",
-                            style: TextStyle(
-                              fontSize: 48
-                            ),
-                        ),
-                        Spacer()
-                      ],
-                    )
-                  ),
-                  Container(
-                  padding: const EdgeInsets.all(defaultPadding),
-                  decoration: const BoxDecoration(
-                      color: secondColor3,
-                      borderRadius: BorderRadius.all(Radius.circular(20))
-                  ),
-                  height: MediaQuery.of(context).size.height * 0.9,
-                  width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
-                  child: Form(
-                    key: _formKey,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          TextLine(
-                            labelText: "Name",
-                            hintText: "Entity name",
-                            controller: nameController,
-                            size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 119,
+                      width: MediaQuery.of(context).size.width *
+                          (Responsive.isDesktop(context) ? 0.666 : 0.9),
+                      child: Row(
+                        children: const [
+                          Text(
+                            "Register User",
+                            style: TextStyle(fontSize: 42),
                           ),
-                          DropDown(
-                            label: "Entity Type",
-                            callback: (s) =>{_selectedEntityType = s},
-                            getData: getEntityTypesString,
-                          ),
-                          TextLine(
-                            labelText: "Email",
-                            hintText: "Entity email",
-                            controller: emailController,
-                            size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 112,
-                          ),
-                          TextLine(
-                            labelText: "Phone Number",
-                            hintText: "Entity phone number",
-                            controller: phoneNumberController,
-                            size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 207,
-                          ),
-                          TextLine(
-                            labelText: "Tax Number",
-                            hintText: "Entity tax payer number",
-                            controller: taxNumberController,
-                            size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 178,
-                          ),
-                          DropDown(
-                            label: "Default Language",
-                            callback: (s) =>{_selectedDefaultLanguage = s},
-                            getData: getCountrysString,
-                          ),
-                          AddressField(
-                            height: 280,
-                            width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
-                            streetController: streetController,
-                            doorController: doorController,
-                            floorController: floorController,
-                            roomController: roomController,
-                            countryController: countryController,
-                            districtController: districtController,
-                            localController: localController,
-                            zipCodeController: zipCodeController,
-                            getCountrys: getCountrysString,
-                          ),
-                          ElevatedButton(
-                              onPressed: (){
-                                createEntity();
-                              },
-                              child: const Text("Create Ticket"))
+                          Spacer()
                         ],
+                      )),
+                  Container(
+                    padding: const EdgeInsets.all(defaultPadding),
+                    decoration: const BoxDecoration(
+                        color: secondColor3,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    height: MediaQuery.of(context).size.height * 0.95 - 118,
+                    width: MediaQuery.of(context).size.width *
+                        (Responsive.isDesktop(context) ? 0.666 : 0.9),
+                    child: Form(
+                      key: _formKey,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Flex(
+                              direction: MediaQuery.of(context).size.width > 1000 ? Axis.horizontal : Axis.vertical,
+                              children: [
+                                TextLine(
+                                  labelText: "First Name",
+                                  hintText: "First Name",
+                                  controller: titleController,
+                                  size: Responsive.isDesktop(context) ? MediaQuery.of(context).size.width * 0.333 - 164 : MediaQuery.of(context).size.width * 0.9 - 164,
+                                  //size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) * 0.5 - 164,
+                                ),
+                                TextLine(
+                                  labelText: "Last Name",
+                                  hintText: "Last Name",
+                                  controller: titleController,
+                                  size: Responsive.isDesktop(context) ? MediaQuery.of(context).size.width * 0.333 - 132 : MediaQuery.of(context).size.width * 0.9 - 164,
+                                ),
+                              ],
+                            ),
+                            DropDown(
+                              label: "Entity Associated",
+                              callback: (s) => {_selectedEntity = s},
+                              getData: getEntities,
+                            ),
+                            Flex(
+                              direction: MediaQuery.of(context).size.width > 1000 ? Axis.horizontal : Axis.vertical,
+                              children: [
+                                TextLine(
+                                  labelText: "Email",
+                                  hintText: "Email",
+                                  controller: titleController,
+                                  size: Responsive.isDesktop(context) ? MediaQuery.of(context).size.width * 0.333 - 112 : MediaQuery.of(context).size.width * 0.9 - 112,
+                                  //size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) * 0.5 - 164,
+                                ),
+                                TextLine(
+                                  labelText: "Phone number",
+                                  hintText: "Phone number",
+                                  controller: titleController,
+                                  size: Responsive.isDesktop(context) ? MediaQuery.of(context).size.width * 0.333 - 174 : MediaQuery.of(context).size.width * 0.9 - 206,
+                                ),
+                              ],
+                            ),
+
+
+                            TextLine(
+                              labelText: "Budget",
+                              hintText: "Set tbe budget",
+                              controller: budgetController,
+                              size: MediaQuery.of(context).size.width *
+                                  (Responsive.isDesktop(context)
+                                      ? 0.666
+                                      : 0.9) -
+                                  130,
+                            ),
+
+                            Row(
+                              children: [
+                                TextLine(
+                                  labelText: "Hours",
+                                  hintText: "This contract covers this hours",
+                                  controller: totalHoursController,
+                                  size: MediaQuery.of(context).size.width *
+                                      (Responsive.isDesktop(context)
+                                          ? 0.666
+                                          : 0.9) * 0.5 - 123,
+                                ),
+                                TextLine(
+                                  labelText: "Dislocation",
+                                  hintText: "Total kms",
+                                  controller: kmController,
+                                  size: MediaQuery.of(context).size.width *
+                                      (Responsive.isDesktop(context)
+                                          ? 0.666
+                                          : 0.9)  * 0.5 - 130,
+                                ),
+                              ],
+                            ),
+                            TextLine(
+                              labelText: "Duration",
+                              hintText: "Duration",
+                              controller: durationController,
+                              size: MediaQuery.of(context).size.width *
+                                  (Responsive.isDesktop(context)
+                                      ? 0.666
+                                      : 0.9) -
+                                  216,
+                            ),
+                            Row(
+                              children: [
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  fillColor: MaterialStateProperty.all<Color>(firstColor),
+                                  value: true,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                    });
+                                  },
+                                ),
+                                const Text("Auto Renovation" ,style: TextStyle(color: Colors.white),),
+                              ],
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                },
+                                child: const Text("Create Ticket"))
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ]),
-            ),
+                ]),
+              ),
             ),
           ],
         ),
       ),
     );
   }
+
 }
