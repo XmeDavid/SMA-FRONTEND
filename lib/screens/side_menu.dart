@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sma_frontend/screens/entities/list.dart';
-import 'package:sma_frontend/screens/login.dart';
+import 'package:sma_frontend/screens/auth/login.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({

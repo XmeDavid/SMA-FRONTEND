@@ -8,11 +8,13 @@ import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/Country.dart';
 import 'package:sma_frontend/models/EntityType.dart';
 import 'package:sma_frontend/models/TicketCategory.dart';
+import 'package:sma_frontend/widgets/datePicker.dart';
 
 
 import '../../api_interactions/api_functions.dart';
 import '../../models/Entity.dart';
 import '../../models/Asset.dart';
+import '../../models/User.dart';
 import '../../responsive.dart';
 import '../../consts.dart';
 import '../../widgets/ui_fields.dart';
@@ -28,20 +30,16 @@ class RegisterUserScreen extends StatefulWidget {
 class _RegisterUserScreenState  extends State<RegisterUserScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final startDateController = TextEditingController();
-  final endDateController = TextEditingController();
-  final durationController = TextEditingController();
-  final totalHoursController = TextEditingController();
-  final kmController = TextEditingController();
-  final budgetController = TextEditingController();
-  final autoRenovationController = TextEditingController();
-  final allowsSurplusController = TextEditingController();
-  final isValidatedController = TextEditingController();
-  final lastRenovationController = TextEditingController();
+  final firstNameContrl = TextEditingController();
+  final lastNameContrl = TextEditingController();
+  final emailContrl = TextEditingController();
+  final phoneNumberContrl = TextEditingController();
+  final perHourContrl = TextEditingController();
+  final birthDateContrl = TextEditingController();
 
   String _selectedEntity = "";
+
+  DateTime? selectedDate;
 
   List<Entity> entities = <Entity>[];
 
@@ -49,9 +47,32 @@ class _RegisterUserScreenState  extends State<RegisterUserScreen> {
     if (entities.isEmpty) {
       entities = await Entity.getAll();
     }
-    return entities.map((e) => (e.id.toString() + " - " + e.name)).toList();
+    return entities.map((e) => (e.toString())).toList();
   }
 
+  void createUser(){
+    User.create(
+      firstNameContrl.text,
+      lastNameContrl.text,
+      birthDateContrl.text,
+      emailContrl.text,
+      phoneNumberContrl.text,
+      double.parse(perHourContrl.text),
+      entities.where((element) => element.toString() == _selectedEntity).first.id,
+      false,
+    );
+  }
+
+  void showDatePanel()async{
+    var tempDate = await getDateFromPicker(context: context, initialDate: selectedDate ?? DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime.now());
+    if(tempDate != null){
+      setState(() {
+        selectedDate = tempDate;
+        birthDateContrl.text = "${selectedDate?.year.toString().padLeft(4,"0") ?? ""}-${selectedDate?.month.toString().padLeft(2,"0") ?? ""}-${selectedDate?.day.toString().padLeft(2,"0") ?? ""}";
+      });
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,14 +126,14 @@ class _RegisterUserScreenState  extends State<RegisterUserScreen> {
                                 TextLine(
                                   labelText: "First Name",
                                   hintText: "First Name",
-                                  controller: titleController,
+                                  controller: firstNameContrl,
                                   size: Responsive.isDesktop(context) ? MediaQuery.of(context).size.width * 0.333 - 164 : MediaQuery.of(context).size.width * 0.9 - 164,
                                   //size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) * 0.5 - 164,
                                 ),
                                 TextLine(
                                   labelText: "Last Name",
                                   hintText: "Last Name",
-                                  controller: titleController,
+                                  controller: lastNameContrl,
                                   size: Responsive.isDesktop(context) ? MediaQuery.of(context).size.width * 0.333 - 132 : MediaQuery.of(context).size.width * 0.9 - 164,
                                 ),
                               ],
@@ -128,81 +149,95 @@ class _RegisterUserScreenState  extends State<RegisterUserScreen> {
                                 TextLine(
                                   labelText: "Email",
                                   hintText: "Email",
-                                  controller: titleController,
+                                  controller: emailContrl,
                                   size: Responsive.isDesktop(context) ? MediaQuery.of(context).size.width * 0.333 - 112 : MediaQuery.of(context).size.width * 0.9 - 112,
                                   //size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) * 0.5 - 164,
                                 ),
                                 TextLine(
                                   labelText: "Phone number",
                                   hintText: "Phone number",
-                                  controller: titleController,
+                                  controller: phoneNumberContrl,
                                   size: Responsive.isDesktop(context) ? MediaQuery.of(context).size.width * 0.333 - 174 : MediaQuery.of(context).size.width * 0.9 - 206,
                                 ),
                               ],
                             ),
 
-
-                            TextLine(
-                              labelText: "Budget",
-                              hintText: "Set tbe budget",
-                              controller: budgetController,
-                              size: MediaQuery.of(context).size.width *
-                                  (Responsive.isDesktop(context)
-                                      ? 0.666
-                                      : 0.9) -
-                                  130,
-                            ),
-
-                            Row(
+                            Flex(
+                              direction: MediaQuery.of(context).size.width > 1000 ? Axis.horizontal : Axis.vertical,
                               children: [
                                 TextLine(
-                                  labelText: "Hours",
-                                  hintText: "This contract covers this hours",
-                                  controller: totalHoursController,
-                                  size: MediaQuery.of(context).size.width *
-                                      (Responsive.isDesktop(context)
-                                          ? 0.666
-                                          : 0.9) * 0.5 - 123,
+                                  labelText: "Rate Per Hour",
+                                  hintText: "Rate Per Hour",
+                                  controller: perHourContrl,
+                                  size: Responsive.isDesktop(context) ? MediaQuery.of(context).size.width * 0.666 - 522 : MediaQuery.of(context).size.width * 0.9 - 192,
+                                  //size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) * 0.5 - 164,
                                 ),
-                                TextLine(
-                                  labelText: "Dislocation",
-                                  hintText: "Total kms",
-                                  controller: kmController,
-                                  size: MediaQuery.of(context).size.width *
-                                      (Responsive.isDesktop(context)
-                                          ? 0.666
-                                          : 0.9)  * 0.5 - 130,
+                                Container(
+                                    padding: const EdgeInsets.all(defaultPadding/2),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(10),
+                                                bottomLeft: Radius.circular(10)
+                                            ),
+                                            color: thirdColor5,
+                                          ),
+                                          height: 40,
+                                          child: const Center(
+                                              child:Padding(
+                                                  padding: EdgeInsets.all(5),
+                                                  child: Text(
+                                                    "Birth Date",
+                                                    style: TextStyle(fontSize: 20),
+                                                  )
+                                              )
+                                          ),
+                                        ),
+                                        Container(
+                                          decoration: const BoxDecoration(
+                                            color: thirdColor3,
+                                          ),
+                                          height: 40,
+                                          width: 150,
+                                          child: Center(
+                                            child:TextFormField(
+                                              enabled: true,
+                                              controller: birthDateContrl,
+                                              decoration: const InputDecoration(
+                                                  contentPadding:  EdgeInsets.only(left: 10,bottom: 8),
+                                                  hintText: "yyyy-mm-dd",
+                                                  border: InputBorder.none
+                                              ),
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                            decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  topRight: Radius.circular(10),
+                                                  bottomRight: Radius.circular(10)
+                                              ),
+                                              color: thirdColor5,
+                                            ),
+                                            height: 40,
+                                            child: TextButton(onPressed: showDatePanel, child: const Icon(Icons.calendar_month_outlined))
+                                        ),
+                                      ],
+                                    )
                                 ),
-                              ],
-                            ),
-                            TextLine(
-                              labelText: "Duration",
-                              hintText: "Duration",
-                              controller: durationController,
-                              size: MediaQuery.of(context).size.width *
-                                  (Responsive.isDesktop(context)
-                                      ? 0.666
-                                      : 0.9) -
-                                  216,
-                            ),
-                            Row(
-                              children: [
-                                Checkbox(
-                                  checkColor: Colors.white,
-                                  fillColor: MaterialStateProperty.all<Color>(firstColor),
-                                  value: true,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                    });
-                                  },
-                                ),
-                                const Text("Auto Renovation" ,style: TextStyle(color: Colors.white),),
                               ],
                             ),
                             ElevatedButton(
                                 onPressed: () {
+                                  createUser();
                                 },
-                                child: const Text("Create Ticket"))
+                                child: const Text("Register User"))
                           ],
                         ),
                       ),

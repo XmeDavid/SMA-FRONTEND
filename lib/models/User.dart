@@ -60,19 +60,19 @@ class User{
     );
   }
 
-  static Future<User> create(String firstName, String lastName, String birthDate, String email, String phoneNumber, double perHour, int entityId, bool mfa, String imagePath) async{
-    var res = await ClientApi.create("users",jsonEncode(<String, dynamic>{
+  static void create(String firstName, String lastName, String birthDate, String email, String phoneNumber, double perHour, int entityId, bool mfa) async{
+    var res = await ClientApi.create("register",jsonEncode(<String, dynamic>{
       'first_name': firstName,
       'last_name': lastName,
       'birth_date' : birthDate,
       'email' : email,
       'phone_number' : phoneNumber,
       'per_hour' : perHour,
-      'mfa' : mfa,
       'entities_id' : entityId,
-      'image_path' : imagePath,
     }));
-    return User.fromJsonDetailed(jsonDecode(res.body));
+    if(res.statusCode != 200){
+      throw Error();
+    }
   }
 
   static Future<Entity> get(int id, bool detailed) async{

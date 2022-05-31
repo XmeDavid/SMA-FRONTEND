@@ -8,16 +8,13 @@ class ClientApi{
 
   static final String API_URL = dotenv.env['API_URL'] ?? "";
 
-  static Future<http.Response> login(String email, String password) async{
+  static Future<http.Response> post(String path, String body) async{
     return http.post(
-        Uri.parse(API_URL + "login"),
+        Uri.parse(API_URL + path),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{
-          'email': email,
-          'password': password,
-        })
+        body: body
     );
   }
 
@@ -36,7 +33,7 @@ class ClientApi{
     return http.post(
         Uri.parse(API_URL + path),
         headers: <String,String>{
-          //'Authorization' : 'Bearer ' + GetStorage().read('token')
+          //'Authorization' : 'Bearer ' + GetStorage().read('token'),
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept' : 'application/json'
         },

@@ -1,46 +1,46 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/api_interactions/api_functions.dart';
 import 'package:sma_frontend/consts.dart';
 
-class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({Key? key}) : super(key: key);
+import '../../models/Auth.dart';
+
+class MfaScreen extends StatefulWidget {
+  const MfaScreen({Key? key}) : super(key: key);
 
   @override
-  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+  State<MfaScreen> createState() => _MfaScreenState();
 }
 
-class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+class _MfaScreenState extends State<MfaScreen> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
 
-  final emailText = TextEditingController();
-  final passwordText = TextEditingController();
-  final passwordConfirmation = TextEditingController();
+  final mfaController = TextEditingController();
 
   bool authenticated = false;
 
   @override
   void dispose(){
-    emailText.dispose();
-    passwordText.dispose();
+    mfaController.dispose();
     super.dispose();
   }
 
-  reset() async{
-    dynamic res = await ClientApi.login(emailText.text, passwordText.text);
-    if(res.statusCode == 200){
-      dynamic json = jsonDecode(res.body);
-      GetStorage box = GetStorage();
-      box.write('token', json['access_token']);
-      box.write('refresh_token', json['refresh_token']);
-      Navigator.pushNamed(context, '/');
-    }else{
-      
-    }
+  mfa() async{
+    Auth auth = await Auth.mfa(mfaController.text);
+    GetStorage().write('token', auth.accessToken);
+    GetStorage().write('refreshToken', auth.refreshToken);
+    Get.toNamed('/');
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -61,41 +61,24 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               const Text(
-                'Reset Password',
+                'MFA Confirmation',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 40,
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 60,
               ),
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: emailText,
-                      validator: (value) => EmailValidator.validate(value!)
-                          ? null
-                          : "Please enter a valid email",
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                        hintText: 'Enter your email',
-                        prefixIcon  : const Icon(Icons.email),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      controller: passwordText,
+                      controller: mfaController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
+                          return 'Please enter a valid mfa code';
                         }
                         return null;
                       },
@@ -103,28 +86,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       obscureText: true,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock),
-                        hintText: 'Enter your password',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      controller: passwordConfirmation,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null;
-                      },
-                      maxLines: 1,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.lock),
-                        hintText: 'Confirm your password',
+                        hintText: 'Enter your mfa confirmation code',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -136,7 +98,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          reset();
+                          mfa();
                         }
                       },
                       style: ElevatedButton.styleFrom(
