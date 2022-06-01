@@ -42,16 +42,16 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
 
   Contract? contract;
   late EntityType entityType;
+  //List<EntityType> entityTypes = <EntityType>[];
 
 
-
-  /*void getEntityType() async {
-    List<EntityType> entityTypes = await EntityType.getAll();
-    entityTypes.where((element) => element.id != 1).map((e) => e.name).toList();
-    setState(() {
-      entityType = entityTypes.where((element) => element.id == contract.entitiesId).first;
-    });
-  }*/
+  /*
+  Future<List<String>> getEntityTypesString() async {
+    if(entityTypes.isEmpty){
+      entityTypes = await EntityType.getAll();
+    }
+    return entityTypes.where((element) => element.id != 1).map((e) => e.name).toList();
+  } */
 
 
 
@@ -134,7 +134,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
                                 labelText: "Title",
                                 hintText: "Contract Title",
                                 controller: titleController,
-                                size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 119,
+                                size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) -98,
                               ),
                               DropDown(
                                 label: "Entity Type",
@@ -192,14 +192,14 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
                                     labelText: "Hours",
                                     hintText: "This contract covers x hours",
                                     controller: totalHoursController,
-                                    size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 118,
+                                    size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) * 0.5- 118,
                                   ),
                                   TextLine(
                                     isEnabled: isEditMode,
                                     labelText: "Dislocations",
                                     hintText: "This contract covers x dislocations in kms",
                                     controller: totalKmsController,
-                                    size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 118,
+                                    size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) * 0.5 - 146,
                                   ),
                                 ],
                               ) : Column(

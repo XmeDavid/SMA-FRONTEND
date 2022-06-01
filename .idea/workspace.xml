@@ -7,11 +7,7 @@
     <list default="true" id="0e2811f8-48fc-4a25-9718-2434da2a1635" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/Contract.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Contract.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/contracts/details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/contracts/details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/contracts/list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/contracts/list.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/entities/details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/entities/details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sma_frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sma_frontend.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +70,7 @@
       <updated>1651076640356</updated>
       <workItem from="1651076642335" duration="138000" />
       <workItem from="1651617228009" duration="31424000" />
-      <workItem from="1652998933789" duration="4290000" />
+      <workItem from="1652998933789" duration="7192000" />
     </task>
     <servers />
   </component>
