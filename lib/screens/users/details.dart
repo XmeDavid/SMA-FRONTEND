@@ -93,8 +93,8 @@ class _UserDetailsScreenState  extends State<UserDetailsScreen> {
       doorController.text = entity.address?.door ?? "";
       floorController.text = entity.address?.floor ?? "";
       roomController.text = entity.address?.room ?? "";
-      localController.text = entity.address?.local ?? "";
-      districtController.text = entity.address?.district ?? "";
+      localController.text = entity.address?.city ?? "";
+      districtController.text = entity.address?.state ?? "";
       countryController.text = entity.address?.country.toString() ?? "";
       zipCodeController.text = entity.address?.zipCode ?? "";
     });

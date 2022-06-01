@@ -11,8 +11,8 @@ class Address{
   final String floor;
   final String room;
   final String zipCode;
-  final String local;
-  final String district;
+  final String city;
+  final String state;
   final int? countryId;
   final Country? country;
 
@@ -23,8 +23,8 @@ class Address{
     required this.floor,
     required this.room,
     required this.zipCode,
-    required this.local,
-    required this.district,
+    required this.city,
+    required this.state,
     this.country,
     this.countryId
   });
@@ -37,8 +37,8 @@ class Address{
       floor: json['floor'],
       room: json['room'],
       zipCode: json['zip_code'],
-      local: json['local'],
-      district: json['district'],
+      state: json['state'],
+      city: json['city'],
       countryId: json['country_id']
     );
   }
@@ -46,13 +46,13 @@ class Address{
   factory Address.fromJsonDetailed(Map<String, dynamic> json){
     return Address(
         id: json['id'],
-        street: json['street_name'],
+        street: json['street'],
         door: json['door'],
         floor: json['floor'],
         room: json['room'],
         zipCode: json['zip_code'],
-        local: json['local'],
-        district: json['district'],
+        city: json['city'],
+        state: json['state'],
         country: Country.fromJson(json['country'])
     );
   }
