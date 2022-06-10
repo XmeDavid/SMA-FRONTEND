@@ -13,14 +13,14 @@ class DashboardScreen extends StatelessWidget {
       appBar: MediaQuery.of(context).size.width < 1000 ? AppBar(
           title: const Text ("Dashboard"),
           backgroundColor: bgColor,) : null,
-      drawer: SideMenu(),
+      drawer: const SideMenu(),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // We want this side menu only for large screen
             if (Responsive.isDesktop(context))
-              Expanded(
+              const Expanded(
                 // default flex = 1
                 // and it takes 1/6 part of the screen
                 child: SideMenu(),

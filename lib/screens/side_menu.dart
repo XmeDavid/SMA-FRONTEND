@@ -89,6 +89,32 @@ class SideMenu extends StatelessWidget {
                   Get.toNamed('/entities');
                 },
               ),
+              ExpansionTile(
+                title: Text("Users"),
+                leading: Icon(Icons.person),
+                children: <Widget>[
+                  ListTile(
+                    title: const Text(
+                      "Register User",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    onTap: (){
+                      Get.toNamed(
+                        "/users/register",
+                      );
+                    },),
+                  ListTile(
+                    title: Text(
+                      "List",
+                      style: TextStyle(fontSize: 12),),
+                    onTap: (){
+                      Get.toNamed(
+                        "/tickets/details",
+                      );
+                    },
+                  ),
+                ],
+              ),
               ListTile(
                 leading: const Icon(Icons.settings),
                 title: const Text("Settings"),

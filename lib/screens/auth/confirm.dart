@@ -7,6 +7,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/api_interactions/api_functions.dart';
 import 'package:sma_frontend/consts.dart';
 
+import '../../models/User.dart';
+
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({Key? key}) : super(key: key);
 
@@ -32,7 +34,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     super.dispose();
   }
 
-  reset() async{
+  confirm() async{
+    User.changePassword(passwordText.text,passwordConfirmation.text);
   }
 
   @override
@@ -136,7 +139,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          reset();
+                          confirm();
                         }
                       },
                       style: ElevatedButton.styleFrom(

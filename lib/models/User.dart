@@ -108,6 +108,12 @@ class User{
   static void remove(int entityId) async{
     await ClientApi.remove('users/' + entityId.toString());
   }
+  
+  static void changePassword(String password, String confirmationPassword) async {
+    await ClientApi.create('/password/reset', jsonEncode(<String, dynamic>{
+      
+    }));
+  }
 
   String fullName(){
     return "$first_name $last_name";

@@ -33,7 +33,7 @@ class ClientApi{
     return http.post(
         Uri.parse(API_URL + path),
         headers: <String,String>{
-          //'Authorization' : 'Bearer ' + GetStorage().read('token'),
+          'Authorization' : 'Bearer ' + GetStorage().read('token'),
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept' : 'application/json'
         },

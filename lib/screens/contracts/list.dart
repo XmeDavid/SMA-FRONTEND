@@ -104,8 +104,8 @@ class _ListContracts extends State<ListContracts> {
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(defaultPadding),
+                        const Padding(
+                          padding: EdgeInsets.all(defaultPadding),
                           /*child: DropdownButton(
                                     items: entityTypes.map((e) => DropdownMenuItem(value: e.id,child: Text(e.name))).toList(),
                                     onChanged: (dynamic newValue){
@@ -169,7 +169,6 @@ class _ListContracts extends State<ListContracts> {
                             Axis.horizontal, //child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
                         child: SingleChildScrollView(
-                          child: Expanded(
                             child: DataTable(
                               columnSpacing: 3,
                               columns: [
@@ -188,24 +187,19 @@ class _ListContracts extends State<ListContracts> {
                                 "Actions"
                               ].map((e) {
                                 return DataColumn(
-                                    label: Expanded(child: Text(e)));
+                                    label: Text(e));
                               }).toList(),
                               rows: List.generate(
                                   paginatedContractModel.data.length, (index) {
                                 return DataRow(cells: [
-                                  DataCell(
-                                    Expanded(
-                                        child: SelectableText(
+                                  DataCell(SelectableText(
                                             paginatedContractModel
                                                 .data[index].id
-                                                .toString())),
+                                                .toString()),
                                   ),
-                                  DataCell(
-                                    Expanded(
-                                      child: SelectableText(
+                                  DataCell(SelectableText(
                                           paginatedContractModel
                                               .data[index].title),
-                                    ),
                                   ),
                                   /*Expanded(
                                   child: SingleChildScrollView(
@@ -222,22 +216,19 @@ class _ListContracts extends State<ListContracts> {
                                   /*DataCell(SelectableText(paginatedContractModel
                                     .data[index].description)),*/
                                   DataCell(
-                                    Expanded(
-                                        child: SelectableText(
+                                    SelectableText(
                                             paginatedContractModel
-                                                .data[index].startDate)),
+                                                .data[index].startDate),
                                   ),
                                   DataCell(
-                                    Expanded(
-                                        child: SelectableText(
+                                    SelectableText(
                                             paginatedContractModel
-                                                .data[index].endDate)),
+                                                .data[index].endDate),
                                   ),
                                   DataCell(
-                                    Expanded(
-                                        child: SelectableText(
+                                    SelectableText(
                                             paginatedContractModel
-                                                .data[index].duration)),
+                                                .data[index].duration),
                                   ),
                                   /*DataCell(SelectableText(
                                     paginatedContractModel.data[index].cover ??
@@ -246,28 +237,25 @@ class _ListContracts extends State<ListContracts> {
                                     .data[index].autoRenovation
                                     .toString())),*/
                                   DataCell(
-                                    Expanded(
-                                        child: SelectableText(
+                                    SelectableText(
                                             paginatedContractModel.data[index]
                                                     .lastRenovation ??
-                                                "No renovation yet")),
+                                                "No renovation yet"),
                                   ),
                                   DataCell(
-                                    Expanded(
-                                        child: SelectableText(
+                                    SelectableText(
                                             paginatedContractModel
                                                 .data[index].budget
-                                                .toString())),
+                                                .toString()),
                                   ),
                                   /*DataCell(SelectableText(paginatedContractModel
                                     .data[index].allowsSurplus
                                     .toString())),*/
                                   DataCell(
-                                    Expanded(
-                                        child: SelectableText(
+                                    SelectableText(
                                             paginatedContractModel
                                                 .data[index].isValidated
-                                                .toString())),
+                                                .toString()),
                                   ),
                                   DataCell(Row(
                                     children: [
@@ -314,7 +302,6 @@ class _ListContracts extends State<ListContracts> {
                                 ]);
                               }),
                             ),
-                          ),
                         ))),
                 Row(
                   children: [
