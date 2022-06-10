@@ -19,6 +19,7 @@ import 'package:sma_frontend/screens/tickets/new_ticket_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sma_frontend/screens/users/create.dart';
 import 'consts.dart';
+import 'screens/auth/recovery.dart';
 
 void main() async{
   await dotenv.load();
@@ -45,6 +46,7 @@ class SMA extends StatelessWidget {
         GetPage(name: '/', page: () => DashboardScreen()),
         GetPage(name: '/login', page: () => const LoginPage()),
         GetPage(name: '/users/register', page: () => const RegisterUserScreen()),
+        GetPage(name: '/password/recovery', page: () => const RecoverPasswordScreen()),
         GetPage(name: '/password/reset', page: () => const ResetPasswordScreen()),
         GetPage(name: '/auth/mfa', page: () => const MfaScreen()),
         GetPage(name: '/tickets/new', page: () => const NewTicketScreen()),

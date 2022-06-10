@@ -10,14 +10,14 @@ import 'package:sma_frontend/consts.dart';
 
 import '../../models/Auth.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RecoverPasswordScreen extends StatefulWidget {
+  const RecoverPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RecoverPasswordScreen> createState() => _RecoverPasswordState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RecoverPasswordState extends State<RecoverPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
 
@@ -33,16 +33,8 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  login() async{
-    Auth auth = await Auth.login(emailText.text, passwordText.text);
-    GetStorage().write('token', auth.accessToken);
-    GetStorage().write('refreshToken', auth.refreshToken);
-    print(auth.refreshToken);
-    if(true){
-      Get.toNamed('/auth/mfa');
-    }else{
-      Get.toNamed('/');
-    }
+  sendRecoveryEmail() async{
+    print("TODO");
   }
 
   @override
@@ -68,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               const Text(
-                'Sign in',
+                'Password Recovery',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 40,
@@ -96,67 +88,34 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        TextButton(onPressed: (){
-                          Get.toNamed("/password/recovery");
-                        }, child: const Text("Forgot your password?",style: TextStyle(color: Colors.blue),)),
-                        const Spacer()
-                      ],
-                    ),
-                    TextFormField(
-                      controller: passwordText,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null;
-                      },
-                      maxLines: 1,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.lock),
-                        hintText: 'Enter your password',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-
-                    CheckboxListTile(
-                      title: const Text("Remember me"),
-                      contentPadding: EdgeInsets.zero,
-                      value: rememberValue,
-                      activeColor: Theme.of(context).colorScheme.primary,
-                      onChanged: (newValue) {
-                        setState(() {
-                          rememberValue = newValue!;
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity.leading,
-                    ),
-                    const SizedBox(
                       height: 20,
                     ),
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          login();
+                          sendRecoveryEmail();
                         }
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
                       ),
                       child: const Text(
-                        'Sign in',
+                        'Send recovery email',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 24
                         ),
                       ),
                     ),
+                    const SizedBox(height: 80,),
+                    Row(
+                      children: [
+                        TextButton(onPressed: (){
+                          Get.toNamed("/login");
+                        }, child: const Text("Go Back",style: TextStyle(color: Colors.blue),)),
+                        const Spacer()
+                      ],
+                    )
                   ],
                 ),
               )
