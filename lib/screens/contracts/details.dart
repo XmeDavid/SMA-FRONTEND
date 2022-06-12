@@ -39,6 +39,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
 
   bool isEditMode = false;
 
+  bool loaded = false;
   late Contract contract;
   late EntityType entityType;
 
@@ -49,6 +50,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
     entityTypes.where((element) => element.id != 1).map((e) => e.name).toList();
     setState(() {
       entityType = entityTypes.where((element) => element.id == contract.entitiesId).first;
+      loaded = true;
     });
   }
 
@@ -57,6 +59,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
   void loadContract() async{
     //var contracts = await ModelApi.getContracts();
     var _contract = await Contract.get(int.parse(Get.parameters['id'] ?? ''), true);
+    print(_contract);
     setState(() {
       contract = _contract;
       titleController.text = contract.title;
@@ -68,6 +71,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
       coverController.text = contract.cover ?? '';
       budgetController.text = contract.budget.toString();
       lastRenovationController.text = contract.lastRenovation ?? '';
+      loaded = true;
     });
     getEntityType();
   }
@@ -80,7 +84,6 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
   void initState(){
     super.initState();
     loadContract();
-
   }
 
   @override
@@ -101,7 +104,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
               ),
             Expanded(
               flex: 6,
-              child: Center(child:Column(
+              child: loaded ? Center(child:Column(
                   children:[
                     SizedBox(
                         width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
@@ -266,7 +269,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
                       ),
                     ),
                   ]),
-              ),
+              ) : const Center(child: CircularProgressIndicator()),
             ),
           ],
         ),

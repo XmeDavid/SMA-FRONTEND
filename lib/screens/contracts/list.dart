@@ -67,7 +67,7 @@ class _ListContracts extends State<ListContracts> {
           : null,
       drawer: const SideMenu(),
       body: SafeArea(
-        child: Row(
+        child: paginatedContractModel.meta.current_page != -1 ? Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // We want this side menu only for large screen
@@ -368,7 +368,7 @@ class _ListContracts extends State<ListContracts> {
               ])),
             ),
           ],
-        ),
+        ) : const Center(child: CircularProgressIndicator()),
       ),
     );
   }

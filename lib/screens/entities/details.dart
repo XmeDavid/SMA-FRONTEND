@@ -54,6 +54,8 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   String _selectedDefaultLanguage = "";
   String _selectedEntityType = "";
   List<String>? _selectedAssets;
+
+  bool entityLoaded = false;
   late Entity entity;
 
   List<EntityType> entityTypes = <EntityType>[];
@@ -97,6 +99,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
       districtController.text = entity.address?.state ?? "";
       countryController.text = entity.address?.country.toString() ?? "";
       zipCodeController.text = entity.address?.zipCode ?? "";
+      entityLoaded = true;
     });
   }
 
@@ -114,12 +117,11 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Create Entity"), backgroundColor: bgColor) : null,
       drawer: const SideMenu(),
       body: SafeArea(
-        child: Row(
+        child: entityLoaded ? Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // We want this side menu only for large screen
@@ -290,7 +292,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
               ),
             ),
           ],
-        ),
+        )  : const Center(child: CircularProgressIndicator()),
       ),
     );
   }

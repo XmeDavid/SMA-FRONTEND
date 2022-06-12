@@ -102,7 +102,7 @@ class _ListEntitiesState extends State<ListEntities> {
           ? AppBar(title: const Text("Entities"), backgroundColor: bgColor)
           : null,
       drawer: const SideMenu(),
-      body: SafeArea(
+      body: paginatedModel.meta.current_page != -1 ? SafeArea(
         child: Responsive.isDesktop(context)
             ? Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -395,7 +395,7 @@ class _ListEntitiesState extends State<ListEntities> {
                   },
                 ),
               ),
-      ),
+      ): const Center(child: CircularProgressIndicator()),
     );
   }
 }

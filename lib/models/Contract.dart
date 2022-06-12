@@ -75,7 +75,7 @@ class Contract{
   }
 
   static Future<Contract> get(int id, bool detailed) async {
-    var res = await ClientApi.get("contracts/$id");
+    var res = await ClientApi.get("contracts/$id?format=detailed");
     return Contract.fromJsonDetailed(jsonDecode(res.body));
   }
 
