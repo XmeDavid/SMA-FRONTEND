@@ -252,7 +252,7 @@ class _ListEntitiesState extends State<ListEntities> {
                                       DataCell(Container(
                                           child: SelectableText(paginatedModel
                                                   .data[index].phoneNumber ??
-                                              ""))),
+                                              "N/A"))),
                                       DataCell(Container(
                                           child: SelectableText(paginatedModel
                                               .data[index].taxNumber))),
