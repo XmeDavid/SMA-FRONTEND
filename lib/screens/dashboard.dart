@@ -2,7 +2,6 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sma_frontend/api_interactions/api_functions.dart';
 import 'package:sma_frontend/screens/side_menu.dart';
 
 import '../config.dart';
@@ -34,7 +33,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   List<Ticket> filterBy(status) {
     return tickets
         .where((ticket) =>
-            ticket.status!.toUpperCase().removeAllWhitespace == status)
+            ticket.status.toUpperCase().removeAllWhitespace == status)
         .toList();
   }
 

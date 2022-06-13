@@ -14,8 +14,9 @@ import 'package:sma_frontend/screens/entities/details.dart';
 import 'package:sma_frontend/screens/entities/create.dart';
 import 'package:sma_frontend/screens/entities/list.dart';
 import 'package:sma_frontend/screens/auth/login.dart';
-import 'package:sma_frontend/screens/tickets/TicketDetailsScreen.dart';
-import 'package:sma_frontend/screens/tickets/new_ticket_screen.dart';
+import 'package:sma_frontend/screens/tickets/details.dart';
+import 'package:sma_frontend/screens/tickets/list.dart';
+import 'package:sma_frontend/screens/tickets/new.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sma_frontend/screens/users/create.dart';
 import 'package:sma_frontend/screens/users/details.dart';
@@ -59,8 +60,9 @@ class SMA extends StatelessWidget {
         GetPage(name: '/contracts/create', page: () =>  const NewContractScreen()),
         GetPage(name: '/contracts/:id', page: () => const ContractsDetailsScreen()),
         GetPage(name: '/contracts/', page: () => const ListContracts()),
+        GetPage(name: '/tickets', page: () => const ListTicketScreen()),
         GetPage(name: '/tickets/new', page: () => const NewTicketScreen()),
-        GetPage(name: '/tickets/details', page: () => const TicketDetails()),
+        GetPage(name: '/tickets/:id', page: () => const TicketDetails()),
 
       ],
     );

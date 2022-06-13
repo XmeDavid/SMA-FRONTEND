@@ -2,47 +2,78 @@ import 'dart:convert';
 
 import '../api_interactions/api_functions.dart';
 
+import 'Contract.dart';
+import 'User.dart';
+import 'Entity.dart';
+
 class Ticket {
-  int? id;
-  int? entitiesId;
-  Null? assistantId;
-  int? contractsId;
-  String? title;
-  String? bodyDescription;
-  int? categoriesId;
-  String? status;
-  String? startDate;
-  String? estimatedTime;
-  Null? isSolved;
-  String? filesPath;
+  int id;
+  int entitiesId;
+  Entity? entity;
+  int assistantId;
+  User? assistant;
+  int contractsId;
+  Contract? contract;
+  String title;
+  String bodyDescription;
+  int categoriesId;
+  String status;
+  String startDate;
+  String estimatedTime;
+  bool? isSolved;
+  String filesPath;
 
-  Ticket(
-      {this.id,
-        this.entitiesId,
-        this.assistantId,
-        this.contractsId,
-        this.title,
-        this.bodyDescription,
-        this.categoriesId,
-        this.status,
-        this.startDate,
-        this.estimatedTime,
-        this.isSolved,
-        this.filesPath});
+  Ticket({
+    required this.id,
+    required this.entitiesId,
+    this.entity,
+    required this.assistantId,
+    this.assistant,
+    required this.contractsId,
+    this.contract,
+    required this.title,
+    required this.bodyDescription,
+    required this.categoriesId,
+    required this.status,
+    required this.startDate,
+    required this.estimatedTime,
+    this.isSolved,
+    required this.filesPath
+  });
 
-  Ticket.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    entitiesId = json['entities_id'];
-    assistantId = json['assistant_id'];
-    contractsId = json['contracts_id'];
-    title = json['title'];
-    bodyDescription = json['body_description'];
-    categoriesId = json['categories_id'];
-    status = json['status'];
-    startDate = json['start_date'];
-    estimatedTime = json['estimated_time'];
-    isSolved = json['is_solved'];
-    filesPath = json['files_path'];
+  factory Ticket.fromJson(Map<String, dynamic> json) {
+    return Ticket(
+      id : json['id'],
+      entitiesId : json['entities_id'],
+      assistantId : json['assistant_id'],
+      contractsId : json['contracts_id'],
+      title : json['title'],
+      bodyDescription : json['body_description'],
+      categoriesId : json['categories_id'],
+      status : json['status'],
+      startDate : json['start_date'],
+      estimatedTime : json['estimated_time'],
+      //isSolved : json['is_solved'],
+      filesPath : json['files_path']
+    );
+  }
+
+  factory Ticket.fromJsonDetailed(Map<String, dynamic> json) {
+    return Ticket(
+        id : json['id'],
+        entitiesId : json['entity']['id'],
+        entity: Entity.fromJsonDetailed(json['entity']),
+        assistantId : json['assistant_id'],
+        contractsId : json['contracts_id'],
+        title : json['title'],
+        bodyDescription : json['body_description'],
+        categoriesId : json['categories_id'],
+        status : json['status'],
+        startDate : json['start_date'],
+        estimatedTime : json['estimated_time'],
+        //isSolved : json['is_solved'],
+        filesPath : json['files_path']
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -62,8 +93,14 @@ class Ticket {
     return data;
   }
 
+  static Future<Ticket> get(int id) async{
+    var res = await ClientApi.get("/tickets/$id?format=detailed");
+    return Ticket.fromJson(jsonDecode(res.body));
+  }
+
   static Future<List<Ticket>> getAll() async{
     var res = await ClientApi.get("tickets");
+    print(res.body);
     List<Ticket> data = <Ticket>[];
     for(var ticketJson in jsonDecode(res.body)){
       Ticket ticket = Ticket.fromJson(ticketJson);

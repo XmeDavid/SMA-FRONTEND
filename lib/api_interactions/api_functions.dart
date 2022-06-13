@@ -22,7 +22,7 @@ class ClientApi{
     return await (http.get(
         Uri.parse(API_URL + s),
         headers: <String, String>{
-          //'Authorization' : 'Bearer ' + GetStorage().read('token')
+          'Authorization' : 'Bearer ' + GetStorage().read('token'),
           'Accept' : 'application/json'
         }
     ));
