@@ -15,6 +15,7 @@ const thirdColor5 = Color.fromRGBO(120,121, 128, 1);
 const thirdColor3 = Color.fromRGBO(72,73, 77, 1);
 const bgColor = Color.fromRGBO(34,36,51,1);
 const black10p = Color.fromRGBO(0, 0, 0, 0.1);
+const barBg = Color(0xffe3e3ee);
 
 const smallPadding = 8.0;
 const defaultPadding = 16.0;

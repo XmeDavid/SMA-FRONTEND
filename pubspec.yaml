@@ -43,6 +43,7 @@ dependencies:
   get: ^4.6.1
   get_storage: ^2.0.3
   intl: ^0.17.0
+  fl_chart: ^0.35.0
 
 dev_dependencies:
   flutter_test:
