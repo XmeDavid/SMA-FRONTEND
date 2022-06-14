@@ -16,7 +16,7 @@ class TicketView extends StatelessWidget {
   double width() {
     switch (format) {
       case TicketViewFormat.SMALL:
-        return 400;
+        return 288;
       case TicketViewFormat.WIDE:
         return 1024;
       case TicketViewFormat.TALL:
@@ -29,7 +29,7 @@ class TicketView extends StatelessWidget {
   double height() {
     switch (format) {
       case TicketViewFormat.SMALL:
-        return 160;
+        return 96;
       case TicketViewFormat.WIDE:
         return 256;
       case TicketViewFormat.TALL:
@@ -71,27 +71,27 @@ class TicketView extends StatelessWidget {
                         "${ticket?.title}",
                         style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 18,
+                            fontSize: 14,
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        " - ${ticket?.startDate}",
-                        style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        " - ${ticket?.startDate.substring(0,10)}",
+                        style: const TextStyle(color: Colors.grey, fontSize: 8),
                       ),
                       const Spacer()
                     ],
                   ),
                 ),
                 Container(
-                  height: 80,
+                  height: 38,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Text(
                       "${ticket?.description}",
                       style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 10,
                           color: Color.fromRGBO(224, 224, 224, 1),
-                          fontWeight: FontWeight.w300
+                          fontWeight: FontWeight.normal
                       ),
                     ),
                   ),
@@ -118,13 +118,13 @@ class TicketView extends StatelessWidget {
                         style: TextStyle(
                             color: Color.fromRGBO(224, 224, 224, 0.5),
                             fontWeight: FontWeight.normal,
-                            fontSize: 14),
+                            fontSize: 10),
                       ),
                       Text(
                         ticket != null ? "${ticket!.assistant!.fullName().length <= 12 ? ticket?.assistant?.fullName() : '${ticket?.assistant?.fullName().substring(0,10)}...'}" : "Unassigned",
                         style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 18,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500),
                       )
                     ],
@@ -140,13 +140,13 @@ class TicketView extends StatelessWidget {
                           style: TextStyle(
                               color: Color.fromRGBO(224, 224, 224, 0.5),
                               fontWeight: FontWeight.normal,
-                              fontSize: 14),
+                              fontSize: 10),
                         ),
                         Text(
                           ticket != null ? ticket!.entity!.name.length <= 12 ? ticket!.entity!.name : '${ticket!.entity!.name.substring(0,10)}...' : "Unknown",
                           style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 12,
                               fontWeight: FontWeight.w500),
                         )
                       ],
@@ -162,20 +162,23 @@ class TicketView extends StatelessWidget {
                           style: TextStyle(
                               color: Color.fromRGBO(224, 224, 224, 0.5),
                               fontWeight: FontWeight.normal,
-                              fontSize: 14),
+                              fontSize: 10),
                         ),
                         Text(
                           "${ticket?.estimatedTime} days",
                           style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 12,
                               fontWeight: FontWeight.w500),
                         )
                       ],
                     )
                 ),
-                const Spacer(),
-                TextButton(onPressed: (){}, child: const Icon(Icons.menu))
+                Container(
+                  width: 1,
+                  child: TextButton(onPressed: (){}, child: Icon(Icons.menu)),
+                )
+                //const Icon(Icons.menu,size: 10,))
               ],
             ),
           )
