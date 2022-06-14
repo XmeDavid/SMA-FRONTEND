@@ -47,4 +47,9 @@ class Auth{
     return Auth.fromJson(jsonDecode(res.body));
   }
 
+  static Future<void> sendRecovery(String email) async {
+    await ClientApi.post('password/reset/send',jsonEncode(<String,String>{
+      'email' : email
+    }));
+  }
 }

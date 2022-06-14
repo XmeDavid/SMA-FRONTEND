@@ -20,8 +20,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
 
-  final emailText = TextEditingController();
-  final passwordText = TextEditingController();
+  final email = TextEditingController();
+  final password = TextEditingController();
   final passwordConfirmation = TextEditingController();
   final token = TextEditingController();
 
@@ -29,19 +29,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   void dispose(){
-    emailText.dispose();
-    passwordText.dispose();
+    email.dispose();
+    password.dispose();
+    passwordConfirmation.dispose();
+    token.dispose();
     super.dispose();
-  }
-
-  confirm() async{
-    User.changePassword(passwordText.text,passwordConfirmation.text);
   }
 
   @override
   void initState() {
     super.initState();
-    emailText.text = Get.parameters['email'] ?? "";
+    email.text = Get.parameters['email'] ?? "";
     token.text = Get.parameters['token'] ?? "";
   }
 
@@ -78,7 +76,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   children: [
                     TextFormField(
                       enabled: false,
-                      controller: emailText,
+                      controller: email,
                       validator: (value) => EmailValidator.validate(value!)
                           ? null
                           : "Please enter a valid email",
@@ -95,7 +93,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: passwordText,
+                      controller: password,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your password';
@@ -136,12 +134,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    ElevatedButton(
+                    TextButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          confirm();
-                        }
-                      },
+                        User.changePassword(email.text,password.text,passwordConfirmation.text, token.text);
+                        Get.toNamed('/login');
+                        },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
                       ),

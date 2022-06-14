@@ -109,9 +109,12 @@ class User{
     await ClientApi.remove('users/' + entityId.toString());
   }
   
-  static void changePassword(String password, String confirmationPassword) async {
-    await ClientApi.create('/password/reset', jsonEncode(<String, dynamic>{
-      
+  static void changePassword(String email, String password, String confirmationPassword, String token) async {
+    await ClientApi.post('password/reset', jsonEncode(<String, dynamic>{
+      'email' : email,
+      'password' : password,
+      'password-validation' : confirmationPassword,
+      'token' : token
     }));
   }
 

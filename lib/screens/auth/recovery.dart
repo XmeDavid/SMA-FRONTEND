@@ -21,20 +21,19 @@ class _RecoverPasswordState extends State<RecoverPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
 
-  final emailText = TextEditingController();
-  final passwordText = TextEditingController();
+  final email = TextEditingController();
 
   bool authenticated = false;
 
   @override
   void dispose(){
-    emailText.dispose();
-    passwordText.dispose();
+    email.dispose();
     super.dispose();
   }
 
   sendRecoveryEmail() async{
-    print("TODO");
+    print("asdsad");
+    Auth.sendRecovery(email.text);
   }
 
   @override
@@ -74,7 +73,7 @@ class _RecoverPasswordState extends State<RecoverPasswordScreen> {
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: emailText,
+                      controller: email,
                       validator: (value) => EmailValidator.validate(value!)
                           ? null
                           : "Please enter a valid email",
