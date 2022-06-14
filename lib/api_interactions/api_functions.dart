@@ -13,16 +13,18 @@ class ClientApi{
         Uri.parse(API_URL + path),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'Accept' : 'application/json'
         },
         body: body
     );
   }
 
   static Future<http.Response> get(String s) async{
+    String? authToken = GetStorage().read('token');
     return await (http.get(
         Uri.parse(API_URL + s),
         headers: <String, String>{
-          'Authorization' : 'Bearer ' + GetStorage().read('token'),
+          'Authorization' : authToken != null ? 'Bearer $authToken' : '',
           'Accept' : 'application/json'
         }
     ));

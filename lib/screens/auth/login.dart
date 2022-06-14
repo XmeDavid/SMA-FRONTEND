@@ -37,8 +37,7 @@ class _LoginPageState extends State<LoginPage> {
     Auth auth = await Auth.login(emailText.text, passwordText.text);
     GetStorage().write('token', auth.accessToken);
     GetStorage().write('refreshToken', auth.refreshToken);
-    print(auth.refreshToken);
-    if(true){
+    if(auth.needsMfa ?? false){
       Get.toNamed('/auth/mfa');
     }else{
       Get.toNamed('/');

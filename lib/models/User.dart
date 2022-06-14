@@ -11,18 +11,20 @@ class User{
   final int id;
   final String first_name;
   final String last_name;
+  final String birthDate;
   final String? phoneNumber;
   final String imagePath;
   final int entityId;
   final Entity? entity;
   final String email;
   final double perHour;
-  final bool mfaEnabled;
+  final bool? mfaEnabled;
 
   const User({
     required this.id,
     required this.first_name,
     required this.last_name,
+    required this.birthDate,
     required this.email,
     required this.entityId,
     this.entity,
@@ -37,6 +39,7 @@ class User{
         id: json['id'],
         first_name: json['first_name'],
         last_name: json['last_name'],
+        birthDate: json['birth_date'],
         email: json['email'],
         entityId: json['entities_id'],
         phoneNumber: json['phone_number'],
@@ -51,8 +54,10 @@ class User{
         id: json['id'],
         first_name: json['first_name'],
         last_name: json['last_name'],
+        birthDate: json['birth_date'],
         email: json['email'],
-        entityId: json['entities_id'],
+        entityId: json['entities_id']['id'],
+        entity: Entity.fromJsonDetailed(json['entities_id']),
         phoneNumber: json['phone_number'],
         imagePath: json['image_path'],
         perHour: json['per_hour'],

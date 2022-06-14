@@ -111,6 +111,18 @@ class Entity{
     );
   }
 
+  static Future<Entity> update(int entityTypeId, String fullName, String email, String phoneNumber, String taxNumber, String defaultLanguage) async{
+    var res = await ClientApi.update("entities",jsonEncode(<String, dynamic>{
+      'entities_types_id': entityTypeId,
+      'full_name': fullName,
+      'email' : email,
+      'phone_numbers' : phoneNumber,
+      'taxpayer_number' : taxNumber,
+      'default_language' : defaultLanguage,
+    }));
+    return Entity.fromJsonDetailed(jsonDecode(res.body));
+  }
+
   static void remove(int entityId) async{
     await ClientApi.remove('entities/' + entityId.toString());
   }

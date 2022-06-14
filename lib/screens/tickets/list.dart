@@ -16,13 +16,18 @@ class ListTicketScreen extends StatefulWidget {
 
 class _ListTicketScreenState extends State<ListTicketScreen> {
 
+  int loadAttempts = 0;
   bool loaded = false;
   List<Ticket> tickets = [];
 
   void loadTickets() async {
-    var t = await Ticket.getAll();
+    var t = await Ticket.get(1,true);
+    if(t == null){
+      loadAttempts++;
+      return;
+    }
     setState(() {
-      tickets = t;
+      tickets.add(t);
       loaded = true;
     });
   }
@@ -57,7 +62,9 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
                   Container(
                     child: TicketView(
                       format: TicketViewFormat.SMALL,
-                      ticket: null,
+                      ticket: loaded ? tickets.first : ((){
+                        loadAttempts < 3 ? loadTickets() :  null;
+                      })(),
                     ),
                   )
                 ],

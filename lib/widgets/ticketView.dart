@@ -16,7 +16,7 @@ class TicketView extends StatelessWidget {
   double width() {
     switch (format) {
       case TicketViewFormat.SMALL:
-        return 384;
+        return 400;
       case TicketViewFormat.WIDE:
         return 1024;
       case TicketViewFormat.TALL:
@@ -87,7 +87,7 @@ class TicketView extends StatelessWidget {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Text(
-                      "${ticket?.bodyDescription}",
+                      "${ticket?.description}",
                       style: const TextStyle(
                           fontSize: 14,
                           color: Color.fromRGBO(224, 224, 224, 1),
@@ -121,7 +121,7 @@ class TicketView extends StatelessWidget {
                             fontSize: 14),
                       ),
                       Text(
-                        "${ticket?.assistantId}",
+                        ticket != null ? "${ticket!.assistant!.fullName().length <= 12 ? ticket?.assistant?.fullName() : '${ticket?.assistant?.fullName().substring(0,10)}...'}" : "Unassigned",
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -143,7 +143,7 @@ class TicketView extends StatelessWidget {
                               fontSize: 14),
                         ),
                         Text(
-                          "${ticket?.assistantId}",
+                          ticket != null ? ticket!.entity!.name.length <= 12 ? ticket!.entity!.name : '${ticket!.entity!.name.substring(0,10)}...' : "Unknown",
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -165,7 +165,7 @@ class TicketView extends StatelessWidget {
                               fontSize: 14),
                         ),
                         Text(
-                          "${ticket?.estimatedTime} day",
+                          "${ticket?.estimatedTime} days",
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,

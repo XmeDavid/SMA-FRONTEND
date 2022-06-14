@@ -107,6 +107,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
     if(countrys.isEmpty) countrys = await Country.getAll();
     int countryId = countrys.where((element) => element.toString() == countryController.text).first.id;
     Address.update(entity.addressId,streetController.text, doorController.text, floorController.text, roomController.text, zipCodeController.text, localController.text, districtController.text, countryId);
+    Entity.update(entity.entityTypeId, entity.name, entity.email, entity.phoneNumber ?? "", entity.taxNumber, entity.defaultLanguage);
   }
 
   @override
@@ -172,13 +173,6 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                 getData: getEntityTypesString,
                                 selected: entityTypeController.text,
                                 enabled: entity.entityTypeId == 1 ? false : isEditMode,
-                              ),
-                              TextLine(
-                                isEnabled: isEditMode,
-                                labelText: "Entity Type",
-                                hintText: "Client or Suppiler",
-                                controller: entityTypeController,
-                                size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) -165,
                               ),
                               TextLine(
                                 isEnabled: isEditMode,

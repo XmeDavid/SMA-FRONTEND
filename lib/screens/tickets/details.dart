@@ -26,14 +26,15 @@ class _TicketDetailsState extends State<TicketDetails> {
   late Ticket ticket;
 
   void load() async{
-    Ticket _ticket = await Ticket.get(int.parse(Get.parameters['id'] ?? ''));
+    Ticket? _ticket = await Ticket.get(int.parse(Get.parameters['id'] ?? ''), true);
+    if(_ticket == null) return;
     setState(() {
       ticket = _ticket;
       loaded = true;
       ticketTitleController.text = ticket.title;
-      ticketDescriptionController.text = ticket.bodyDescription;
-      ticketCategoryController.text = "${ticket.categoriesId}";
-      ticketContractController.text = "${ticket.contractsId}";
+      ticketDescriptionController.text = ticket.description;
+      ticketCategoryController.text = "${ticket.categoryId}";
+      ticketContractController.text = "${ticket.contractId}";
     });
   }
 

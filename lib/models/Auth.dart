@@ -8,6 +8,7 @@ class Auth{
   final int expiresIn;
   final String accessToken;
   final String refreshToken;
+  final bool? needsMfa;
   final String? mfaCode;
 
   const Auth({
@@ -15,15 +16,17 @@ class Auth{
     required this.expiresIn,
     required this.accessToken,
     required this.refreshToken,
+    this.needsMfa,
     this.mfaCode
   });
 
   factory Auth.fromJson(Map<String, dynamic> json){
     return Auth(
-      tokenType: json['token_type'],
-      expiresIn: json['expires_in'],
-      accessToken: json['access_token'],
-      refreshToken: json['refresh_token']
+      tokenType: json['tokens']['token_type'],
+      expiresIn: json['tokens']['expires_in'],
+      accessToken: json['tokens']['access_token'],
+      refreshToken: json['tokens']['refresh_token'],
+      needsMfa: json['mfa'] == 1
     );
   }
 
