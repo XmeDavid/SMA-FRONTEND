@@ -35,7 +35,7 @@ class _ListContracts extends State<ListContracts> {
 
   void loadContracts(int page) async {
     var tempContractPaginatedModel =
-        await Contract.getPaginated(true,20,page,"");
+        await Contract.getPaginated(true,20,page,searchController.text);
     setState(() {
       paginatedContractModel = tempContractPaginatedModel;
     });
@@ -130,7 +130,7 @@ class _ListContracts extends State<ListContracts> {
                                   border: OutlineInputBorder(),
                                   labelText: "Search"),
                               onChanged: (e) {
-                                setState(() {});
+                                loadContracts(paginatedContractModel.meta.current_page);
                               },
                             ),
                           ),
