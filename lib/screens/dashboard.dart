@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sma_frontend/screens/side_menu.dart';
+import 'package:sma_frontend/widgets/dashboardWidgets/AssetsDashboardCard.dart';
 
 import '../config.dart';
 import '../consts.dart';
@@ -70,8 +71,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               // It takes 5/6 part of the screen
               flex: 6,
               child: Container(
+                height: MediaQuery.of(context).size.height,
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                  scrollDirection: Axis.vertical,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -119,37 +123,43 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         height: SizeConfig.blockSizeVertical * 4,
                       ),
                       Container(
-                        decoration: const BoxDecoration(
-                            color: secondColor3,
-                            borderRadius: BorderRadius.all(Radius.circular(20))
-                        ),
-                        padding: const EdgeInsets.all(20),
-                        height: 300,
+                          decoration: const BoxDecoration(
+                              color: secondColor3,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          padding: const EdgeInsets.all(20),
+                          height: 300,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [Text("Performance")]),
-                              Text("Mensal")
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [Text("Performance")]),
+                                  Text("Mensal")
+                                ],
+                              ),
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical * 3,
+                              ),
+                              Container(
+                                height: 178,
+                                child: BarChartComponent(),
+                              ),
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical * 5,
+                              ),
                             ],
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 3,
-                          ),
-                          Container(
-                            height: 180,
-                            child: BarChartComponent(),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 5,
-                          ),
-                        ],
-                      ))
+                          )),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 5,
+                      ),
+                      AssetsDashboardCart()
                     ],
                   ),
                 ),
