@@ -53,6 +53,7 @@ class ClientApi{
   }
 
   static Future<http.Response> update(String s, String json) async{
+    print("PUT REQUEST SENT TO: $s\nBody: $json");
     return await (http.put(
         Uri.parse(API_URL + s),
         headers: <String, String>{

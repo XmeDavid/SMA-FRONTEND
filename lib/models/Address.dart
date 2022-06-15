@@ -32,7 +32,7 @@ class Address{
   factory Address.fromJson(Map<String, dynamic> json){
     return Address(
       id: json['id'],
-      street: json['street_name'],
+      street: json['street'],
       door: json['door'],
       floor: json['floor'],
       room: json['room'],
@@ -56,16 +56,16 @@ class Address{
         country: Country.fromJson(json['country'])
     );
   }
-  static Future<Address> update(int addressId, String street, String door, String floor, String room, String zipCode, String local, String district, int countryId) async{
+  static Future<Address> update(int addressId, String street, String door, String floor, String room, String zipCode, String city, String state, int countryId) async{
     var res = await ClientApi.update("addresses/$addressId",jsonEncode(<String, dynamic> {
-      "street_name": street,
+      "street": street,
       "door": door,
       "floor": floor,
       "room": room,
       "zip_code": zipCode,
-      "local": local,
-      "district": district,
-      "country_id": countryId
+      "city": city,
+      "state": state,
+      "countries_id": countryId
     }));
     return Address.fromJson(jsonDecode(res.body));
   }

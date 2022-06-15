@@ -61,20 +61,20 @@ class Entity{
     );
   }
 
-  static Future<Entity> create(int entityTypeId, String fullName, String email, String phoneNumber, String taxNumber, String defaultLanguage, String streetName, String door, int floor, String room, String local, String district, String zipCode, int countryId) async{
+  static Future<Entity> create(int entityTypeId, String fullName, String email, String phoneNumber, String taxNumber, String defaultLanguage, String streetName, String door, int floor, String room, String city, String state, String zipCode, int countryId) async{
     var res = await ClientApi.create("entities",jsonEncode(<String, dynamic>{
       'entities_types_id': entityTypeId,
       'full_name': fullName,
       'email' : email,
-      'phone_numbers' : phoneNumber,
+      'phone_number' : phoneNumber,
       'taxpayer_number' : taxNumber,
       'default_language' : defaultLanguage,
-      'street_name' : streetName,
+      'street' : streetName,
       'door' : door,
       'floor' : floor,
       'room' : room,
-      'local' : local,
-      'district' : district,
+      'city' : city,
+      'state' : state,
       'zip_code' : zipCode,
       'countries_id' : countryId,
     }));
@@ -111,14 +111,15 @@ class Entity{
     );
   }
 
-  static Future<Entity> update(int entityTypeId, String fullName, String email, String phoneNumber, String taxNumber, String defaultLanguage) async{
-    var res = await ClientApi.update("entities",jsonEncode(<String, dynamic>{
-      'entities_types_id': entityTypeId,
-      'full_name': fullName,
-      'email' : email,
-      'phone_numbers' : phoneNumber,
-      'taxpayer_number' : taxNumber,
-      'default_language' : defaultLanguage,
+  static Future<Entity> update(int id,int entityTypeId, String fullName, String email, String phoneNumber, String taxNumber, String defaultLanguage, int addressId) async{
+    var res = await ClientApi.update("entities/$id",jsonEncode(<String, dynamic>{
+      "entities_types_id": entityTypeId,
+      "full_name": fullName,
+      "email": email,
+      "phone_number": phoneNumber,
+      "adresses_id": addressId,
+      "taxpayer_number": taxNumber,
+      "default_language": defaultLanguage,
     }));
     return Entity.fromJsonDetailed(jsonDecode(res.body));
   }

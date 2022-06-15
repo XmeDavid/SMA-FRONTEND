@@ -43,10 +43,11 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   final floorController = TextEditingController();
   final roomController = TextEditingController();
   final countryController = TextEditingController();
-  final districtController = TextEditingController();
-  final localController = TextEditingController();
+  final cityController = TextEditingController();
+  final stateController = TextEditingController();
   final entityTypeController = TextEditingController();
- final zipCodeController = TextEditingController();
+  final zipCodeController = TextEditingController();
+  final defaultLanguageController = TextEditingController();
 
 
   bool isEditMode = false;
@@ -91,12 +92,13 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
       emailController.text = entity.email;
       phoneNumberController.text = entity.phoneNumber ?? 'No phone number';
       taxNumberController.text = entity.taxNumber;
+      defaultLanguageController.text = entity.defaultLanguage;
       streetController.text = entity.address?.street ?? "";
       doorController.text = entity.address?.door ?? "";
       floorController.text = entity.address?.floor ?? "";
       roomController.text = entity.address?.room ?? "";
-      localController.text = entity.address?.city ?? "";
-      districtController.text = entity.address?.state ?? "";
+      cityController.text = entity.address?.city ?? "";
+      stateController.text = entity.address?.state ?? "";
       countryController.text = entity.address?.country.toString() ?? "";
       zipCodeController.text = entity.address?.zipCode ?? "";
       entityLoaded = true;
@@ -106,8 +108,9 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   void saveChanges() async{
     if(countrys.isEmpty) countrys = await Country.getAll();
     int countryId = countrys.where((element) => element.toString() == countryController.text).first.id;
-    Address.update(entity.addressId,streetController.text, doorController.text, floorController.text, roomController.text, zipCodeController.text, localController.text, districtController.text, countryId);
-    Entity.update(entity.entityTypeId, entity.name, entity.email, entity.phoneNumber ?? "", entity.taxNumber, entity.defaultLanguage);
+    Address.update(entity.addressId,streetController.text, doorController.text, floorController.text, roomController.text, zipCodeController.text, cityController.text, stateController.text, countryId);
+    int entityType = entityTypes.isNotEmpty ? entityTypes.where((element) => element.name == entityTypeController.text).first.id : entity.entityTypeId;
+    var e = Entity.update(entity.id, entityType, nameController.text, emailController.text, phoneNumberController.text, taxNumberController.text, defaultLanguageController.text, entity.addressId);
   }
 
   @override
@@ -119,7 +122,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !Responsive.isDesktop(context) ? AppBar(title: const Text ("Create Entity"), backgroundColor: bgColor) : null,
+      appBar: !Responsive.isDesktop(context) ? AppBar(title: Text (entityLoaded ? entity.name : "Unknown Entity"), backgroundColor: bgColor) : null,
       drawer: const SideMenu(),
       body: SafeArea(
         child: entityLoaded ? Row(
@@ -134,7 +137,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
               flex: 6,
               child: Center(child:Column(
                   children:[
-                    SizedBox(
+                    if(Responsive.isDesktop(context)) SizedBox(
                         width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
                         child: Row(
                           children:  [
@@ -169,7 +172,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                               ),
                               DropDown(
                                 label: "Entity Type",
-                                callback: (s) => {entityTypeController.text},
+                                callback: (s) => {entityTypeController.text = s},
                                 getData: getEntityTypesString,
                                 selected: entityTypeController.text,
                                 enabled: entity.entityTypeId == 1 ? false : isEditMode,
@@ -220,7 +223,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                 isEnabled: isEditMode,
                                 labelText: "Language",
                                 hintText: "Entity Language",
-                                controller: taxNumberController,
+                                controller: defaultLanguageController,
                                 size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 159,
                               ),
                               AddressField(
@@ -232,8 +235,8 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                 floorController: floorController,
                                 roomController: roomController,
                                 countryController: countryController,
-                                districtController: districtController,
-                                localController: localController,
+                                cityController: cityController,
+                                stateController: stateController,
                                 zipCodeController: zipCodeController,
                                 getCountrys: getCountrysString,
                               ),

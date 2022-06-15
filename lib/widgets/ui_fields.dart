@@ -199,7 +199,7 @@ class DropDown extends StatelessWidget {
 
 
 class AddressField extends StatelessWidget {
-  const AddressField({Key? key, required this.zipCodeController, required this.getCountrys, this.enabled = true ,required this.width, required this.height, required this.localController, required this.districtController,required this.streetController, required this.doorController, required this.floorController, required this.roomController, required this.countryController}) : super(key: key);
+  const AddressField({Key? key, required this.zipCodeController, required this.getCountrys, this.enabled = true ,required this.width, required this.height, required this.cityController, required this.stateController,required this.streetController, required this.doorController, required this.floorController, required this.roomController, required this.countryController}) : super(key: key);
 
   final bool enabled;
   final double width;
@@ -210,8 +210,8 @@ class AddressField extends StatelessWidget {
   final TextEditingController doorController;
   final TextEditingController floorController;
   final TextEditingController roomController;
-  final TextEditingController localController;
-  final TextEditingController districtController;
+  final TextEditingController cityController;
+  final TextEditingController stateController;
   final TextEditingController zipCodeController;
 
   @override
@@ -245,7 +245,7 @@ class AddressField extends StatelessWidget {
             ) : Column(
               children: [
                 TextLine(labelText: "Street", hintText: "Street name", controller: streetController, size: width -149,isEnabled: enabled,),
-                TextLine(labelText: "Zip Code", hintText: "Zip Code", controller: doorController, size: width-179, isEnabled: enabled,),
+                TextLine(labelText: "Zip Code", hintText: "Zip Code", controller: zipCodeController, size: width-179, isEnabled: enabled,),
               ],
             ),
             Responsive.isDesktop(context) ? Row(children: [
@@ -268,13 +268,13 @@ class AddressField extends StatelessWidget {
               enabled: enabled,
             ),
             Responsive.isDesktop(context) ? Row(children: [
-                TextLine(labelText: "Local", hintText: "Local", controller: localController, size: width * 0.5 - 143, isEnabled: enabled,),
-                TextLine(labelText: "District", hintText: "District", controller: districtController, size: width * 0.5 - 96, isEnabled: enabled,),
+                TextLine(labelText: "City", hintText: "City", controller: cityController, size: width * 0.5 - 143, isEnabled: enabled,),
+                TextLine(labelText: "State", hintText: "State", controller: stateController, size: width * 0.5 - 96, isEnabled: enabled,),
               ],
             ) : Column(
               children: [
-                TextLine(labelText: "Local", hintText: "Local", controller: localController, size: width -143, isEnabled: enabled,),
-                TextLine(labelText: "District", hintText: "District", controller: districtController, size: width -160, isEnabled: enabled,),
+                TextLine(labelText: "City", hintText: "City", controller: cityController, size: width -143, isEnabled: enabled,),
+                TextLine(labelText: "State", hintText: "State", controller: stateController, size: width -160, isEnabled: enabled,),
               ],
             ),
           ],

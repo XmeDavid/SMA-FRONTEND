@@ -38,8 +38,8 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
   final floorController = TextEditingController();
   final roomController = TextEditingController();
   final countryController = TextEditingController();
-  final districtController = TextEditingController();
-  final localController = TextEditingController();
+  final stateController = TextEditingController();
+  final cityController = TextEditingController();
   final zipCodeController = TextEditingController();
 
 
@@ -81,8 +81,8 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
         doorController.text,
         int.parse(floorController.text),
         roomController.text,
-        localController.text,
-        districtController.text,
+        cityController.text,
+        stateController.text,
         zipCodeController.text,
         countrys.where((element) => element.toString() == countryController.text).first.id
     );
@@ -175,8 +175,8 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
                             floorController: floorController,
                             roomController: roomController,
                             countryController: countryController,
-                            districtController: districtController,
-                            localController: localController,
+                            cityController: cityController,
+                            stateController: stateController,
                             zipCodeController: zipCodeController,
                             getCountrys: getCountrysString,
                           ),
