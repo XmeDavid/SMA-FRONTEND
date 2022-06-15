@@ -16,20 +16,17 @@ class ListTicketScreen extends StatefulWidget {
 
 class _ListTicketScreenState extends State<ListTicketScreen> {
 
-  int loadAttempts = 0;
   bool loaded = false;
   List<Ticket> tickets = [];
 
   void loadTickets() async {
-    var t = await Ticket.get(1,true);
-    if(t == null){
-      loadAttempts++;
-      return;
-    }
+    var t = await Ticket.getAll(true);
+    if(t == null) return;
     setState(() {
-      tickets.add(t);
+      tickets = t;
       loaded = true;
     });
+    print('${tickets.length}');
   }
 
   @override
@@ -91,79 +88,18 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
                     color: secondColor3,
                     child: SingleChildScrollView(
                       child: Column(
-                        children: [
-                          Container(
+                        children: loaded ? List.generate(30, (index)
+                        {
+                          print("Ticket: ${tickets[index].title}");
+                          return Container(
                             padding: const EdgeInsets.all(8),
                             child: TicketView(
                               format: TicketViewFormat.SMALL,
-                              ticket: loaded ? tickets.first : ((){
-                                loadAttempts < 3 ? loadTickets() :  null;
-                              })(),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            child: TicketView(
-                              format: TicketViewFormat.SMALL,
-                              ticket: loaded ? tickets.first : ((){
-                                loadAttempts < 3 ? loadTickets() :  null;
-                              })(),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            child: TicketView(
-                              format: TicketViewFormat.SMALL,
-                              ticket: loaded ? tickets.first : ((){
-                                loadAttempts < 3 ? loadTickets() :  null;
-                              })(),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            child: TicketView(
-                              format: TicketViewFormat.SMALL,
-                              ticket: loaded ? tickets.first : ((){
-                                loadAttempts < 3 ? loadTickets() :  null;
-                              })(),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            child: TicketView(
-                              format: TicketViewFormat.SMALL,
-                              ticket: loaded ? tickets.first : ((){
-                                loadAttempts < 3 ? loadTickets() :  null;
-                              })(),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            child: TicketView(
-                              format: TicketViewFormat.SMALL,
-                              ticket: loaded ? tickets.first : ((){
-                                loadAttempts < 3 ? loadTickets() :  null;
-                              })(),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            child: TicketView(
-                              format: TicketViewFormat.SMALL,
-                              ticket: loaded ? tickets.first : ((){
-                                loadAttempts < 3 ? loadTickets() :  null;
-                              })(),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            child: TicketView(
-                              format: TicketViewFormat.SMALL,
-                              ticket: loaded ? tickets.first : ((){
-                                loadAttempts < 3 ? loadTickets() :  null;
-                              })(),
-                            ),
-                          ),
+                              ticket: tickets[index],
+                            )
+                          );
+                        }) : [
+                          TicketView(ticket: null, format: TicketViewFormat.SMALL)
                         ],
                       ),
                     )

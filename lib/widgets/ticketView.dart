@@ -68,7 +68,7 @@ class TicketView extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        "${ticket?.title}",
+                        (ticket?.title ?? "").length > 28 ? "${ticket?.title.substring(0,25)}..." : "${ticket?.title}",
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14,
@@ -121,7 +121,7 @@ class TicketView extends StatelessWidget {
                             fontSize: 10),
                       ),
                       Text(
-                        ticket != null ? "${ticket!.assistant!.fullName().length <= 12 ? ticket?.assistant?.fullName() : '${ticket?.assistant?.fullName().substring(0,10)}...'}" : "Unassigned",
+                        ticket != null && ticket?.assistant != null ? "${ticket!.assistant!.fullName().length <= 12 ? ticket?.assistant?.fullName() : '${ticket?.assistant?.fullName().substring(0,10)}...'}" : "Unassigned",
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 12,
@@ -131,7 +131,10 @@ class TicketView extends StatelessWidget {
                   )
                 ),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      var s = ticket?.entity?.id ?? "";
+                      Get.toNamed('entities/${s}');
+                    },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

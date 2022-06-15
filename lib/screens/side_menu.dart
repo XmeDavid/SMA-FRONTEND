@@ -42,11 +42,11 @@ class SideMenu extends StatelessWidget {
                     },),
                   ListTile(
                     title: Text(
-                      "See Ticket Details",
+                      "Tickets",
                       style: TextStyle(fontSize: 12),),
                     onTap: (){
                       Get.toNamed(
-                        "/tickets/details",
+                        "/tickets/",
                       );
                     },
                   ),
@@ -137,6 +137,9 @@ class SideMenu extends StatelessWidget {
                           ListTile(
                               leading: Icon(Icons.person),
                               title: Text(GetStorage().read('user_first_name') ?? "User"),
+                              onTap: (){
+                                Get.toNamed('/users/me');
+                              },
                           ),
                         ],
                       )

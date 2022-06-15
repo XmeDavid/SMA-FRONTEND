@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+
 import '../api_interactions/api_functions.dart';
 
 import 'Contract.dart';
@@ -96,8 +98,12 @@ class Ticket {
     }
   }
 
-  static Future<List<Ticket>> getAll(bool detailed) async{
+  static Future<List<Ticket>?> getAll(bool detailed) async{
     var res = await ClientApi.get("tickets${detailed ? '?format=detailed' : ''}");
+    if(res.statusCode == 401){
+      Get.toNamed('login');
+      return null;
+    }
     List<Ticket> data = <Ticket>[];
     for(var ticketJson in jsonDecode(res.body)['data']){
       Ticket ticket = detailed ? Ticket.fromJsonDetailed(ticketJson) : Ticket.fromJson(ticketJson);
