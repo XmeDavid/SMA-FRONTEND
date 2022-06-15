@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/screens/entities/list.dart';
 import 'package:sma_frontend/screens/auth/login.dart';
 
@@ -135,7 +136,7 @@ class SideMenu extends StatelessWidget {
                           Divider(),
                           ListTile(
                               leading: Icon(Icons.person),
-                              title: Text('User'),
+                              title: Text(GetStorage().read('user_first_name') ?? "User"),
                           ),
                         ],
                       )

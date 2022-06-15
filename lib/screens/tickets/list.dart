@@ -41,7 +41,7 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width < 1100 ? AppBar(
+      appBar: MediaQuery.of(context).size.width < 1000 ? AppBar(
         title: const Text("Ticket Management"),
         backgroundColor: bgColor,
       ) : null,
@@ -52,23 +52,127 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
             if(Responsive.isDesktop(context)) const Expanded(child: SideMenu()),
             Expanded(
               flex: 6,
-              child: Column(
+              child: Responsive.isDesktop(context) ?
+              /** Desktop Version */Row(
                 children: [
                   Container(
-                    height: 200,
-                    width: MediaQuery.of(context).size.width,
-                    color: secondColor3
-                  ),
-                  Container(
-                    child: TicketView(
-                      format: TicketViewFormat.SMALL,
-                      ticket: loaded ? tickets.first : ((){
-                        loadAttempts < 3 ? loadTickets() :  null;
-                      })(),
+                    width: 200,
+                    height: MediaQuery.of(context).size.height ,
+                    color: secondColor3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(defaultPadding),
+                          child: Text("Queues",
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: (){},
+                          child: const Text("All Tickets",
+                            style: TextStyle(
+                              color: Colors.white
+                            ),
+                          )
+                        )
+                      ],
                     ),
-                  )
+                  ),
+                  Spacer(),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    height: MediaQuery.of(context).size.height,
+                    color: secondColor3,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            child: TicketView(
+                              format: TicketViewFormat.SMALL,
+                              ticket: loaded ? tickets.first : ((){
+                                loadAttempts < 3 ? loadTickets() :  null;
+                              })(),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            child: TicketView(
+                              format: TicketViewFormat.SMALL,
+                              ticket: loaded ? tickets.first : ((){
+                                loadAttempts < 3 ? loadTickets() :  null;
+                              })(),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            child: TicketView(
+                              format: TicketViewFormat.SMALL,
+                              ticket: loaded ? tickets.first : ((){
+                                loadAttempts < 3 ? loadTickets() :  null;
+                              })(),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            child: TicketView(
+                              format: TicketViewFormat.SMALL,
+                              ticket: loaded ? tickets.first : ((){
+                                loadAttempts < 3 ? loadTickets() :  null;
+                              })(),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            child: TicketView(
+                              format: TicketViewFormat.SMALL,
+                              ticket: loaded ? tickets.first : ((){
+                                loadAttempts < 3 ? loadTickets() :  null;
+                              })(),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            child: TicketView(
+                              format: TicketViewFormat.SMALL,
+                              ticket: loaded ? tickets.first : ((){
+                                loadAttempts < 3 ? loadTickets() :  null;
+                              })(),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            child: TicketView(
+                              format: TicketViewFormat.SMALL,
+                              ticket: loaded ? tickets.first : ((){
+                                loadAttempts < 3 ? loadTickets() :  null;
+                              })(),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            child: TicketView(
+                              format: TicketViewFormat.SMALL,
+                              ticket: loaded ? tickets.first : ((){
+                                loadAttempts < 3 ? loadTickets() :  null;
+                              })(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ),
+                  Spacer(),
+
                 ],
-              )
+              ):
+              /** Mobile Version */Container()
             )
           ],
         ),

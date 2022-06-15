@@ -32,7 +32,6 @@ class _RecoverPasswordState extends State<RecoverPasswordScreen> {
   }
 
   sendRecoveryEmail() async{
-    print("asdsad");
     Auth.sendRecovery(email.text);
   }
 

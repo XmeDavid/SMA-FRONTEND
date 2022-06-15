@@ -9,6 +9,7 @@ import 'package:sma_frontend/api_interactions/api_functions.dart';
 import 'package:sma_frontend/consts.dart';
 
 import '../../models/Auth.dart';
+import '../../models/User.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -40,6 +41,10 @@ class _LoginPageState extends State<LoginPage> {
     if(auth.needsMfa ?? false){
       Get.toNamed('/auth/mfa');
     }else{
+      User user = await Auth.user();
+      GetStorage().write('user_full_name', user.fullName());
+      GetStorage().write('user_first_name', user.first_name);
+      GetStorage().write('user_photo_path', user.imagePath);
       Get.toNamed('/');
     }
   }

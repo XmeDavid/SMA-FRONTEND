@@ -63,12 +63,12 @@ class Ticket {
         id : json['id'],
         title : json['title'],
         description : json['body_description'],
-        assistantId : json['assistant']['id'],
-        assistant: User.fromJsonDetailed(json['assistant']),
+        assistantId : json['assistant'] != null ? json['assistant']['id'] : null,
+        assistant: json['assistant'] != null ? User.fromJsonDetailed(json['assistant']) : null,
         entityId : json['entity']['id'],
         entity: Entity.fromJsonDetailed(json['entity']),
         contractId : json['contract']['id'],
-        contract: Contract.fromJsonDetailed(json['contract']),
+        contract: Contract.fromJson(json['contract']),
         categoryId : json['categories_id'],
         status : json['status'],
         startDate : json['start_date'],
@@ -99,7 +99,7 @@ class Ticket {
   static Future<List<Ticket>> getAll(bool detailed) async{
     var res = await ClientApi.get("tickets${detailed ? '?format=detailed' : ''}");
     List<Ticket> data = <Ticket>[];
-    for(var ticketJson in jsonDecode(res.body)){
+    for(var ticketJson in jsonDecode(res.body)['data']){
       Ticket ticket = detailed ? Ticket.fromJsonDetailed(ticketJson) : Ticket.fromJson(ticketJson);
       data.add(ticket);
     }

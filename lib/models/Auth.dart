@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/api_interactions/api_functions.dart';
 
+import 'User.dart';
+
 class Auth{
   final String tokenType;
   final int expiresIn;
@@ -54,5 +56,10 @@ class Auth{
     await ClientApi.post('password/reset/send',jsonEncode(<String,String>{
       'email' : email
     }));
+  }
+
+  static Future<User> user() async {
+    var res = await ClientApi.get('users/me');
+    return User.fromJson(jsonDecode(res.body));
   }
 }
