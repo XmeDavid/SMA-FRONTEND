@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:sma_frontend/models/TicketCategory.dart';
 
 import '../api_interactions/api_functions.dart';
 
@@ -19,6 +20,7 @@ class Ticket {
   int contractId;
   Contract? contract;
   int categoryId;
+  TicketCategory? category;
   String status;
   String startDate;
   String estimatedTime;
@@ -36,6 +38,7 @@ class Ticket {
     required this.contractId,
     this.contract,
     required this.categoryId,
+    this.category,
     required this.status,
     required this.startDate,
     required this.estimatedTime,
@@ -71,7 +74,8 @@ class Ticket {
         entity: Entity.fromJsonDetailed(json['entity']),
         contractId : json['contract']['id'],
         contract: Contract.fromJson(json['contract']),
-        categoryId : json['categories_id'],
+        categoryId : json['category']['id'],
+        category: TicketCategory.fromJson(json['category']),
         status : json['status'],
         startDate : json['start_date'],
         estimatedTime : json['estimated_time'],
@@ -98,8 +102,9 @@ class Ticket {
     }
   }
 
-  static Future<List<Ticket>?> getAll(bool detailed) async{
-    var res = await ClientApi.get("tickets${detailed ? '?format=detailed' : ''}");
+  static Future<List<Ticket>?> getAll(bool detailed, String status, String search) async{
+    var url = "tickets${detailed ? '?format=detailed' : ''}${status != "" ? "&status=$status" : ""}${(search != null && search != "") ? "&search=$search" : ""}";
+    var res = await ClientApi.get(url);
     if(res.statusCode == 401){
       Get.toNamed('login');
       return null;
@@ -109,6 +114,7 @@ class Ticket {
       Ticket ticket = detailed ? Ticket.fromJsonDetailed(ticketJson) : Ticket.fromJson(ticketJson);
       data.add(ticket);
     }
+
     return data;
   }
 }

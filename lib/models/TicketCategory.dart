@@ -21,7 +21,7 @@ class TicketCategory{
     List<TicketCategory> tempTicketCategories = <TicketCategory>[];
     var res = await ClientApi.get("tickets/categories");
     dynamic json = jsonDecode(res.body);
-    for(var ticketCategoryJson in json){
+    for(var ticketCategoryJson in json['data']){
       TicketCategory ticketCategory = TicketCategory.fromJson(ticketCategoryJson);
       tempTicketCategories.add(ticketCategory);
     }
