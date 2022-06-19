@@ -7,7 +7,6 @@ import 'package:sma_frontend/responsive.dart';
 import 'package:sma_frontend/screens/side_menu.dart';
 import 'package:sma_frontend/widgets/Card.dart';
 
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../models/TicketStates.dart';
 import '../../widgets/ticketView.dart';
@@ -32,7 +31,7 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
 
   void loadTickets() async {
     if(!loaded){
-      var t = await Ticket.getAll(true,_status.state, searchController.text);
+      var t = await Ticket.getAll(true,_status.state, searchController.text, _category);
       if(t == null) return;
       setState(() {
         tickets = t;
@@ -142,6 +141,9 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
                                       border: OutlineInputBorder(),
                                       labelText: "Search"),
                                   onEditingComplete: () {
+                                    setState((){
+                                      loaded = false;
+                                    });
                                     loadTickets();
                                   },
                                 ),
@@ -165,8 +167,9 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
                                 onChanged: (dynamic newValue) {
                                   setState(() {
                                     _category = newValue;
+                                    loaded = false;
                                   });
-                                  print("${newValue} - ${categories?.where((element) => element.id == newValue).first.name}");
+                                  loadTickets();
                                 },
                                 value: _category,
                                 underline: DropdownButtonHideUnderline(

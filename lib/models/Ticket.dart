@@ -102,8 +102,9 @@ class Ticket {
     }
   }
 
-  static Future<List<Ticket>?> getAll(bool detailed, String status, String search) async{
-    var url = "tickets${detailed ? '?format=detailed' : ''}${status != "" ? "&status=$status" : ""}${(search != null && search != "") ? "&search=$search" : ""}";
+  static Future<List<Ticket>?> getAll(bool detailed, String status, String search, int categoryId) async{
+    var url = "tickets${detailed ? '?format=detailed' : ''}${status != "" ? "&status=$status" : ""}${(search != null && search != "") ? "&search=$search" : ""}${categoryId != -1 ? "&categories_id=$categoryId" : ""}";
+    print(url);
     var res = await ClientApi.get(url);
     if(res.statusCode == 401){
       Get.toNamed('login');

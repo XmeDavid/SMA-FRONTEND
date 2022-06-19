@@ -24,7 +24,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   bool isTicketsloaded = false;
 
   void loadTickets() async {
-    var tempTickets = await Ticket.getAll(true,"","");
+    var tempTickets = await Ticket.getAll(true,"","",-1);
     if(tempTickets == null) return;
     setState(() {
       tickets = tempTickets;
