@@ -82,7 +82,7 @@ class Contract{
   static Future<List<Contract>> getAll() async{
     List<Contract> tempContracts = <Contract>[];
     var res = await ClientApi.get("contracts");
-    for(var contractJson in jsonDecode(res.body)){
+    for(var contractJson in jsonDecode(res.body)['data']){
       Contract contract = Contract.fromJson(contractJson);
       tempContracts.add(contract);
     }

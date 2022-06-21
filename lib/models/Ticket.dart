@@ -104,7 +104,6 @@ class Ticket {
 
   static Future<List<Ticket>?> getAll(bool detailed, String status, String search, int categoryId) async{
     var url = "tickets${detailed ? '?format=detailed' : ''}${status != "" ? "&status=$status" : ""}${(search != null && search != "") ? "&search=$search" : ""}${categoryId != -1 ? "&categories_id=$categoryId" : ""}";
-    print(url);
     var res = await ClientApi.get(url);
     if(res.statusCode == 401){
       Get.toNamed('login');
@@ -117,5 +116,30 @@ class Ticket {
     }
 
     return data;
+  }
+
+  static Future<Ticket?> create(Entity entity, String title, String description, TicketCategory category, Contract contract) async{
+    var res = await ClientApi.create('tickets', jsonEncode(<String, dynamic>{
+      //'entities_id' : entity.id,
+      'contracts_id' : contract.id,
+      'title' : title,
+      'body_description' : description,
+      'start_date':'2000-09-14',
+      'categories_id':category.id
+    }));
+    if(res.statusCode == 401){
+      throw Exception("Unauthenticated");
+      return null;
+    }
+    if(res.statusCode == 500){
+      print(res.body);
+      throw Exception("Internal Server Error: ${res.body}");
+    }
+    if(res.statusCode == 422){
+      print(res.body);
+      throw Exception("Unprocessable Content (Something in the request is wrong, wrong user, expired contract, etc...): ${res.body}");
+    }
+    //TODO if everything is alright parse the res.body into a Ticket and return it
+    return null;
   }
 }

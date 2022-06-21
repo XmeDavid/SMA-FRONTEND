@@ -10,6 +10,7 @@ import 'package:sma_frontend/models/TicketCategory.dart';
 import '../../api_interactions/api_functions.dart';
 import '../../models/Entity.dart';
 import '../../models/Asset.dart';
+import '../../models/Ticket.dart';
 import '../../responsive.dart';
 import '../../consts.dart';
 import '../../widgets/ui_fields.dart';
@@ -161,9 +162,10 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                               ),
                             ),
                             //TODO Still need a way to input estimated time
+                            //TODO Maybe add option to attach files
                             ElevatedButton(
                                 onPressed: (){
-                                  print("Client: "+ _selectedClient +"\nTitle: " + ticketTitleController.text + "\nDescription: " + ticketDescriptionController.text + "\nCategory: " + _selectedCategory + "\nContract: " + _selectedContract);
+                                  Ticket.create(entities.where((element) => element.toString() ==_selectedClient).first, ticketTitleController.text, ticketDescriptionController.text,categories.where((element) => element.toString() ==  _selectedCategory).first, contracts.where((element) => element.toString() == _selectedContract).first);
                                   print("Assets: " + _selectedAssets.toString());
                                 },
                                 child: const Text("Create Ticket"))
