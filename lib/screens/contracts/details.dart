@@ -54,8 +54,6 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
     });
   }
 
-
-
   void loadContract() async{
     //var contracts = await ModelApi.getContracts();
     var _contract = await Contract.get(int.parse(Get.parameters['id'] ?? ''), true);

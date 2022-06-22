@@ -13,7 +13,7 @@ class User{
   final String last_name;
   final String birthDate;
   final String? phoneNumber;
-  final String imagePath;
+  final String? imagePath;
   final int entityId;
   final Entity? entity;
   final String email;
@@ -29,7 +29,7 @@ class User{
     required this.entityId,
     this.entity,
     required this.phoneNumber,
-    required this.imagePath,
+    this.imagePath,
     required this.perHour,
     required this.mfaEnabled,
 });

@@ -48,6 +48,23 @@ class Asset{
     );
   }
 
+  static Future<Asset?> get(int id) async{
+    try{
+      var res = await ClientApi.get("assets/$id");
+      if(res.statusCode != 200){
+        switch(res.statusCode){
+          case 401:
+            throw Exception("Unauthenticated");
+          case 500:
+            throw Exception("Internal Server Error");
+        }
+      }
+      return Asset.fromJson(jsonDecode(res.body));
+    }on Exception catch(e){
+      return null;
+    }
+  }
+
   static Future<List<Asset>> getAll() async{
     List<Asset> tempAssets = <Asset>[];
     var res = await ClientApi.get("assets");

@@ -21,6 +21,7 @@ class ClientApi{
 
   static Future<http.Response> get(String s) async{
     String? authToken = GetStorage().read('token');
+    print(authToken);
     return await (http.get(
         Uri.parse(API_URL + s),
         headers: <String, String>{

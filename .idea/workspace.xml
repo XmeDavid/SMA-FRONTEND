@@ -5,16 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0e2811f8-48fc-4a25-9718-2434da2a1635" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/config.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/models/Ticket.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/widgets/BarChartComponent.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/widgets/Card.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/consts.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/consts.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/api_interactions/api_functions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/api_interactions/api_functions.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/Asset.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Asset.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/User.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/User.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/auth/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/auth/login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/contracts/details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/contracts/details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/tickets/details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/tickets/details.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
