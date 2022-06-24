@@ -1,0 +1,375 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../consts.dart';
+import '../models/Task.dart';
+
+class TaskView extends StatelessWidget {
+  const TaskView(
+      {Key? key, required this.task, this.isCard = false, this.isLine = false})
+      : super(key: key);
+
+  final bool isLine;
+  final bool isCard;
+  final Task? task;
+
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
+  }
+
+  void goToTask() {
+    Get.toNamed("/tickets/tasks/${task?.id ?? ""}");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isCard && task != null) {
+      return Padding(
+        padding: const EdgeInsets.only(
+          left: 10,
+          right: 10,
+          top: 10,
+        ),
+        child: Container(
+          height: 128,
+          decoration: BoxDecoration(
+            border: Border.all(color: secondColor),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
+          child: Column(
+            children: [
+              TextButton(
+                onPressed: () {
+                  goToTask();
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(color: secondColor),
+                          )),
+                      child: Row(
+                        children: [
+                          Text(
+                            (task!.title).length > 28
+                                ? "${task!.title.substring(0, 25)}..."
+                                : task!.title,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            " - ${task!.startDate.substring(0, 10)}",
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 8),
+                          ),
+                          const Spacer()
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Text(
+                          task!.description,
+                          style: const TextStyle(
+                              fontSize: 10,
+                              color: Color.fromRGBO(224, 224, 224, 1),
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              Container(
+                decoration: const BoxDecoration(
+                    border: Border(
+                      top: BorderSide(color: secondColor),
+                    )),
+                child: Row(
+                  children: [
+                    TextButton(
+                        onPressed: () {},
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "assignee",
+                              style: TextStyle(
+                                  color: Color.fromRGBO(224, 224, 224, 0.5),
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 10),
+                            ),
+                            Text(
+                              task != null && task?.user != null
+                                  ? "${task!.user!.fullName().length <= 12 ? task?.user?.fullName() : '${task?.user?.fullName().substring(0, 10)}...'}"
+                                  : "Unassigned",
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500),
+                            )
+                          ],
+                        )),
+                    TextButton(
+                        onPressed: () {
+                          var s = task!.entity?.id ?? "";
+                          Get.toNamed('entities/$s');
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "End Date",
+                              style: TextStyle(
+                                  color: Color.fromRGBO(224, 224, 224, 0.5),
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 10),
+                            ),
+                            Text(
+                              task!.endDate ?? "No end date",
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500),
+                            )
+                          ],
+                        )),
+                    TextButton(
+                        onPressed: null,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "due in",
+                              style: TextStyle(
+                                  color: Color.fromRGBO(224, 224, 224, 0.5),
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 10),
+                            ),
+                            Text(
+                              task!.endDate == null ? "No Ending Date": "${daysBetween(DateTime.parse(task!.startDate), DateTime.parse(task!.endDate ?? ''))} days",
+                              //"${task?.endDate} days",
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500),
+                            )
+                          ],
+                        )),
+                    const Spacer(),
+                    TextButton(onPressed: () {}, child: const Icon(Icons.menu)),
+                    //const Icon(Icons.menu,size: 10,))
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+    if (isLine  && task != null) {
+      return Padding(
+          padding: const EdgeInsets.only(
+            left: 10,
+            right: 10,
+            top: 10,
+          ),
+          child: Container(
+            height: 40,
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                color: secondColor3),
+            child: Row(
+              children: [
+                /** Task Title and start date */
+                TextButton(
+                  onPressed: () {
+                    Get.toNamed('/tickets/tasks/${task!.id}');
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                          width: 256,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 1,
+                              bottom: 1,
+                              right: 5,
+                              left: 5,
+                            ),
+                            child: Text(
+                              (task?.title ?? "").length > 25
+                                  ? "${task?.title.substring(0, 26)}..."
+                                  : "${task?.title}",
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          )),
+                      Container(
+                        width: 256,
+                        child: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Text(
+                            " - ${task?.startDate.substring(0, 10)}",
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 9),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                /** Category */
+                TextButton(
+                    onPressed: task!.entityId == null
+                        ? null
+                        : () {
+                      Get.toNamed('entities/${task!.entityId}');
+                    },
+                    child: Container(
+                      width: 128,
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Entity",
+                            style: TextStyle(color: Colors.grey, fontSize: 9),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 1,
+                              bottom: 1,
+                              right: 5,
+                              left: 5,
+                            ),
+                            child: Text(
+                              task!.entity == null
+                                  ? "Unknown"
+                                  : task!.entity!.id.toString(),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ],
+                      ),
+                    )),
+                /** Assigned user */
+                TextButton(
+                    onPressed: task!.userId == null
+                        ? null
+                        : () {
+                      Get.toNamed('/users/${task!.userId}');
+                    },
+                    child: Container(
+                      width: 160,
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: const Padding(
+                              padding: EdgeInsets.all(0),
+                              child: Text(
+                                "assigned to",
+                                style:
+                                TextStyle(color: Colors.grey, fontSize: 9),
+                              ),
+                            ),
+                          ),
+                          Container(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 1,
+                                  bottom: 1,
+                                  right: 5,
+                                  left: 5,
+                                ),
+                                child: Text(
+                                  task!.user == null
+                                      ? "Unassigned"
+                                      : task!.user!.fullName().length > 30
+                                      ? "${task!.user!.fullName().substring(0, 30)}..."
+                                      : task!.user!.fullName(),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )),
+                        ],
+                      ),
+                    )),
+
+                /** Created by */
+                if (MediaQuery.of(context).size.width > 1200)
+                  TextButton(
+                      onPressed: () {
+                        //Get.toNamed('tickets/tasks/${task.id}');
+                      },
+                      child: Container(
+                        width: 200,
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: const Padding(
+                                padding: EdgeInsets.all(0),
+                                child: Text(
+                                  "End Date",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 9),
+                                ),
+                              ),
+                            ),
+                            Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 1,
+                                    bottom: 1,
+                                    right: 5,
+                                    left: 5,
+                                  ),
+                                  child: Text(
+                                    task!.entity == null
+                                        ? "Unknown"
+                                        : task!.entity!.name.length > 23
+                                        ? "${task!.entity!.name.substring(0, 23)}..."
+                                        : task!.entity!.name,
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )),
+                          ],
+                        ),
+                      )),
+                const Spacer(),
+                TextButton(
+                    onPressed: () {
+                      goToTask();
+                    },
+                    child: const Icon(Icons.menu)),
+              ],
+            ),
+          ));
+    }
+    return Container();
+  }
+}
