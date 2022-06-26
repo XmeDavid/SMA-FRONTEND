@@ -24,6 +24,7 @@ import 'package:sma_frontend/screens/users/details.dart';
 import 'package:sma_frontend/screens/users/list.dart';
 import 'consts.dart';
 import 'screens/auth/recovery.dart';
+import 'screens/tasks/new.dart';
 
 void main() async{
   await dotenv.load();
@@ -66,6 +67,8 @@ class SMA extends StatelessWidget {
         GetPage(name: '/tickets', page: () => const ListTicketScreen()),
         GetPage(name: '/tickets/new', page: () => const NewTicketScreen()),
         GetPage(name: '/tickets/:id', page: () => const TicketDetails()),
+        GetPage(name: '/tasks/', page: () => const NewTaskScreen()),
+        GetPage(name: '/tickets/:id/tasks/new', page: () => const NewTaskScreen()),
 
       ],
     );

@@ -12,8 +12,6 @@ import '../../widgets/tasks_components.dart';
 import '../../widgets/ui_fields.dart';
 import '../side_menu.dart';
 
-
-
 class TicketDetails extends StatefulWidget {
   const TicketDetails({Key? key}) : super(key: key);
 
@@ -465,45 +463,16 @@ class _TicketDetailsState extends State<TicketDetails> {
                             ),
                           ),
                         ),
-                        tasksLoaded ? Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height - 216,
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 30,
-                                  width: 200,
-                                  child: Row(
-                                    children: [
-                                      Text("Create Task: "),
-                                      TextButton(
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext dialogContext) {
-                                                return NewTaskDialog(title: 'Create task for Ticket #${ticket?.id} - ${ticket?.title ?? ""}', actions: [],userId: GetStorage().read('user_id'), ticketId: ticket.id,);
-                                              },
-                                            );
-                                          },
-                                          child: const Icon(Icons.add)
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: MediaQuery.of(context).size.height - 416,
-                                  child: ListView.builder(
-                                      itemBuilder: (context, index) {
-                                        return TaskView(
-                                            task: tasks[index], isCard: true);
-                                      },
-                                      itemCount: tasks.length
-                                  ),
-                                ),
-                              ]
-                            )
-                        )
+                        tasksLoaded
+                            ? Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height - 216,
+                                child: ListView.builder(
+                                    itemBuilder: (context, index) {
+                                      return TaskView(
+                                          task: tasks[index], isCard: true);
+                                    },
+                                    itemCount: tasks.length))
                             : const CircularProgressIndicator(),
                         Icon(Icons.directions_bike),
                       ],

@@ -104,6 +104,26 @@ class Task {
     return 'Task{id: $id, title: $title, description: $description, userId: $userId, user: $user, entityId: $entityId, entity: $entity, ticketId: $ticketId, ticketAssociated: $ticketAssociated, startDate: $startDate, endDate: $endDate}';
   }
 
+  static Future<dynamic> create(int userId, int ticketId, String title, String description) async{
+    var res = await ClientApi.create('tickets/tasks', jsonEncode(<String, dynamic>{
+      'users_id' : userId,
+      'tickets_id' : ticketId,
+      'title' : title,
+      'body_description' : description,
+    }));
+    String? message;
+    if(res.statusCode == 401){
+      message = "Unauthenticated";
+    }
+    if(res.statusCode == 500){
+      message = "Internal Server Error: ${res.body}";
+    }
+    if(res.statusCode == 422){
+      message = "Unprocessable Content (Something in the request is wrong, wrong user, expired contract, etc...): ${res.body}";
+    }
+    return {'data' : userId, 'message' : message, 'code' : res.statusCode, 'test' : 'hey'};//Task.fromJsonDetailed(jsonDecode(res.body))};
+  }
+
 /*static Future<Task?> create(Entity entity, String title, String description, TicketCategory category, Contract contract) async{
     var res = await ClientApi.create('tickets', jsonEncode(<String, dynamic>{
       //'entities_id' : entity.id,

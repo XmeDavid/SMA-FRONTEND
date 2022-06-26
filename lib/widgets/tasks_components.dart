@@ -3,6 +3,75 @@ import 'package:get/get.dart';
 
 import '../consts.dart';
 import '../models/Task.dart';
+import '../responsive.dart';
+import 'ui_fields.dart';
+
+class NewTaskDialog extends StatefulWidget {
+  final String title;
+  final List<Widget> actions;
+  final int ticketId;
+  final int userId;
+
+  const NewTaskDialog({Key? key, required this.title, required this.actions, required this.ticketId, required this.userId}) : super(key: key);
+
+
+
+  @override
+  State<NewTaskDialog> createState() => _NewTaskDialogState();
+}
+
+class _NewTaskDialogState extends State<NewTaskDialog> {
+
+  var taskTitleController = TextEditingController();
+  var taskDescriptionController = TextEditingController();
+
+  void createTask() async{
+    dynamic res = await Task.create(widget.userId, widget.ticketId, taskTitleController.text, taskDescriptionController.text);
+    if(res['code'] == 422){
+      //TODO Treat Empty Fields
+    }
+    if(res['code'] == 201){
+      print("all good");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        widget.title,
+      ),
+      actions: widget.actions,
+      content: Form(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              TextLine(
+                labelText: "Task",
+                hintText: "Task Title",
+                controller: taskTitleController,
+                size: MediaQuery.of(context).size.height * 0.6,
+              ),
+              TextArea(
+                labelText: "Description",
+                hintText: "Task Description",
+                controller: taskDescriptionController,
+                size: MediaQuery.of(context).size.height * 0.6,
+              ),
+              ElevatedButton(
+                  onPressed: (){
+                    createTask();
+                  },
+                  child: const Text("Create Ticket"))
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
 
 class TaskView extends StatelessWidget {
   const TaskView(
@@ -20,7 +89,8 @@ class TaskView extends StatelessWidget {
   }
 
   void goToTask() {
-    Get.toNamed("/tickets/tasks/${task?.id ?? ""}");
+    print("/tickets/tasks/${task?.id ?? ""}");
+    //Get.toNamed("/tickets/tasks/${task?.id ?? ""}");
   }
 
   @override
@@ -165,7 +235,9 @@ class TaskView extends StatelessWidget {
                           ],
                         )),
                     const Spacer(),
-                    TextButton(onPressed: () {}, child: const Icon(Icons.menu)),
+                    TextButton(onPressed: () {
+
+                    }, child: const Icon(Icons.menu)),
                     //const Icon(Icons.menu,size: 10,))
                   ],
                 ),

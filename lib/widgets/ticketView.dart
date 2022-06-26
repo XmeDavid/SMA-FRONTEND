@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/consts.dart';
 
 import '../models/Ticket.dart';
+import 'tasks_components.dart';
 
 class TicketView extends StatelessWidget {
   const TicketView(
@@ -168,7 +170,14 @@ class TicketView extends StatelessWidget {
                           ],
                         )),
                     const Spacer(),
-                    TextButton(onPressed: () {}, child: const Icon(Icons.menu)),
+                    TextButton(onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return NewTaskDialog(title: 'Create task for Ticket #${ticket?.id} - ${ticket?.title ?? ""}', actions: [],userId: GetStorage().read('user_id') ?? -1, ticketId: ticket?.id ?? -1,);
+                        },
+                      );
+                    }, child: const Icon(Icons.add)),
                     //const Icon(Icons.menu,size: 10,))
                   ],
                 ),
@@ -360,9 +369,17 @@ class TicketView extends StatelessWidget {
                     )
                 ),
                 const Spacer(),
-                TextButton(onPressed: () {
-                  goToTicket();
-                }, child: const Icon(Icons.menu)),
+                TextButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return NewTaskDialog(title: 'Create task for Ticket #${ticket?.id} - ${ticket?.title ?? ""}', actions: [],userId: GetStorage().read('user_id') ?? -1, ticketId: ticket?.id ?? -1,);
+                      },
+                    );
+                  },
+                  child: const Icon(Icons.add)
+                ),
               ],
             ),
           ));
