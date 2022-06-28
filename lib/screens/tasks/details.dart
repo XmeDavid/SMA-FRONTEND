@@ -1,487 +1,219 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:sma_frontend/models/Asset.dart';
-import '../../consts.dart';
+import 'package:sma_frontend/models/Address.dart';
+import 'package:sma_frontend/models/Contract.dart';
+import 'package:sma_frontend/models/Country.dart';
+import 'package:sma_frontend/models/EntityType.dart';
+import 'package:sma_frontend/models/TicketCategory.dart';
+
+
+import '../../api_interactions/api_functions.dart';
+import '../../models/Entity.dart';
+import '../../models/Asset.dart';
 import '../../models/Task.dart';
-import '../../models/Ticket.dart';
 import '../../responsive.dart';
-import '../../widgets/tasks_components.dart';
+import '../../consts.dart';
 import '../../widgets/ui_fields.dart';
 import '../side_menu.dart';
 
-class TicketDetails extends StatefulWidget {
-  const TicketDetails({Key? key}) : super(key: key);
+class TaskDetailsScreen extends StatefulWidget {
+  const TaskDetailsScreen({Key? key}) : super(key: key);
 
   @override
-  State<TicketDetails> createState() => _TicketDetailsState();
+  State<TaskDetailsScreen> createState() => _TaskDetailsState();
+
+
 }
 
-class _TicketDetailsState extends State<TicketDetails> {
-  final ticketTitleController = TextEditingController();
-  final ticketContractController = TextEditingController();
-  final ticketDescriptionController = TextEditingController();
-  final ticketCategoryController = TextEditingController();
-  final ticketEntityController = TextEditingController();
-  final ticketStatusController = TextEditingController();
-  final ticketStartDateController = TextEditingController();
-  final ticketEstimatedTimeController = TextEditingController();
-  final ticketIsSolvedController = TextEditingController();
-  final ticketFilesPathController = TextEditingController();
+class _TaskDetailsState  extends State<TaskDetailsScreen> {
 
-  bool loaded = false;
-  bool tasksLoaded = false;
-  late Ticket ticket;
-  late List<Task> tasks;
+  final _formKey = GlobalKey<FormState>();
 
-  void load() async {
-    Ticket? _ticket =
-        await Ticket.get(int.parse(Get.parameters['id'] ?? ''), true);
-    if (_ticket == null) {
-      return;
-    }
+  final title = TextEditingController();
+  final description = TextEditingController();
+  final startDate = TextEditingController();
+  final endDate = TextEditingController();
 
+  bool isEditMode = false;
+
+  bool taskLoaded = false;
+  late Task task;
+
+  void loadEntity() async{
+    var _task = await Task.get(int.parse(Get.parameters['id'] ?? ''),true);
+    if(_task == null) return;
     setState(() {
-      ticket = _ticket;
-      ticketTitleController.text = ticket.title;
-      ticketDescriptionController.text = ticket.description;
-      ticketCategoryController.text = "${ticket.category}";
-      ticketContractController.text = "${ticket.contractId}";
-      ticketEntityController.text = ticket.entity.toString();
-      ticketStatusController.text = ticket.status;
-      ticketStartDateController.text = ticket.startDate;
-      ticketEstimatedTimeController.text = "${ticket.contractId} months";
-      ticketIsSolvedController.text =
-          ticket.isSolved == true ? "Solved" : "Unsolved";
-      ticketFilesPathController.text = ticket.filesPath;
-      loaded = true;
+      task = _task;
+      title.text = task.title;
+      description.text = task.description;
+      startDate.text = task.startDate;
+      endDate.text = task.endDate ?? "";
+      taskLoaded = true;
     });
   }
 
-  void loadTasks() async {
-    List<Task>? _tasks = await Task.getAll(true);
-    if (_tasks == null) {
-      return;
-    }
+  void saveChanges() async{
+    var _task = Task.update(title.text, description.text, "endDate");
+  }
 
-    setState(() {
-      tasks = _tasks.where((task) => task.ticketId == ticket.id).toList();
-      tasksLoaded = true;
-    });
+  void delete() {
+    Task.delete(task.id);
   }
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
-    load();
-    loadTasks();
+    loadEntity();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: !Responsive.isDesktop(context)
-            ? AppBar(
-                title: const Text("Dashboard"),
-                backgroundColor: bgColor,
-                bottom: const TabBar(
-                  tabs: [
-                    Tab(icon: Icon(Icons.visibility)),
-                    Tab(icon: Icon(Icons.task)),
-                    Tab(icon: Icon(Icons.devices_other)),
-                  ],
-                ),
-              )
-            : null,
-        drawer: const SideMenu(),
-        body: SafeArea(
-          child: loaded
-              ? Responsive.isDesktop(context)
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (Responsive.isDesktop(context))
-                          const Expanded(
-                            flex: 1,
-                            child: SideMenu(),
-                          ),
-                        Expanded(
-                          flex: 5,
+    return Scaffold(
+      appBar: /*!Responsive.isDesktop(context)*/false ? AppBar(
+        title: Text(taskLoaded ? task.title : "Unknown Task"),
+        backgroundColor: bgColor,
+        bottom: const TabBar(
+          tabs: [
+            Tab(icon: Icon(Icons.visibility)),
+            Tab(icon: Icon(Icons.task)),
+            Tab(icon: Icon(Icons.devices_other)),
+          ],
+        ),
+      ) :
+      AppBar(title: Text(taskLoaded ? task.title : "Unknown Task"), backgroundColor: bgColor),
+      drawer: const SideMenu(),
+      body: SafeArea(
+        child: taskLoaded ? Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // We want this side menu only for large screen
+            if (Responsive.isDesktop(context))
+              const Expanded(
+                child: SideMenu(),
+              ),
+            Expanded(
+              flex: 6,
+              child: Center(child:Column(
+                  children:[
+                    if(Responsive.isDesktop(context)) SizedBox(
+                        width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
+                        child: Row(
+                          children:  [
+                            Text(task.title,
+                              style: const TextStyle(
+                                  fontSize: 48
+                              ),
+                            ),
+                            const Spacer()
+                          ],
+                        )
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(defaultPadding),
+                      decoration: const BoxDecoration(
+                          color: secondColor3,
+                          borderRadius: BorderRadius.all(Radius.circular(20))
+                      ),
+                      height: Responsive.isDesktop(context) ? MediaQuery.of(context).size.height * 0.8 : MediaQuery.of(context).size.height * 0.75,
+                      width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
+                      child: Form(
+                        key: _formKey,
+                        child: SingleChildScrollView(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (!Responsive.isMobile(context)) ...[
-                                Center(
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        (Responsive.isDesktop(context)
-                                            ? 0.666
-                                            : 0.9),
-                                    child: const Text(
-                                      "Ticket Detail",
-                                      style: TextStyle(fontSize: 48),
+                              TextLine(
+                                isEnabled: isEditMode,
+                                labelText: "Title",
+                                hintText: "Title",
+                                controller: title,
+                                size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 98,
+                              ),
+                              TextArea(
+                                isEnabled: isEditMode,
+                                labelText: "Description",
+                                hintText: "Description",
+                                controller: description,
+                                size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
+                              ),
+                              TextLine(
+                                isEnabled: isEditMode,
+                                labelText: "Start Date",
+                                hintText: "Start Date",
+                                controller: startDate,
+                                size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 159,
+                              ),
+                              if(endDate.text != "" || isEditMode)TextLine(
+                                isEnabled: isEditMode,
+                                labelText: "End Date",
+                                hintText: "End Date",
+                                controller: endDate,
+                                size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 148,
+                              ),
+                              Row(children: [
+                                Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                    child: OutlinedButton (
+                                      onPressed: (){
+                                        Get.toNamed('/tickets/${task.ticketId ?? ""}');
+                                      },
+                                      child: const Text("Go Back",style: TextStyle(color: Colors.white),),
                                     ),
+                                ),
+                                const Spacer(),
+                                Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                  child: ElevatedButton(
+                                    onPressed: (){
+                                      setState(() {
+                                        isEditMode = !isEditMode;
+                                      });
+                                    },
+                                    child: ((){
+                                      if(isEditMode){
+                                        return const Text("Cancel");
+                                      }
+                                      return const Text("Edit");
+                                    })(),
+                                    style: isEditMode ? ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(thirdColor5),) : ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(firstColor),),
                                   ),
                                 ),
-                              ],
-                              Center(
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      (Responsive.isDesktop(context)
-                                          ? 0.666
-                                          : 0.9),
-                                  child: const ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10)),
-                                    clipBehavior: Clip.hardEdge,
-                                    child: TabBar(
-                                        indicator: BoxDecoration(
-                                          color: secondColor3,
-                                        ),
-                                        labelStyle: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                        unselectedLabelStyle: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal),
-                                        unselectedLabelColor: Colors.white60,
-                                        tabs: [
-                                          Tab(text: 'Details'),
-                                          Tab(text: 'Tasks'),
-                                          Tab(text: 'Assets Involved'),
-                                        ]),
+                                if(isEditMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                  child: OutlinedButton (
+                                    onPressed: (){
+                                      delete();
+                                      Get.toNamed('/tickets/${task.ticketId ?? ""}');
+                                    },
+                                    child: const Text("Delete",style: TextStyle(color: Colors.white),),
+                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red),),
                                   ),
                                 ),
-                              ),
-                              Center(
-                                child: Container(
-                                  padding: const EdgeInsets.all(defaultPadding),
-                                  decoration: const BoxDecoration(
-                                    color: secondColor3,
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(10),
-                                        bottomRight: Radius.circular(10)),
-                                  ),
-                                  height: 550,
-                                  width: MediaQuery.of(context).size.width *
-                                      (Responsive.isDesktop(context)
-                                          ? 0.666
-                                          : 0.9),
-                                  child: TabBarView(
-                                    children: [
-                                      SingleChildScrollView(
-                                        child: Container(
-                                          child: Column(
-                                            children: [
-                                              TextLine(
-                                                labelText: "Title",
-                                                hintText:
-                                                    "Exemplo: Frigorifico deita agua",
-                                                controller:
-                                                    ticketTitleController,
-                                                size: MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        (Responsive.isDesktop(
-                                                                context)
-                                                            ? 0.666
-                                                            : 0.9) -
-                                                    98,
-                                                isEnabled: false,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  TextLine(
-                                                    labelText: "Contract ID",
-                                                    hintText: "no. 23213",
-                                                    controller:
-                                                        ticketContractController,
-                                                    size: MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            (Responsive
-                                                                    .isDesktop(
-                                                                        context)
-                                                                ? 0.666
-                                                                : 0.9) *
-                                                            0.5 -
-                                                        151,
-                                                    isEnabled: false,
-                                                  ),
-                                                  TextLine(
-                                                    labelText: "Assistant ID",
-                                                    hintText: "no. 23213",
-                                                    controller:
-                                                        ticketContractController,
-                                                    size: MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            (Responsive
-                                                                    .isDesktop(
-                                                                        context)
-                                                                ? 0.666
-                                                                : 0.9) *
-                                                            0.5 -
-                                                        162,
-                                                    isEnabled: false,
-                                                  ),
-                                                ],
-                                              ),
-                                              TextArea(
-                                                labelText: "Description",
-                                                hintText: "Ticket Description",
-                                                controller:
-                                                    ticketDescriptionController,
-                                                size: 400,
-                                                isEnabled: false,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  TextLine(
-                                                    labelText: "Category",
-                                                    hintText: "Category",
-                                                    controller:
-                                                        ticketCategoryController,
-                                                    size: MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            (Responsive
-                                                                    .isDesktop(
-                                                                        context)
-                                                                ? 0.666
-                                                                : 0.9) *
-                                                            0.5 -
-                                                        116,
-                                                    isEnabled: false,
-                                                  ),
-                                                  TextLine(
-                                                    labelText: "Entity",
-                                                    hintText: "Entity",
-                                                    controller:
-                                                        ticketEntityController,
-                                                    size: MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            (Responsive
-                                                                    .isDesktop(
-                                                                        context)
-                                                                ? 0.666
-                                                                : 0.9) *
-                                                            0.5 -
-                                                        116,
-                                                    isEnabled: false,
-                                                  )
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  TextLine(
-                                                    labelText: "Start Date",
-                                                    hintText: "Start Date",
-                                                    controller:
-                                                        ticketStartDateController,
-                                                    size: MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            (Responsive
-                                                                    .isDesktop(
-                                                                        context)
-                                                                ? 0.666
-                                                                : 0.9) *
-                                                            0.5 -
-                                                        116,
-                                                    isEnabled: false,
-                                                  ),
-                                                  TextLine(
-                                                    labelText: "Estimated Time",
-                                                    hintText: "Estimated",
-                                                    controller:
-                                                        ticketEstimatedTimeController,
-                                                    size: MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            (Responsive
-                                                                    .isDesktop(
-                                                                        context)
-                                                                ? 0.666
-                                                                : 0.9) *
-                                                            0.5 -
-                                                        223,
-                                                    isEnabled: false,
-                                                  )
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  TextLine(
-                                                    labelText: "Status",
-                                                    hintText: "Status",
-                                                    controller:
-                                                        ticketStatusController,
-                                                    size: MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            (Responsive
-                                                                    .isDesktop(
-                                                                        context)
-                                                                ? 0.666
-                                                                : 0.9) *
-                                                            0.5 -
-                                                        116,
-                                                    isEnabled: false,
-                                                  ),
-                                                  TextLine(
-                                                    labelText: "Is Solved",
-                                                    hintText: "Is Solved",
-                                                    controller:
-                                                        ticketIsSolvedController,
-                                                    size: MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            (Responsive
-                                                                    .isDesktop(
-                                                                        context)
-                                                                ? 0.666
-                                                                : 0.9) *
-                                                            0.5 -
-                                                        118,
-                                                    isEnabled: false,
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      tasksLoaded
-                                          ? ListView.builder(
-                                              itemBuilder: (context, index) {
-                                                return TaskView(
-                                                    task: tasks[index],
-                                                    isLine: true);
-                                              },
-                                              itemCount: tasks.length)
-                                          : const CircularProgressIndicator(),
-                                      Text("Assets WAITING FOR BACKEND"),
-                                    ],
+                                if(isEditMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                  child: ElevatedButton(
+                                    onPressed: (){
+                                      setState(() {
+                                        isEditMode = false;
+                                      });
+                                      saveChanges();
+                                    },
+                                    child: const Text("Save"),
+                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green),),
                                   ),
                                 ),
-                              ),
+                              ],)
                             ],
                           ),
                         ),
-                      ],
-                    )
-                  : TabBarView(
-                      children: [
-                        SingleChildScrollView(
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              children: [
-                                TextLine(
-                                  labelText: "Title",
-                                  hintText: "Exemplo: Frigorifico deita agua",
-                                  controller: ticketTitleController,
-                                  size: MediaQuery.of(context).size.width - 86,
-                                  isEnabled: false,
-                                ),
-                                Row(
-                                  children: [
-                                    TextLine(
-                                      labelText: "Contract ID",
-                                      hintText: "no. 23213",
-                                      controller: ticketContractController,
-                                      size: MediaQuery.of(context).size.width * 0.5 - 160,
-                                      isEnabled: false,
-                                    ),
-                                    TextLine(
-                                      labelText: "Assistant ID",
-                                      hintText: "no. 23213",
-                                      controller: ticketContractController,
-                                      size: MediaQuery.of(context).size.width * 0.5 - 141,
-                                      isEnabled: false,
-                                    ),
-                                  ],
-                                ),
-                                TextArea(
-                                  labelText: "Description",
-                                  hintText: "Ticket Description",
-                                  controller: ticketDescriptionController,
-                                  size: 400,
-                                  isEnabled: false,
-                                ),
-                                TextLine(
-                                  labelText: "Category",
-                                  hintText: "Category",
-                                  controller: ticketCategoryController,
-                                  size: MediaQuery.of(context).size.width-140,
-                                  isEnabled: false,
-                                ),
-                                TextLine(
-                                  labelText: "Entity",
-                                  hintText: "Entity",
-                                  controller: ticketEntityController,
-                                  size: MediaQuery.of(context).size.width-
-                                      100,
-                                  isEnabled: false,
-                                ),
-                                TextLine(
-                                  labelText: "Start Date",
-                                  hintText: "Start Date",
-                                  controller: ticketStartDateController,
-                                  size: MediaQuery.of(context).size.width - 147,
-                                  isEnabled: false,
-                                ),
-                                TextLine(
-                                  labelText: "Estimated Time",
-                                  hintText: "Estimated",
-                                  controller: ticketEstimatedTimeController,
-                                  size: MediaQuery.of(context).size.width - 200,
-                                  isEnabled: false,
-                                ),
-                                TextLine(
-                                  labelText: "Status",
-                                  hintText: "Status",
-                                  controller: ticketStatusController,
-                                  size: MediaQuery.of(context).size.width - 109,
-                                  isEnabled: false,
-                                ),
-                                TextLine(
-                                  labelText: "Is Solved",
-                                  hintText: "Is Solved",
-                                  controller: ticketIsSolvedController,
-                                  size: MediaQuery.of(context).size.width - 133,
-                                  isEnabled: false,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        tasksLoaded
-                            ? Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height - 216,
-                                child: ListView.builder(
-                                    itemBuilder: (context, index) {
-                                      return TaskView(
-                                          task: tasks[index], isCard: true);
-                                    },
-                                    itemCount: tasks.length))
-                            : const CircularProgressIndicator(),
-                        Icon(Icons.directions_bike),
-                      ],
-                    )
-              : const Center(child: CircularProgressIndicator()),
-        ),
-      ),
-    );
+                      ),
+                    ),
+                  ]),
+              ),
+            ),
+          ],
+        ) : const Center(child: CircularProgressIndicator()),
+    ),
+      );
   }
+
 }
-
-

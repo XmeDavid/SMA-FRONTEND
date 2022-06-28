@@ -99,11 +99,6 @@ class Task {
     return data;
   }
 
-  @override
-  String toString() {
-    return 'Task{id: $id, title: $title, description: $description, userId: $userId, user: $user, entityId: $entityId, entity: $entity, ticketId: $ticketId, ticketAssociated: $ticketAssociated, startDate: $startDate, endDate: $endDate}';
-  }
-
   static Future<dynamic> create(int userId, int ticketId, String title, String description) async{
     var res = await ClientApi.create('tickets/tasks', jsonEncode(<String, dynamic>{
       'users_id' : userId,
@@ -121,34 +116,35 @@ class Task {
     if(res.statusCode == 422){
       message = "Unprocessable Content (Something in the request is wrong, wrong user, expired contract, etc...): ${res.body}";
     }
-    return {'data' : userId, 'message' : message, 'code' : res.statusCode, 'test' : 'hey'};//Task.fromJsonDetailed(jsonDecode(res.body))};
+    return {'data' : Task.fromJsonDetailed(jsonDecode(res.body)), 'message' : message, 'code' : res.statusCode};
   }
 
-/*static Future<Task?> create(Entity entity, String title, String description, TicketCategory category, Contract contract) async{
-    var res = await ClientApi.create('tickets', jsonEncode(<String, dynamic>{
-      //'entities_id' : entity.id,
-      'contracts_id' : contract.id,
+  static update(String title, String description, String endDate) async {
+    var res = await ClientApi.update('tickets/tasks', jsonEncode(<String, dynamic>{
       'title' : title,
       'body_description' : description,
-      'start_date':'2000-09-14',
-      'categories_id':category.id
     }));
+    String? message;
     if(res.statusCode == 401){
-      throw Exception("Unauthenticated");
-      return null;
+      message = "Unauthenticated";
     }
     if(res.statusCode == 500){
-      print(res.body);
-      throw Exception("Internal Server Error: ${res.body}");
+      message = "Internal Server Error: ${res.body}";
     }
     if(res.statusCode == 422){
-      print(res.body);
-      throw Exception("Unprocessable Content (Something in the request is wrong, wrong user, expired contract, etc...): ${res.body}");
+      message = "Unprocessable Content (Something in the request is wrong, wrong user, expired contract, etc...): ${res.body}";
     }
-    //TODO if everything is alright parse the res.body into a Ticket and return it
-    return null;
-  }*/
+    return {'data' : res.body, 'message' : message, 'code' : res.statusCode};
+  }
 
 
+  @override
+  String toString() {
+    return 'Task{id: $id, title: $title, description: $description, userId: $userId, user: $user, entityId: $entityId, entity: $entity, ticketId: $ticketId, ticketAssociated: $ticketAssociated, startDate: $startDate, endDate: $endDate}';
+  }
 
+  static void delete(int id) async {
+    var res = await ClientApi.remove('tickets/tasks/$id');
+    print(res.statusCode);
+  }
 }

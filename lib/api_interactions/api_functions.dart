@@ -47,7 +47,7 @@ class ClientApi{
     return await (http.delete(
         Uri.parse(API_URL + s),
         headers: <String, String>{
-          //'Authorization' : 'Bearer ' + GetStorage().read('token')
+          'Authorization' : 'Bearer ' + GetStorage().read('token')
         }
     ));
   }

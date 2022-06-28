@@ -481,7 +481,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                             showDialog(
                                               context: context,
                                               builder: (BuildContext dialogContext) {
-                                                return NewTaskDialog(title: 'Create task for Ticket #${ticket?.id} - ${ticket?.title ?? ""}', actions: [],userId: GetStorage().read('user_id'), ticketId: ticket.id,);
+                                                return NewTaskDialog(title: 'Create task for Ticket #${ticket.id} - ${ticket.title}', actions: [],userId: GetStorage().read('user_id'), ticketId: ticket.id,);
                                               },
                                             );
                                           },
