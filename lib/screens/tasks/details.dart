@@ -301,7 +301,179 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                     ),
 
                   ]),
-              ) : Text(""),
+              ) : /** MOBILE */
+              SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.all(defaultPadding/2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextLine(
+                        isEnabled: isEditMode,
+                        labelText: "Title",
+                        hintText: "Title",
+                        controller: title,
+                        size: MediaQuery.of(context).size.width - 82,
+                      ),
+                      TextArea(
+                        isEnabled: isEditMode,
+                        labelText: "Description",
+                        hintText: "Description",
+                        controller: description,
+                        height: 256,
+                      ),
+                      TextLine(
+                        isEnabled: isEditMode,
+                        labelText: "Start Date",
+                        hintText: "Start Date",
+                        controller: startDate,
+                        size: MediaQuery.of(context).size.width - 143,
+                      ),
+                      if(endDate.text != "" || isEditMode)TextLine(
+                        isEnabled: isEditMode,
+                        labelText: "End Date",
+                        hintText: "End Date",
+                        controller: endDate,
+                        size: MediaQuery.of(context).size.width - 132,
+                      ),
+                      Row(
+                        children: [
+                          Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                            child: OutlinedButton (
+                              onPressed: (){
+                                Get.toNamed('/tickets/${task.ticketId ?? ""}');
+                              },
+                              child: const Text("Go Back",style: TextStyle(color: Colors.white),),
+                            ),
+                          ),
+                          const Spacer(),
+                          Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                            child: ElevatedButton(
+                              onPressed: (){
+                                setState(() {
+                                  isEditMode = !isEditMode;
+                                });
+                              },
+                              child: ((){
+                                if(isEditMode){
+                                  return const Text("Cancel");
+                                }
+                                return const Text("Edit");
+                              })(),
+                              style: isEditMode ? ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(thirdColor5),) : ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(firstColor),),
+                            ),
+                          ),
+                          if(isEditMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                            child: OutlinedButton (
+                              onPressed: (){
+                                delete();
+                                Get.toNamed('/tickets/${task.ticketId ?? ""}');
+                              },
+                              child: const Text("Delete",style: TextStyle(color: Colors.white),),
+                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red),),
+                            ),
+                          ),
+                          if(isEditMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                            child: ElevatedButton(
+                              onPressed: (){
+                                setState(() {
+                                  isEditMode = false;
+                                });
+                                saveChanges();
+                              },
+                              child: const Text("Save"),
+                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green),),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(),
+                      Row(
+                        children: [
+                          const Text("Interventions",
+                            style: TextStyle(
+                                fontSize: 20
+                            ),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                              onPressed: (){
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    Widget cancelButton = TextButton(
+                                        onPressed: (){
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Cancel")
+                                    );
+                                    return RegisterInterventionDialog(
+                                      title: "Register Intervention",
+                                      taskId: task.id,
+                                      actions: [
+                                        cancelButton,
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              icon: const Icon(Icons.add)
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: interventions.length,
+                            itemBuilder: (context, index){
+                              return Padding(
+                                  padding: const EdgeInsets.all(defaultPadding/2),
+                                  child: Container(
+                                      padding: const EdgeInsets.all(defaultPadding/2),
+                                      decoration: const BoxDecoration(
+                                          color: secondColor5,
+                                          borderRadius: BorderRadius.all(Radius.circular(10))
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text("Intervention #${index+1} "),
+                                              Text(" - id ${interventions[index].id}",
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.grey
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              IconButton(
+                                                icon: Icon(Icons.remove,size: 16,),
+                                                onPressed: (){
+                                                  Intervention.remove(interventions[index].id);
+                                                  setState((){
+                                                    interventions.removeAt(index);
+                                                  });
+                                                },
+                                              )
+                                            ],
+                                          ),
+                                          Text("from ${interventions[index].startDate} to ${interventions[index].endDate}"),
+                                          SizedBox(height: 10,),
+                                          Text("${interventions[index].description}")
+                                        ],
+                                      )
+                                  )
+                              );
+                            }
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ),
           ],
         ) : const Center(child: CircularProgressIndicator()),
