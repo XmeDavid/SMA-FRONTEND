@@ -169,7 +169,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                         bottomLeft: Radius.circular(10),
                                         bottomRight: Radius.circular(10)),
                                   ),
-                                  height: 550,
+                                  height: MediaQuery.of(context).size.height > 760 ? 640 : MediaQuery.of(context).size.height -140,
                                   width: MediaQuery.of(context).size.width *
                                       (Responsive.isDesktop(context)
                                           ? 0.666
@@ -239,7 +239,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                 hintText: "Ticket Description",
                                                 controller:
                                                     ticketDescriptionController,
-                                                size: 400,
+                                                height: 256,
                                                 isEnabled: false,
                                               ),
                                               Row(
@@ -415,7 +415,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                   labelText: "Description",
                                   hintText: "Ticket Description",
                                   controller: ticketDescriptionController,
-                                  size: 400,
+                                  height: 400,
                                   isEnabled: false,
                                 ),
                                 TextLine(

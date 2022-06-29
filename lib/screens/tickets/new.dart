@@ -119,7 +119,7 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                                 labelText: "Description",
                                 hintText: "Ticket Description",
                                 controller: ticketDescriptionController,
-                                size: 400),
+                                height: 160),
                             DropDown(
                               label: "Category",
                               callback: (s) =>{_selectedCategory = s},

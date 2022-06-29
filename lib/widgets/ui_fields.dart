@@ -75,12 +75,12 @@ class TextLine extends StatelessWidget {
 }
 
 class TextArea extends StatelessWidget {
-  const TextArea({Key? key, required this.labelText ,required this.hintText, required this.controller, required this.size, this.isEnabled = true}) : super(key: key);
+  const TextArea({Key? key, required this.labelText ,required this.hintText, required this.controller, required this.height, this.isEnabled = true}) : super(key: key);
 
   final String labelText;
   final String hintText;
   final TextEditingController controller;
-  final double size;
+  final double height;
   final bool isEnabled;
 
   @override
@@ -118,9 +118,8 @@ class TextArea extends StatelessWidget {
               ),
               color: thirdColor3,
             ),
-            height: 120,
-            child: Center(
-              child:TextFormField(
+            height: height,
+            child: TextFormField(
                 enabled: isEnabled,
                 keyboardType: TextInputType.multiline,
                 minLines: 6,
@@ -135,7 +134,7 @@ class TextArea extends StatelessWidget {
                     fontSize: 16
                 ),
               ),
-            ),
+
           ),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sma_frontend/models/Intervention.dart';
 
 import '../consts.dart';
 import '../models/Task.dart';
@@ -13,8 +14,6 @@ class NewTaskDialog extends StatefulWidget {
   final int userId;
 
   const NewTaskDialog({Key? key, required this.title, required this.actions, required this.ticketId, required this.userId}) : super(key: key);
-
-
 
   @override
   State<NewTaskDialog> createState() => _NewTaskDialogState();
@@ -56,13 +55,86 @@ class _NewTaskDialogState extends State<NewTaskDialog> {
                 labelText: "Description",
                 hintText: "Task Description",
                 controller: taskDescriptionController,
-                size: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.6,
               ),
               ElevatedButton(
                   onPressed: (){
                     createTask();
                   },
                   child: const Text("Create Ticket"))
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class RegisterInterventionDialog extends StatefulWidget {
+  final String title;
+  final List<Widget> actions;
+  final int taskId;
+
+  const RegisterInterventionDialog({Key? key, required this.title, required this.actions, required this.taskId}) : super(key: key);
+
+  @override
+  State<RegisterInterventionDialog> createState() => _RegisterInterventionState();
+}
+
+class _RegisterInterventionState extends State<RegisterInterventionDialog> {
+
+  var startDate = TextEditingController();
+  var endDate = TextEditingController();
+  var description = TextEditingController();
+
+  void createTask() async{
+    try{
+      await Intervention.create(widget.taskId, startDate.text, endDate.text, description.text);
+    } on Exception catch(_){
+      startDate.text = 'Error : $_';
+      endDate.text = 'Error : $_';
+      description.text = 'Error : $_';
+      Navigator.of(context).pop();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        widget.title,
+      ),
+      actions: widget.actions,
+      content: Form(
+        child: Container(
+          width: 400,
+          height: 400,
+          child: Column(
+            children: [
+              TextLine(
+                labelText: "Start Date",
+                hintText: "When the intervention was started",
+                controller: startDate,
+                size: 273,
+              ),
+              TextLine(
+                labelText: "End Date",
+                hintText: "When the intervention was concluded",
+                controller: endDate,
+                size: 284,
+              ),
+              TextArea(
+                labelText: "Record of the Intervention",
+                hintText: "Here you can register a record of what happend in the intervention, what was done, etc...",
+                controller: description,
+                height: 204,
+              ),
+              ElevatedButton(
+                  onPressed: (){
+                    createTask();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Register"))
             ],
           ),
         ),

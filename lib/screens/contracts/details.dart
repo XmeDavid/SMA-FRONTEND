@@ -147,7 +147,7 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
                                 labelText: "Description",
                                 hintText: "Description of the contract",
                                 controller: descriptionController,
-                                size: 400,
+                                height: 160,
                                 isEnabled: false,
                               ),
                               Row(
