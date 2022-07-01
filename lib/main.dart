@@ -4,6 +4,9 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sma_frontend/screens/assets/details.dart';
+import 'package:sma_frontend/screens/assets/list.dart';
+import 'package:sma_frontend/screens/assets/new.dart';
 
 import 'package:sma_frontend/screens/auth/confirm.dart';
 import 'package:sma_frontend/screens/auth/mfa.dart';
@@ -68,7 +71,9 @@ class SMA extends StatelessWidget {
         GetPage(name: '/tickets/new', page: () => const NewTicketScreen()),
         GetPage(name: '/tickets/:id', page: () => const TicketDetails()),
         GetPage(name: '/tickets/:ticket/tasks/:id', page: () => const TaskDetailsScreen()),
-
+        GetPage(name: '/assets', page: () => const ListAssetsScreen()),
+        GetPage(name: '/assets/new', page: () => const NewAssetScreen()),
+        GetPage(name: '/assets/:id', page: () => const AssetDetailsScreen()),
       ],
     );
   }
