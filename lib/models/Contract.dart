@@ -8,12 +8,13 @@ class Contract{
   final int id;
   final String title;
   final String description;
-  final int entitiesId;
+  final int? entitiesId;
   final Entity? entity;
   final String startDate;
   final String duration;
   final String endDate;
-  final String? cover;
+  final int? totalHours;
+  final int? dislocationKm;
   final bool autoRenovation;
   final String? lastRenovation;
   final double budget;
@@ -25,13 +26,14 @@ class Contract{
     required this.title,
     required this.description,
     this.entity,
-    required this.entitiesId,
+    this.entitiesId,
     required this.startDate,
+    this.totalHours,
+    this.dislocationKm,
     required this.duration,
     required this.endDate,
-    required this.cover,
     required this.autoRenovation,
-    required this.lastRenovation,
+    this.lastRenovation,
     required this.budget,
     required this.allowsSurplus,
     required this.isValidated,
@@ -45,13 +47,14 @@ class Contract{
       description: json['description'],
       entitiesId: json ['entities_id'],
       startDate: json['start_date'],
+      totalHours: json['hours_total'],
+      dislocationKm: json['dislocation_km'],
       duration: json['duration_months'],
       endDate: json['end_date'],
-      cover: json['cover'],
       allowsSurplus: json['allow_surplus'],
-      autoRenovation: json['auto_renovation']==0 ? false : true,
+      autoRenovation: json['auto_renovation'],
       lastRenovation : json['last_renovation_at'],
-      isValidated: json['is_validated']==0 ? false : true,
+      isValidated: json['is_validated'],
       budget: json['budget'],
     );
   }
@@ -60,16 +63,17 @@ class Contract{
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      entitiesId: json['entity']['id'],
-      entity: Entity.fromJsonDetailed(json['entity']),
+      entitiesId: json['entity'] != null ? json['entity']['id'] : null,
+      entity: json['entity'] != null ? Entity.fromJsonDetailed(json['entity']) : null,
       startDate: json['start_date'],
+      totalHours: json['hours_total'],
+      dislocationKm: json['dislocation_km'],
       duration: json['duration_months'],
       endDate: json['end_date'],
-      cover: json['cover'],
       allowsSurplus: json['allow_surplus'],
-      autoRenovation: json['auto_renovation']==0 ? false : true,
+      autoRenovation: json['auto_renovation'],
       lastRenovation : json['last_renovation_at'],
-      isValidated: json['is_validated']==0 ? false : true,
+      isValidated: json['is_validated'],
       budget: json['budget'],
     );
   }
@@ -95,6 +99,7 @@ class Contract{
     List<Contract> data = <Contract>[];
     for(var jsonContract in json['data']){
       Contract contract = detailed ? Contract.fromJsonDetailed(jsonContract) : Contract.fromJson(jsonContract);
+      print(contract);
       data.add(contract);
     }
     return PaginatedModel(

@@ -65,7 +65,6 @@ class _ContractsDetailsScreen  extends State<ContractsDetailsScreen> {
       startDateController.text = contract.startDate;
       endDateController.text = contract.endDate;
       durationController.text = contract.duration;
-      coverController.text = contract.cover ?? '';
       budgetController.text = contract.budget.toString();
       lastRenovationController.text = contract.lastRenovation ?? '';
       loaded = true;
