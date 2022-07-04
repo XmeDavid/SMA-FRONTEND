@@ -59,6 +59,14 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
     Task.delete(task.id);
   }
 
+  void registerIntervention() async{
+    try{
+      await Intervention.create(task.id, startDate.text, endDate.text, description.text);
+    } on Exception catch(_){
+
+    }
+  }
+
   @override
   void initState(){
     super.initState();
@@ -401,17 +409,23 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext dialogContext) {
-                                    Widget cancelButton = TextButton(
-                                        onPressed: (){
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Cancel")
-                                    );
                                     return RegisterInterventionDialog(
                                       title: "Register Intervention",
                                       taskId: task.id,
                                       actions: [
-                                        cancelButton,
+                                        TextButton(
+                                            onPressed: (){
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text("Cancel")
+                                        ),
+                                        ElevatedButton(
+                                            onPressed: (){
+                                              registerIntervention();
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text("Create Intervention")
+                                        ),
                                       ],
                                     );
                                   },

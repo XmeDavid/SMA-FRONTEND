@@ -91,10 +91,7 @@ class _RegisterInterventionState extends State<RegisterInterventionDialog> {
     try{
       await Intervention.create(widget.taskId, startDate.text, endDate.text, description.text);
     } on Exception catch(_){
-      startDate.text = 'Error : $_';
-      endDate.text = 'Error : $_';
-      description.text = 'Error : $_';
-      Navigator.of(context).pop();
+
     }
   }
 
@@ -104,11 +101,10 @@ class _RegisterInterventionState extends State<RegisterInterventionDialog> {
       title: Text(
         widget.title,
       ),
-      actions: widget.actions,
       content: Form(
         child: Container(
           width: 400,
-          height: 400,
+          height: 428,
           child: Column(
             children: [
               TextLine(
@@ -129,12 +125,11 @@ class _RegisterInterventionState extends State<RegisterInterventionDialog> {
                 controller: description,
                 height: 204,
               ),
-              ElevatedButton(
-                  onPressed: (){
-                    createTask();
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("Register"))
+                widget.actions[1],
+              Row(children: [
+                const Spacer(),
+                widget.actions[0],
+              ],)
             ],
           ),
         ),

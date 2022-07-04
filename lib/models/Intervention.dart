@@ -60,6 +60,9 @@ class Intervention{
     if(res.statusCode == 400){
       throw Exception("Can't create Invervention, either this task is solved, canceled, or there was something in the server");
     }
+    if(res.statusCode != 204){
+      throw Exception("Something went wrong!");
+    }
     return Intervention.fromJson(jsonDecode(res.body));
   }
 

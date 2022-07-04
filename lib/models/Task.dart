@@ -55,7 +55,7 @@ class Task {
         title : json['title'],
         description : json['body_description'],
         userId : json['user'] != null ? json['user']['id'] : null,
-        user: json['user'] != null ? User.fromJsonDetailed(json['user']) : null,
+        user: json['user'] != null ? User.fromJson(json['user']) : null,
         entityId : json['entity'] != null ? json['entity']['id'] : null,
         entity: json['entity'] != null ? Entity.fromJsonDetailed(json['entity']) : null,
         ticketId : json['ticket'] != null ? json['ticket']['id'] : null,

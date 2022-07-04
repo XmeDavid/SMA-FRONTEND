@@ -65,9 +65,9 @@ class _TicketDetailsState extends State<TicketDetails> {
   void loadTasks() async {
     List<Task>? _tasks = await Task.getAll(true);
     if (_tasks == null) {
+      print("object");
       return;
     }
-
     setState(() {
       tasks = _tasks.where((task) => task.ticketId == ticket.id).toList();
       tasksLoaded = true;

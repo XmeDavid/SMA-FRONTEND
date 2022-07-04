@@ -28,8 +28,8 @@ class _NewContractScreen extends State<NewContractScreen> {
     var tempDate = await getDateFromPicker(
         context: context,
         initialDate: selectedDate ?? DateTime.now(),
-        firstDate: DateTime(1900),
-        lastDate: DateTime.now());
+        firstDate: DateTime(1970),
+        lastDate: DateTime(2050));
     if (tempDate != null) {
       setState(() {
         selectedDate = tempDate;
@@ -102,7 +102,8 @@ class _NewContractScreen extends State<NewContractScreen> {
                     padding: const EdgeInsets.all(defaultPadding),
                     decoration: const BoxDecoration(
                         color: secondColor3,
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                        borderRadius: BorderRadius.all(Radius.circular(20))
+                    ),
                     height: MediaQuery.of(context).size.height * 0.95 - 118,
                     width: MediaQuery.of(context).size.width *
                         (Responsive.isDesktop(context) ? 0.666 : 0.9),
@@ -174,6 +175,7 @@ class _NewContractScreen extends State<NewContractScreen> {
                                                     : 0.9) -199,
                                         child: Center(
                                           child: TextFormField(
+                                            enabled: false,
                                             controller: startDateController,
                                             decoration:
                                                 const InputDecoration(
@@ -248,6 +250,7 @@ class _NewContractScreen extends State<NewContractScreen> {
                                             : 0.9) -188,
                                     child: Center(
                                       child: TextFormField(
+                                        enabled: false,
                                         controller: endDateController,
                                         decoration:
                                         const InputDecoration(

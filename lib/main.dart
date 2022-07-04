@@ -18,6 +18,9 @@ import 'package:sma_frontend/screens/entities/details.dart';
 import 'package:sma_frontend/screens/entities/create.dart';
 import 'package:sma_frontend/screens/entities/list.dart';
 import 'package:sma_frontend/screens/auth/login.dart';
+import 'package:sma_frontend/screens/settings/role.dart';
+import 'package:sma_frontend/screens/settings/roles.dart';
+import 'package:sma_frontend/screens/settings/settings.dart';
 import 'package:sma_frontend/screens/tickets/details.dart';
 import 'package:sma_frontend/screens/tickets/list.dart';
 import 'package:sma_frontend/screens/tickets/new.dart';
@@ -57,6 +60,9 @@ class SMA extends StatelessWidget {
         GetPage(name: '/auth/mfa', page: () => const MfaScreen()),
         GetPage(name: '/password/reset', page: () => const ResetPasswordScreen()),
         GetPage(name: '/password/recovery', page: () => const RecoverPasswordScreen()),
+        GetPage(name: '/settings', page: () => const SettingsScreen()),
+        GetPage(name: '/settings/roles', page: () => const RolesScreen()),
+        GetPage(name: '/settings/roles/:role', page: () => const RoleScreen()),
         GetPage(name: '/users', page: () => const ListUsersScreen()),
         GetPage(name: '/users/register', page: () => const RegisterUserScreen()),
         GetPage(name: '/users/me', page: () => const UserDetailsScreen()),

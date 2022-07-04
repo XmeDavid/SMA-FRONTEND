@@ -74,7 +74,9 @@ class SideMenu extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.devices),
                 title: const Text("Assets"),
-                onTap: (){},
+                onTap: (){
+                  Get.toNamed('/assets');
+                },
               ),
               ExpansionTile(
                 title: const Text("Contracts"),
@@ -138,7 +140,9 @@ class SideMenu extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.settings),
                 title: const Text("Settings"),
-                onTap: (){},
+                onTap: (){
+                  Get.toNamed('/settings');
+                },
               ),
             ],
           ),
