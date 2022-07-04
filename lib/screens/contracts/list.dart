@@ -204,7 +204,7 @@ class _ListContracts extends State<ListContracts> {
                                           //"Allow\nSurplus",
                                           "Actions"
                                         ].map((e) {
-                                          return DataColumn(label: Text(e));
+                                          return DataColumn(label: Expanded(child: Text(e, textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16))));
                                         }).toList(),
                                         rows: List.generate(
                                             paginatedContractModel.data.length,

@@ -228,7 +228,7 @@ class _ListEntitiesState extends State<ListEntities> {
                                     "Tax\nNumber",
                                     "Actions"
                                   ]
-                                      .map((e) => DataColumn(label: Text(e)))
+                                      .map((e) => DataColumn(label: Expanded(child: Text(e, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)))))
                                       .toList(),
                                   rows: List.generate(
                                       paginatedModel.data.length, (index) {

@@ -68,7 +68,7 @@ class _ListUsersState extends State<ListUsersScreen> {
           : null,
       drawer: const SideMenu(),
       body: SafeArea(
-        child: paginatedUserModel.meta.current_page != -1 ? Row(
+        child: paginatedUserModel.meta.current_page != -1 ? Responsive.isDesktop(context) ? Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // We want this side menu only for large screen
@@ -330,7 +330,50 @@ class _ListUsersState extends State<ListUsersScreen> {
               ])),
             ),
           ],
-        ) : const Center(child: CircularProgressIndicator()),
+        ) : Center(
+          child: ListView.builder(
+            itemCount: paginatedUserModel.data.length,
+            itemBuilder: (context, index) {
+              final user = paginatedUserModel.data[index];
+              return Padding(
+                padding: const EdgeInsets.all(15),
+                child: Column(children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(30.0),
+                    clipBehavior: Clip.hardEdge,
+                    child: ListTile(
+                      trailing: const Icon(Icons.arrow_forward),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20))),
+                      tileColor: cardColor,
+                      leading: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Icon(Icons.person),
+                          VerticalDivider(),
+                        ],),
+                      textColor: Colors.grey,
+                      title: Text(user.fullName(),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
+                      subtitle: Text(
+                        user.email,
+                      ),
+                      onTap: () {
+                        detailsClick(user);
+                      },
+                    ),
+                  ),
+                ]),
+              );
+            },
+          ),
+        ): const Center(child: CircularProgressIndicator()),
       ),
     );
   }
