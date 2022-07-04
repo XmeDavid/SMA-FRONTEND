@@ -126,7 +126,7 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
                       color: secondColor3,
                       borderRadius: BorderRadius.all(Radius.circular(20))
                   ),
-                  height: MediaQuery.of(context).size.height * 0.9,
+                  height: MediaQuery.of(context).size.height - 152,
                   width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
                   child: Form(
                     key: _formKey,
@@ -168,7 +168,7 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
                             getData: getCountrysString,
                           ),
                           AddressField(
-                            height: 280,
+                            height: Responsive.isDesktop(context) ? 280 : 500,
                             width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
                             streetController: streetController,
                             doorController: doorController,

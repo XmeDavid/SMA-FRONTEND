@@ -349,30 +349,18 @@ class _NewContractScreen extends State<NewContractScreen> {
                             ),
                             ElevatedButton(
                                 onPressed: () {
-                                  int entityNo = entities
-                                      .firstWhere((element) =>
-                                          element.id.toString() +
-                                              " - " +
-                                              element.name ==
-                                          _selectedEntity)
-                                      .id;
-
+                                  int entityNo = entities.firstWhere(
+                                          (element) =>
+                                    element.id.toString() + " - " + element.name == _selectedEntity
+                                  ).id;
                                   Future<Contract> contract = Contract.create(
                                       titleController.text,
                                       descriptionController.text,
                                       entityNo,
-                                      selectedDate.toString(),
+                                      '${selectedDate?.year ?? '1970'}-${selectedDate?.month.toString().padLeft(2, '0') ?? '01'}-${selectedDate?.day.toString().padLeft(2, '0') ?? '01'}',
                                       int.parse(durationController.text),
-                                      allowsSurplusController.text
-                                                  .toLowerCase() ==
-                                              "true"
-                                          ? true
-                                          : false,
-                                      autoRenovationController.text
-                                                  .toLowerCase() ==
-                                              "true"
-                                          ? true
-                                          : false,
+                                      allowsSurplusController.text.toLowerCase() == "true" ? true : false,
+                                      autoRenovationController.text.toLowerCase() == "true" ? true : false,
                                       totalHoursController.text,
                                       kmController.text,
                                       double.parse(budgetController.text));

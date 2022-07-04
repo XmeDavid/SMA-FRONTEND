@@ -100,7 +100,7 @@ class Task {
   }
 
   static Future<dynamic> create(int userId, int ticketId, String title, String description) async{
-    var res = await ClientApi.create('tickets/tasks', jsonEncode(<String, dynamic>{
+    var res = await ClientApi.post('tickets/tasks', jsonEncode(<String, dynamic>{
       'users_id' : userId,
       'tickets_id' : ticketId,
       'title' : title,

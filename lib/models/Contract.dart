@@ -108,19 +108,19 @@ class Contract{
     );
   }
 
-  static Future<Contract> create(String title, String description, int entityId, String startDate, int duration, bool allow_surplus, bool auto_renovation, String totalHours, String totalKms, double budget) async{
+  static Future<Contract> create(String title, String description, int entityId, String startDate, int duration, bool allowSurplus, bool autoRenovation, String totalHours, String totalKms, double budget) async{
     var cover = jsonEncode(<String, dynamic> {
       'hours_total' : int.parse(totalHours),
       'dislocation_km' : int.parse(totalKms),
     });
-    var res = await ClientApi.create("path", jsonEncode(<String, dynamic>{
+    var res = await ClientApi.post("contracts", jsonEncode(<String, dynamic>{
       'title': title,
       'description': description,
-      'entities_id': "$entityId",
+      'entities_id': '$entityId',
       'start_date': startDate,
       'duration_months': duration,
-      'allow_surplus': allow_surplus,
-      'auto_renovation': auto_renovation,
+      'allow_surplus': allowSurplus,
+      'auto_renovation': autoRenovation,
       'cover': cover,
       'budget': budget,
     }));

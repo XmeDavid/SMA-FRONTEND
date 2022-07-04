@@ -72,7 +72,7 @@ class User{
   }
 
   static void create(String firstName, String lastName, String birthDate, String email, String phoneNumber, double perHour, int entityId, bool mfa) async{
-    var res = await ClientApi.create("register",jsonEncode(<String, dynamic>{
+    var res = await ClientApi.post("register",jsonEncode(<String, dynamic>{
       'first_name': firstName,
       'last_name': lastName,
       'birth_date' : birthDate,

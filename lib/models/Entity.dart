@@ -62,7 +62,7 @@ class Entity{
   }
 
   static Future<Entity> create(int entityTypeId, String fullName, String email, String phoneNumber, String taxNumber, String defaultLanguage, String streetName, String door, int floor, String room, String city, String state, String zipCode, int countryId) async{
-    var res = await ClientApi.create("entities",jsonEncode(<String, dynamic>{
+    var res = await ClientApi.post("entities",jsonEncode(<String, dynamic>{
       'entities_types_id': entityTypeId,
       'full_name': fullName,
       'email' : email,

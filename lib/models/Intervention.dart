@@ -51,7 +51,7 @@ class Intervention{
   /** METHODS */
 
   static Future<Intervention> create(int taskId, String startDate, String endDate, String description) async{
-    var res = await ClientApi.create("tickets/tasks/interventions",jsonEncode(<String, dynamic>{
+    var res = await ClientApi.post("tickets/tasks/interventions",jsonEncode(<String, dynamic>{
       'tasks_id' : taskId,
       'start_date' : startDate,
       'end_date' : endDate,

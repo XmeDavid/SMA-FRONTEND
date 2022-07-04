@@ -119,7 +119,7 @@ class Ticket {
   }
 
   static Future<Ticket?> create(Entity entity, String title, String description, TicketCategory category, Contract contract) async{
-    var res = await ClientApi.create('tickets', jsonEncode(<String, dynamic>{
+    var res = await ClientApi.post('tickets', jsonEncode(<String, dynamic>{
       //'entities_id' : entity.id,
       'contracts_id' : contract.id,
       'title' : title,

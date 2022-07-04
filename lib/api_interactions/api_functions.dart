@@ -8,7 +8,7 @@ class ClientApi{
 
   static final String API_URL = dotenv.env['API_URL'] ?? "";
 
-  static Future<http.Response> post(String path, String body) async{
+  /*static Future<http.Response> post(String path, String body) async{
     return http.post(
         Uri.parse(API_URL + path),
         headers: <String, String>{
@@ -17,7 +17,7 @@ class ClientApi{
         },
         body: body
     );
-  }
+  }*/
 
   static Future<http.Response> get(String s) async{
     String? authToken = GetStorage().read('token');
@@ -31,11 +31,12 @@ class ClientApi{
   }
 
 
-  static Future<http.Response> create(String path,String json) async{
+  static Future<http.Response> post(String path,String json) async{
+    String? authToken = GetStorage().read('token');
     return http.post(
         Uri.parse(API_URL + path),
         headers: <String,String>{
-          'Authorization' : 'Bearer ' + GetStorage().read('token'),
+          'Authorization' : authToken != null ? 'Bearer $authToken' : '',
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept' : 'application/json'
         },

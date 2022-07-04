@@ -43,7 +43,7 @@ class Auth{
   }
 
   static Future<Auth> mfa(String mfaCode) async{
-    var res = await ClientApi.create('mfa/verification',
+    var res = await ClientApi.post('mfa/verification',
         jsonEncode(<String, String>{
           'mfaCode': mfaCode,
           'refresh_token' : GetStorage().read('refreshToken'),
