@@ -4,6 +4,7 @@ import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/paginated_model/Meta.dart';
 import 'package:sma_frontend/models/paginated_model/PaginatedModel.dart';
 
+import '../../models/User.dart';
 import '../../responsive.dart';
 import '../../consts.dart';
 import '../side_menu.dart';
@@ -16,7 +17,7 @@ class ListUsersScreen extends StatefulWidget {
 }
 
 class _ListUsersState extends State<ListUsersScreen> {
-  PaginatedModel<Contract> paginatedContractModel = const PaginatedModel(
+  PaginatedModel<User> paginatedUserModel = const PaginatedModel(
       data: [],
       meta: Meta(
           current_page: -1,
@@ -33,30 +34,30 @@ class _ListUsersState extends State<ListUsersScreen> {
     return false;
   }
 
-  void loadContracts(int page) async {
-    var tempContractPaginatedModel =
-        await Contract.getPaginated(true,20,page,"");
+  void loadUsers(int page) async {
+    var tempUserPaginatedModel =
+        await User.getPaginated(true,20,page,"");
     setState(() {
-      paginatedContractModel = tempContractPaginatedModel;
+      paginatedUserModel = tempUserPaginatedModel;
     });
   }
 
-  removeClick(Contract e) {
-    Contract.remove(e.id);
+  removeClick(User u) {
+    Contract.remove(u.id);
     setState(() {
-      paginatedContractModel.data.removeAt(paginatedContractModel.data
-          .indexWhere((element) => element.id == e.id));
+      paginatedUserModel.data.removeAt(paginatedUserModel.data
+          .indexWhere((element) => element.id == u.id));
     });
   }
 
-  detailsClick(Contract e) {
-    Get.toNamed("/contracts/" + e.id.toString());
+  detailsClick(User u) {
+    Get.toNamed("/users/" + u.id.toString());
   }
 
   @override
   void initState() {
     super.initState();
-    loadContracts(1);
+    loadUsers(1);
   }
 
   @override
@@ -67,7 +68,7 @@ class _ListUsersState extends State<ListUsersScreen> {
           : null,
       drawer: const SideMenu(),
       body: SafeArea(
-        child: paginatedContractModel.meta.current_page != -1 ? Row(
+        child: paginatedUserModel.meta.current_page != -1 ? Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // We want this side menu only for large screen
@@ -140,10 +141,10 @@ class _ListUsersState extends State<ListUsersScreen> {
                           padding: const EdgeInsets.all(defaultPadding),
                           child: TextButton(
                             onPressed: () {
-                              Get.toNamed("/contracts/create");
+                              Get.toNamed("/users/register");
                             },
                             child: const Text(
-                              "New Contract",
+                              "New User",
                               style: TextStyle(color: Colors.white),
                             ),
                             style: ButtonStyle(
@@ -170,92 +171,53 @@ class _ListUsersState extends State<ListUsersScreen> {
                         physics: const BouncingScrollPhysics(),
                         child: SingleChildScrollView(
                             child: DataTable(
-                              columnSpacing: 3,
+                              columnSpacing: 7,
                               columns: [
-                                "Id",
-                                "Title",
-                                //"Description",
-                                "Start Date",
-                                "End Date",
-                                "Duration",
-                                //"Cover",
-                                //"Auto\nRenovation",
-                                "Last Renovation",
-                                "Budget",
-                                //"Allow\nSurplus",
-                                "Is Validated",
-                                "Actions"
+                                "ID",
+                                "NAME",
+                                "ENTITY",
+                                "PHONE NO.",
+                                "EMAIL",
+                                "BLOCKED",
+                                "LAST LOGIN",
+                                "ACTIONS"
                               ].map((e) {
                                 return DataColumn(
-                                    label: Text(e));
+                                    label: Expanded(child: Text(e, textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16))));
                               }).toList(),
                               rows: List.generate(
-                                  paginatedContractModel.data.length, (index) {
+                                  paginatedUserModel.data.length, (index) {
                                 return DataRow(cells: [
                                   DataCell(SelectableText(
-                                            paginatedContractModel
+                                      paginatedUserModel
                                                 .data[index].id
-                                                .toString()),
+                                                .toString(), textAlign: TextAlign.center),
                                   ),
                                   DataCell(SelectableText(
-                                          paginatedContractModel
-                                              .data[index].title),
+                                      paginatedUserModel
+                                              .data[index].fullName(), textAlign: TextAlign.center),
                                   ),
-                                  /*Expanded(
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Container(
-                                        width: 150,
-                                        child: */
-
-                                  //],
-                                  //)),
-                                  //)),
-                                  /*DataCell(SelectableText(paginatedContractModel
-                                    .data[index].description)),*/
+                                  DataCell(SelectableText(
+                                      paginatedUserModel
+                                          .data[index].entity?.name ?? '-', textAlign: TextAlign.center)),
                                   DataCell(
                                     SelectableText(
-                                            paginatedContractModel
-                                                .data[index].startDate),
+                                        paginatedUserModel
+                                                .data[index].phoneNumber ?? "-", textAlign: TextAlign.center),
                                   ),
                                   DataCell(
                                     SelectableText(
-                                            paginatedContractModel
-                                                .data[index].endDate),
+                                        paginatedUserModel
+                                                .data[index].email, textAlign: TextAlign.center),
                                   ),
                                   DataCell(
                                     SelectableText(
-                                            paginatedContractModel
-                                                .data[index].duration),
-                                  ),
-                                  /*DataCell(SelectableText(
-                                    paginatedContractModel.data[index].cover ??
-                                        "No cover")),
-                                DataCell(SelectableText(paginatedContractModel
-                                    .data[index].autoRenovation
-                                    .toString())),*/
-                                  DataCell(
-                                    SelectableText(
-                                            paginatedContractModel.data[index]
-                                                    .lastRenovation ??
-                                                "No renovation yet"),
+                                        paginatedUserModel
+                                                .data[index].blockedAt != null ? "No" : "Yes", textAlign: TextAlign.center),
                                   ),
                                   DataCell(
                                     SelectableText(
-                                            paginatedContractModel
-                                                .data[index].budget
-                                                .toString()),
-                                  ),
-                                  /*DataCell(SelectableText(paginatedContractModel
-                                    .data[index].allowsSurplus
-                                    .toString())),*/
-                                  DataCell(
-                                    SelectableText(
-                                            paginatedContractModel
-                                                .data[index].isValidated
-                                                .toString()),
+                                        paginatedUserModel.data[index].lastLoginAt ?? '-', textAlign: TextAlign.center),
                                   ),
                                   DataCell(Row(
                                     children: [
@@ -263,7 +225,7 @@ class _ListUsersState extends State<ListUsersScreen> {
                                         padding: const EdgeInsets.all(5),
                                         child: TextButton(
                                           onPressed: () {
-                                            detailsClick(paginatedContractModel
+                                            detailsClick(paginatedUserModel
                                                 .data[index]);
                                           },
                                           child: const Text(
@@ -282,7 +244,7 @@ class _ListUsersState extends State<ListUsersScreen> {
                                         padding: const EdgeInsets.all(5),
                                         child: TextButton(
                                           onPressed: () {
-                                            removeClick(paginatedContractModel
+                                            removeClick(paginatedUserModel
                                                 .data[index]);
                                           },
                                           child: const Text(
@@ -310,21 +272,21 @@ class _ListUsersState extends State<ListUsersScreen> {
                       padding: EdgeInsets.all(defaultPadding),
                       child: Spacer(),
                     ),
-                    if (paginatedContractModel.meta.current_page != 1)
+                    if (paginatedUserModel.meta.current_page != 1)
                       TextButton(
                         onPressed: () {
-                          loadContracts(1);
+                          loadUsers(1);
                         },
                         child: const Text(
                           "<<",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
-                    if (paginatedContractModel.meta.current_page != 1)
+                    if (paginatedUserModel.meta.current_page != 1)
                       TextButton(
                           onPressed: () {
-                            loadContracts(
-                                paginatedContractModel.meta.current_page - 1);
+                            loadUsers(
+                                paginatedUserModel.meta.current_page - 1);
                           },
                           child: const Text(
                             "<",
@@ -335,27 +297,27 @@ class _ListUsersState extends State<ListUsersScreen> {
                       child: TextButton(
                           onPressed: null,
                           child: Text(
-                            paginatedContractModel.meta.current_page.toString(),
+                            paginatedUserModel.meta.current_page.toString(),
                             style: const TextStyle(color: Colors.white),
                           )),
                     ),
-                    if (paginatedContractModel.meta.current_page !=
-                        paginatedContractModel.meta.last_page)
+                    if (paginatedUserModel.meta.current_page !=
+                        paginatedUserModel.meta.last_page)
                       TextButton(
                           onPressed: () {
-                            loadContracts(
-                                paginatedContractModel.meta.current_page + 1);
+                            loadUsers(
+                                paginatedUserModel.meta.current_page + 1);
                           },
                           child: const Text(
                             ">",
                             style: TextStyle(color: Colors.white),
                           )),
-                    if (paginatedContractModel.meta.current_page !=
-                        paginatedContractModel.meta.last_page)
+                    if (paginatedUserModel.meta.current_page !=
+                        paginatedUserModel.meta.last_page)
                       TextButton(
                           onPressed: () {
-                            loadContracts(
-                                paginatedContractModel.meta.last_page);
+                            loadUsers(
+                                paginatedUserModel.meta.last_page);
                           },
                           child: const Text(
                             ">>",

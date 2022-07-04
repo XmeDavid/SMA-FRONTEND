@@ -53,20 +53,20 @@ class SideMenu extends StatelessWidget {
                 ],
               ),
               ExpansionTile(
-                title: Text("Tasks"),
-                leading: Icon(Icons.task_alt),
+                title: const Text("Tasks"),
+                leading: const Icon(Icons.task_alt),
                 children: <Widget>[
                   ListTile(
-                    title: Text(
+                    title: const Text(
                       "Create Task",
                       style: TextStyle(fontSize: 12),
                     ),
                     onTap: (){
                       Get.toNamed('nothing yet');
                     },),
-                  ListTile(
+                  const ListTile(
                     title: Text(
-                      "See My Ticket",
+                      "Tasks",
                       style: TextStyle(fontSize: 12),),
                   ),
                 ],
@@ -76,12 +76,31 @@ class SideMenu extends StatelessWidget {
                 title: const Text("Assets"),
                 onTap: (){},
               ),
-              ListTile(
-                leading: const Icon(Icons.description),
+              ExpansionTile(
                 title: const Text("Contracts"),
-                onTap: (){
-                  Get.toNamed('/contracts');
-                },
+                leading: const Icon(Icons.history_edu),
+                children: <Widget>[
+                  ListTile(
+                    title: const Text(
+                      "New Contract",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    onTap: (){
+                      Get.toNamed(
+                        "/contracts/create",
+                      );
+                    },),
+                  ListTile(
+                    title: const Text(
+                      "Contracts",
+                      style: TextStyle(fontSize: 12),),
+                    onTap: (){
+                      Get.toNamed(
+                        "/contracts",
+                      );
+                    },
+                  ),
+                ],
               ),
               ListTile(
                 leading: const Icon(Icons.groups),
@@ -91,8 +110,8 @@ class SideMenu extends StatelessWidget {
                 },
               ),
               ExpansionTile(
-                title: Text("Users"),
-                leading: Icon(Icons.person),
+                title: const Text("Users"),
+                leading: const Icon(Icons.person),
                 children: <Widget>[
                   ListTile(
                     title: const Text(
@@ -105,12 +124,12 @@ class SideMenu extends StatelessWidget {
                       );
                     },),
                   ListTile(
-                    title: Text(
-                      "List",
+                    title: const Text(
+                      "Users",
                       style: TextStyle(fontSize: 12),),
                     onTap: (){
                       Get.toNamed(
-                        "/tickets/details",
+                        "/users",
                       );
                     },
                   ),

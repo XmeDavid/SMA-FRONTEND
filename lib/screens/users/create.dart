@@ -71,7 +71,6 @@ class _RegisterUserScreenState  extends State<RegisterUserScreen> {
         birthDateContrl.text = "${selectedDate?.year.toString().padLeft(4,"0") ?? ""}-${selectedDate?.month.toString().padLeft(2,"0") ?? ""}-${selectedDate?.day.toString().padLeft(2,"0") ?? ""}";
       });
     }
-
   }
 
   @override

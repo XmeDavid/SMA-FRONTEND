@@ -9,8 +9,8 @@ import 'paginated_model/PaginatedModel.dart';
 class User{
 
   final int id;
-  final String first_name;
-  final String last_name;
+  final String firstName;
+  final String lastName;
   final String birthDate;
   final String? phoneNumber;
   final String? imagePath;
@@ -19,11 +19,13 @@ class User{
   final String email;
   final double perHour;
   final bool? mfaEnabled;
+  final String? blockedAt;
+  final String? lastLoginAt;
 
   const User({
     required this.id,
-    required this.first_name,
-    required this.last_name,
+    required this.firstName,
+    required this.lastName,
     required this.birthDate,
     required this.email,
     required this.entityId,
@@ -32,28 +34,30 @@ class User{
     this.imagePath,
     required this.perHour,
     required this.mfaEnabled,
+    this.blockedAt,
+    this.lastLoginAt
 });
 
   factory User.fromJson(Map<String, dynamic> json){
     return User(
         id: json['id'],
-        first_name: json['first_name'],
-        last_name: json['last_name'],
+        firstName: json['first_name'],
+        lastName: json['last_name'],
         birthDate: json['birth_date'],
         email: json['email'],
         entityId: json['entities_id'],
         phoneNumber: json['phone_number'],
         imagePath: json['image_path'],
         perHour: json['per_hour'],
-        mfaEnabled: json['mfa']
+        mfaEnabled: json['mfa'],
     );
   }
 
   factory User.fromJsonDetailed(Map<String, dynamic> json){
     return User(
         id: json['id'],
-        first_name: json['first_name'],
-        last_name: json['last_name'],
+        firstName: json['first_name'],
+        lastName: json['last_name'],
         birthDate: json['birth_date'],
         email: json['email'],
         entityId: json['entities_id']['id'],
@@ -61,7 +65,9 @@ class User{
         phoneNumber: json['phone_number'],
         imagePath: json['image_path'],
         perHour: json['per_hour'],
-        mfaEnabled: json['mfa']
+        mfaEnabled: json['mfa'],
+        blockedAt: json['blocked_at'],
+        lastLoginAt: json['last_login_at']
     );
   }
 
@@ -80,18 +86,18 @@ class User{
     }
   }
 
-  static Future<Entity> get(int id, bool detailed) async{
+  static Future<User> get(int id, bool detailed) async{
     var res = await ClientApi.get("users/$id${(detailed ? "?format=detailed" : "")}");
-    return detailed ? Entity.fromJsonDetailed(jsonDecode(res.body)) : Entity.fromJson(jsonDecode(res.body));
+    return detailed ? User.fromJsonDetailed(jsonDecode(res.body)) : User.fromJson(jsonDecode(res.body));
   }
 
-  static Future<List<Entity>> getAll() async{
+  static Future<List<User>> getAll() async{
     var res = await ClientApi.get("users");
     dynamic json = jsonDecode(res.body);
-    List<Entity> data = <Entity>[];
-    for(var entityJson in json['data']){
-      Entity entity = Entity.fromJson(entityJson);
-      data.add(entity);
+    List<User> data = <User>[];
+    for(var userJson in json['data']){
+      User user = User.fromJson(userJson);
+      data.add(user);
     }
     return data;
   }
@@ -100,9 +106,9 @@ class User{
     var res = await ClientApi.get("users?${(detailed ? "format=detailed&" : "")}paginate=$paginate&page=$page${(search != "" ? "&search=$search" : "")}");
     dynamic json = jsonDecode(res.body);
     List<User> data = <User>[];
-    for(var entityJson in json['data']){
-      User entity = detailed ? User.fromJsonDetailed(entityJson) : User.fromJson(entityJson);
-      data.add(entity);
+    for(var userJson in json['data']){
+      User user = detailed ? User.fromJsonDetailed(userJson) : User.fromJson(userJson);
+      data.add(user);
     }
     return PaginatedModel(
       data: data,
@@ -110,8 +116,8 @@ class User{
     );
   }
 
-  static void remove(int entityId) async{
-    await ClientApi.remove('users/' + entityId.toString());
+  static void remove(int userId) async{
+    await ClientApi.remove('users/' + userId.toString());
   }
   
   static void changePassword(String email, String password, String confirmationPassword, String token) async {
@@ -124,7 +130,7 @@ class User{
   }
 
   String fullName(){
-    return "$first_name $last_name";
+    return "$firstName $lastName";
   }
 
   @override

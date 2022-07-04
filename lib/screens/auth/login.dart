@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
       User user = await Auth.user();
       GetStorage().write('user_id', user.id);
       GetStorage().write('user_full_name', user.fullName());
-      GetStorage().write('user_first_name', user.first_name);
+      GetStorage().write('user_first_name', user.firstName);
       GetStorage().write('user_photo_path', user.imagePath ?? '');
       Get.toNamed('/');
     }
