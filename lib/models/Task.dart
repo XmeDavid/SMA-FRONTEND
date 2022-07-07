@@ -119,8 +119,8 @@ class Task {
     return {'data' : Task.fromJsonDetailed(jsonDecode(res.body)), 'message' : message, 'code' : res.statusCode};
   }
 
-  static update(String title, String description, String endDate) async {
-    var res = await ClientApi.update('tickets/tasks', jsonEncode(<String, dynamic>{
+  static update(int id, String title, String description, String endDate) async {
+    var res = await ClientApi.update('tickets/tasks/$id', jsonEncode(<String, dynamic>{
       'title' : title,
       'body_description' : description,
     }));
@@ -145,6 +145,5 @@ class Task {
 
   static void delete(int id) async {
     var res = await ClientApi.remove('tickets/tasks/$id');
-    print(res.statusCode);
   }
 }

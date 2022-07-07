@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 class TicketState{
 
-  static const String ALL = "All";
   static const String PENDING = "Pending";
   static const String ASSIGNED = "Assigned";
   static const String ON_GOING = "On going";
@@ -11,7 +10,7 @@ class TicketState{
   static const String VALIDATION = "Validation";
   static const String SOLVED = "Solved";
 
-  String _state = TicketState.PENDING;
+  String _state;
 
 
   TicketState(this._state);
@@ -22,7 +21,7 @@ class TicketState{
     _state = value;
   }
 
-  static List<String> get values => [ALL, PENDING, ASSIGNED, ON_GOING, PENDING_CLIENT, VALIDATION, SOLVED];
+  static List<String> get values => [PENDING, ASSIGNED, ON_GOING, PENDING_CLIENT, VALIDATION, SOLVED];
 
 
 

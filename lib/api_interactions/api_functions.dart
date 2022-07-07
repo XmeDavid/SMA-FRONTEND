@@ -54,10 +54,11 @@ class ClientApi{
   }
 
   static Future<http.Response> update(String s, String json) async{
+    String? authToken = GetStorage().read('token');
     return await (http.put(
         Uri.parse(API_URL + s),
         headers: <String, String>{
-          //'Authorization' : 'Bearer ' + GetStorage().read('token')
+          'Authorization' : authToken != null ? 'Bearer $authToken' : '',
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept' : 'application/json'
         },

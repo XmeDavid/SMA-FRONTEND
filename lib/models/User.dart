@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'dart:core';
+import 'package:flutter/material.dart';
 import 'package:sma_frontend/models/Entity.dart';
 
 import '../api_interactions/api_functions.dart';
@@ -91,12 +92,12 @@ class User{
     return detailed ? User.fromJsonDetailed(jsonDecode(res.body)) : User.fromJson(jsonDecode(res.body));
   }
 
-  static Future<List<User>> getAll() async{
-    var res = await ClientApi.get("users");
+  static Future<List<User>> getAll(bool detailed) async{
+    var res = await ClientApi.get("users${detailed ? '?format=detailed' : ''}");
     dynamic json = jsonDecode(res.body);
     List<User> data = <User>[];
     for(var userJson in json['data']){
-      User user = User.fromJson(userJson);
+      User user = detailed ? User.fromJsonDetailed(userJson) : User.fromJson(userJson);
       data.add(user);
     }
     return data;
@@ -128,6 +129,7 @@ class User{
       'token' : token
     }));
   }
+
 
   String fullName(){
     return "$firstName $lastName";

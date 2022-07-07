@@ -99,7 +99,6 @@ class Contract{
     List<Contract> data = <Contract>[];
     for(var jsonContract in json['data']){
       Contract contract = detailed ? Contract.fromJsonDetailed(jsonContract) : Contract.fromJson(jsonContract);
-      print(contract);
       data.add(contract);
     }
     return PaginatedModel(

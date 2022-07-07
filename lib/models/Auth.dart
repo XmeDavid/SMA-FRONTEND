@@ -11,7 +11,6 @@ class Auth{
   final String accessToken;
   final String refreshToken;
   final bool? needsMfa;
-  final String? mfaCode;
 
   const Auth({
     required this.tokenType,
@@ -19,7 +18,6 @@ class Auth{
     required this.accessToken,
     required this.refreshToken,
     this.needsMfa,
-    this.mfaCode
   });
 
   factory Auth.fromJson(Map<String, dynamic> json){

@@ -23,9 +23,9 @@ class Ticket {
   TicketCategory? category;
   String status;
   String startDate;
-  String estimatedTime;
+  String? estimatedTime;
   bool? isSolved;
-  String filesPath;
+  String? filesPath;
 
   Ticket({
     required this.id,
@@ -41,9 +41,9 @@ class Ticket {
     this.category,
     required this.status,
     required this.startDate,
-    required this.estimatedTime,
+    this.estimatedTime,
     this.isSolved,
-    required this.filesPath
+    this.filesPath
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) {
@@ -141,5 +141,13 @@ class Ticket {
     }
     //TODO if everything is alright parse the res.body into a Ticket and return it
     return null;
+  }
+
+  static update(Ticket ticket) {}
+
+  static void assignUser(Ticket ticket, User user) async {
+    var res = await ClientApi.post('tickets/assign/${ticket.id}?_method=PATCH', jsonEncode(<String, dynamic>{
+      'assistant_id' : user.id
+    }));
   }
 }
