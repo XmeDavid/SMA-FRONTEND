@@ -23,13 +23,13 @@ class _RoleState extends State<RoleScreen> {
       return;
     }
     setState((){
-      roleIndex = link != 'default' ? int.parse(link) : -1;
+      roleId = link != 'default' ? int.parse(link) : -1;
     });
     var _roles = await Role.all();
     setState((){
       roles = _roles;
       rolesLoaded = true;
-      roleName.text = roleIndex != -1 ? roles[roleIndex].name : 'Default';
+      roleName.text = roleId != -1 ? roles.where((element) => element.id == roleId).first.name : 'Default';
     });
   }
 
@@ -39,12 +39,14 @@ class _RoleState extends State<RoleScreen> {
     loadRoles();
   }
 
+  bool isEditMode = false;
 
   bool rolesLoaded = false;
   late List<Role> roles;
-  int roleIndex = -1;
+  int roleId = -1;
 
   var roleName = TextEditingController();
+  var search = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +87,7 @@ class _RoleState extends State<RoleScreen> {
                     height: 32,
                     child: TextButton(
                         onPressed: (){ /** GENERAL Settings */
-                          return;
+                          Get.toNamed('/settings');
                         },
                         child: Row(
                           children: [
@@ -107,18 +109,18 @@ class _RoleState extends State<RoleScreen> {
                     height: 32,
                     child: TextButton(
                       onPressed: (){ /** ROLES Settings */
-                        return;
+                        Get.toNamed('/settings/roles');
                       },
                       child: Row(
-                        children: const [
-                          SizedBox(width: 8),
+                        children: [
+                          const SizedBox(width: 8),
                           Text("Roles",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white
+                                color: Colors.white.withOpacity(0.6)
                             ),
                           ),
-                          Spacer()
+                          const Spacer()
                         ],
                       )
                     ),
@@ -142,7 +144,7 @@ class _RoleState extends State<RoleScreen> {
                                   Text(roles[index].name,
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
-                                        color: Colors.white.withOpacity(0.7)
+                                        color: roles[index].id == roleId ? Colors.white : Colors.white.withOpacity(0.6)
                                     ),
                                   ),
                                   const Spacer()
@@ -153,29 +155,6 @@ class _RoleState extends State<RoleScreen> {
                       }),
                     ),
                   ) : const SizedBox(),
-                  const Divider(),
-                  SizedBox(
-                    width: 180,
-                    height: 32,
-                    child: TextButton(
-                        onPressed: (){ /** GENERAL Settings */
-                          return;
-                        },
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 8),
-                            Text("Future option",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white.withOpacity(0.7)
-                              ),
-                            ),
-                            const Spacer()
-                          ],
-                        )
-                    ),
-                  ),
-                  const Divider(),
                 ],
               ),
             ),
@@ -189,12 +168,90 @@ class _RoleState extends State<RoleScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 40),
-                      Text(roleName.text,
+                      TextField(
+                        enabled: true,
+                        controller: roleName,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 32
+                          fontSize: 32,
+                          color: Colors.white
+                        ),
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            onPressed: (){
+                              setState((){
+                              });
+                            },
+                            icon: const Icon(Icons.save)
+                          )
                         ),
                       ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          //const SizedBox(width: 10),
+                          Text("Here you can change the permissions for the role ${roleName.text}",
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white.withOpacity(0.7)
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                          padding: const EdgeInsets.only(
+                              left: 16,
+                              bottom: 2
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              color: Colors.black.withOpacity(0.2)
+                          ),
+                          width: MediaQuery.of(context).size.width > 1200 ? MediaQuery.of(context).size.width * 0.5 : 600,
+                          height: 40,
+                          child: TextField(
+                            controller: search,
+                            decoration: const InputDecoration(
+                              hintText: "Search",
+                              border: InputBorder.none,
+                              suffixIcon: Icon(Icons.search),
+                            ),
+                          )
+                      ),
+                      Row(
+                        children: [
+                          const SizedBox(width: 4),
+                          Text("Search a permission",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white.withOpacity(0.7)
+                            ),
+                          ),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: (){},
+                            child: const Text('Clear permissions',
+                              style: TextStyle(
+                                fontSize: 12
+                              ),
+                            )
+                          ),
+                        ],
+                      ),
+                      Center(
+                        child: IconButton(
+                          onPressed: (){
+                            setState((){
+                              isEditMode = !isEditMode;
+                            });
+                          },
+                          icon: Icon(isEditMode ? Icons.toggle_off : Icons.toggle_on,
+                            size: 50,
+                            color: isEditMode ? Colors.green : Colors.redAccent,
+                          )
+                        ),
+                      )
                     ],
                   )
                 ),

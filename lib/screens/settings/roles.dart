@@ -10,10 +10,10 @@ class RolesScreen extends StatefulWidget {
   const RolesScreen({Key? key}) : super(key: key);
 
   @override
-  State<RolesScreen> createState() => _SettingsState();
+  State<RolesScreen> createState() => _RolesState();
 }
 
-class _SettingsState extends State<RolesScreen> {
+class _RolesState extends State<RolesScreen> {
 
   void loadRoles() async{
     var _roles = await Role.all();
@@ -77,7 +77,7 @@ class _SettingsState extends State<RolesScreen> {
                     height: 32,
                     child: TextButton(
                         onPressed: (){ /** GENERAL Settings */
-                          return;
+                          Get.toNamed('/settings');
                         },
                         child: Row(
                           children: [
@@ -99,7 +99,7 @@ class _SettingsState extends State<RolesScreen> {
                     height: 32,
                     child: TextButton(
                       onPressed: (){ /** ROLES Settings */
-                        return;
+                        Get.toNamed('/settings/roles');
                       },
                       child: Row(
                         children: const [
@@ -126,7 +126,7 @@ class _SettingsState extends State<RolesScreen> {
                           height: 20,
                           child: TextButton(
                               onPressed: (){ /** Each role */
-                                return;
+                                Get.toNamed('/settings/roles/${roles[index].id}');
                               },
                               child: Row(
                                 children: [
@@ -145,29 +145,7 @@ class _SettingsState extends State<RolesScreen> {
                       }),
                     ),
                   ) : const SizedBox(),
-                  const Divider(),
-                  SizedBox(
-                    width: 180,
-                    height: 32,
-                    child: TextButton(
-                        onPressed: (){ /** GENERAL Settings */
-                          return;
-                        },
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 8),
-                            Text("Future option",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white.withOpacity(0.7)
-                              ),
-                            ),
-                            const Spacer()
-                          ],
-                        )
-                    ),
-                  ),
-                  const Divider(),
+
                 ],
               ),
             ),

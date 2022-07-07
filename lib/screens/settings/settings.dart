@@ -77,18 +77,18 @@ class _SettingsState extends State<SettingsScreen> {
                     height: 32,
                     child: TextButton(
                         onPressed: (){ /** GENERAL Settings */
-                          return;
+                          Get.toNamed('/settings');
                         },
                         child: Row(
-                          children: [
-                            const SizedBox(width: 8),
+                          children: const [
+                            SizedBox(width: 8),
                             Text("General",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white.withOpacity(0.7)
+                                  color: Colors.white
                               ),
                             ),
-                            const Spacer()
+                            Spacer()
                           ],
                         )
                     ),
@@ -99,18 +99,18 @@ class _SettingsState extends State<SettingsScreen> {
                     height: 32,
                     child: TextButton(
                       onPressed: (){ /** ROLES Settings */
-                        return;
+                        Get.toNamed('/settings/roles');
                       },
                       child: Row(
-                        children: const [
-                          SizedBox(width: 8),
+                        children: [
+                          const SizedBox(width: 8),
                           Text("Roles",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white
+                                color: Colors.white.withOpacity(0.6)
                             ),
                           ),
-                          Spacer()
+                          const Spacer()
                         ],
                       )
                     ),
@@ -126,7 +126,7 @@ class _SettingsState extends State<SettingsScreen> {
                           height: 20,
                           child: TextButton(
                               onPressed: (){ /** Each role */
-                                return;
+                                Get.toNamed('/settings/roles/${roles[index].id}');
                               },
                               child: Row(
                                 children: [
@@ -134,7 +134,7 @@ class _SettingsState extends State<SettingsScreen> {
                                   Text(roles[index].name,
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
-                                        color: Colors.white.withOpacity(0.7)
+                                        color: Colors.white.withOpacity(0.6)
                                     ),
                                   ),
                                   const Spacer()
@@ -145,29 +145,7 @@ class _SettingsState extends State<SettingsScreen> {
                       }),
                     ),
                   ) : const SizedBox(),
-                  const Divider(),
-                  SizedBox(
-                    width: 180,
-                    height: 32,
-                    child: TextButton(
-                        onPressed: (){ /** GENERAL Settings */
-                          return;
-                        },
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 8),
-                            Text("Future option",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white.withOpacity(0.7)
-                              ),
-                            ),
-                            const Spacer()
-                          ],
-                        )
-                    ),
-                  ),
-                  const Divider(),
+
                 ],
               ),
             ),
@@ -183,13 +161,13 @@ class _SettingsState extends State<SettingsScreen> {
                       const SizedBox(
                         height: 40,
                       ),
-                      const Text("Roles",
+                      const Text("Settings",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 32
                         ),
                       ),
-                      Text("Use roles to organise the structure of permissions in your organization",
+                      Text("Change the settings of the application to change the app behavior",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 12,
