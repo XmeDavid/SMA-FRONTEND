@@ -41,7 +41,7 @@ class _NewAssetState  extends State<NewAssetScreen> {
   final warrantyMonths = TextEditingController();
 
   void create() async{
-
+    await Asset.create(serialNumber.text,brand.text,model.text,purchaseDate.text,double.parse(purchasePrice.text),int.parse(warrantyMonths.text));
   }
 
   @override

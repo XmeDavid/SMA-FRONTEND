@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/api_interactions/api_functions.dart';
 
 import 'paginated_model/Meta.dart';
@@ -92,6 +93,21 @@ class Asset{
     );
   }
 
+  static create(String serialNumber, String brand, String model, String date, double price, int warrantyMonths) async {
+    int entityId = GetStorage().read('user_entity_id');
+    var res = await ClientApi.post('assets', jsonEncode(<String, dynamic>{
+      'serial_number' : serialNumber,
+      'brand' : brand,
+      'model' : model,
+      'purchase_date' : date,
+      'purchase_price' : price,
+      'warranty_months' : warrantyMonths,
+      'assets_status_id' : 1,
+      'assets_types_id' : 1,
+      'user_entity_id' : entityId,
+    }));
+  }
+
   static void remove(int assetId) async{
     await ClientApi.remove('assets/$assetId');
   }
@@ -100,5 +116,6 @@ class Asset{
   String toString() {
     return "Asset #" + id.toString() + " - " + brand + " " + model + " - #" + serialNumber;
   }
+
 
 }
