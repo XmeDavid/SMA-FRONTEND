@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/models/Asset.dart';
+import 'package:sma_frontend/widgets/tickets_components.dart';
 import '../../consts.dart';
 import '../../models/Task.dart';
 import '../../models/Ticket.dart';
+import '../../models/User.dart';
 import '../../responsive.dart';
 import '../../widgets/tasks_components.dart';
 import '../../widgets/ui_fields.dart';
@@ -33,6 +35,8 @@ class _TicketDetailsState extends State<TicketDetails> {
   final ticketIsSolvedController = TextEditingController();
   final ticketFilesPathController = TextEditingController();
 
+  bool editMode = false;
+
   bool loaded = false;
   bool tasksLoaded = false;
   late Ticket ticket;
@@ -57,7 +61,7 @@ class _TicketDetailsState extends State<TicketDetails> {
       ticketEstimatedTimeController.text = "${ticket.contractId} months";
       ticketIsSolvedController.text =
           ticket.isSolved == true ? "Solved" : "Unsolved";
-      ticketFilesPathController.text = ticket.filesPath;
+      ticketFilesPathController.text = ticket.filesPath ?? "No files";
       loaded = true;
     });
   }
@@ -65,13 +69,18 @@ class _TicketDetailsState extends State<TicketDetails> {
   void loadTasks() async {
     List<Task>? _tasks = await Task.getAll(true);
     if (_tasks == null) {
-      print("object");
       return;
     }
     setState(() {
       tasks = _tasks.where((task) => task.ticketId == ticket.id).toList();
       tasksLoaded = true;
     });
+  }
+
+  void saveChanges() async {
+    await Ticket.update(ticket, );
+  }
+  delete(){
   }
 
   @override
@@ -169,7 +178,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                         bottomLeft: Radius.circular(10),
                                         bottomRight: Radius.circular(10)),
                                   ),
-                                  height: MediaQuery.of(context).size.height > 760 ? 640 : MediaQuery.of(context).size.height -140,
+                                  height: MediaQuery.of(context).size.height > 760 ? 670 : MediaQuery.of(context).size.height -140,
                                   width: MediaQuery.of(context).size.width *
                                       (Responsive.isDesktop(context)
                                           ? 0.666
@@ -194,7 +203,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                             ? 0.666
                                                             : 0.9) -
                                                     98,
-                                                isEnabled: false,
+                                                isEnabled: editMode,
                                               ),
                                               Row(
                                                 children: [
@@ -213,7 +222,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                                 : 0.9) *
                                                             0.5 -
                                                         151,
-                                                    isEnabled: false,
+                                                    isEnabled: editMode,
                                                   ),
                                                   TextLine(
                                                     labelText: "Assistant ID",
@@ -230,7 +239,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                                 : 0.9) *
                                                             0.5 -
                                                         162,
-                                                    isEnabled: false,
+                                                    isEnabled: editMode,
                                                   ),
                                                 ],
                                               ),
@@ -240,7 +249,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                 controller:
                                                     ticketDescriptionController,
                                                 height: 256,
-                                                isEnabled: false,
+                                                isEnabled: editMode,
                                               ),
                                               Row(
                                                 children: [
@@ -259,7 +268,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                                 : 0.9) *
                                                             0.5 -
                                                         116,
-                                                    isEnabled: false,
+                                                    isEnabled: editMode,
                                                   ),
                                                   TextLine(
                                                     labelText: "Entity",
@@ -276,7 +285,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                                 : 0.9) *
                                                             0.5 -
                                                         116,
-                                                    isEnabled: false,
+                                                    isEnabled: editMode,
                                                   )
                                                 ],
                                               ),
@@ -297,7 +306,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                                 : 0.9) *
                                                             0.5 -
                                                         116,
-                                                    isEnabled: false,
+                                                    isEnabled: editMode,
                                                   ),
                                                   TextLine(
                                                     labelText: "Estimated Time",
@@ -314,7 +323,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                                 : 0.9) *
                                                             0.5 -
                                                         223,
-                                                    isEnabled: false,
+                                                    isEnabled: editMode,
                                                   )
                                                 ],
                                               ),
@@ -335,7 +344,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                                 : 0.9) *
                                                             0.5 -
                                                         116,
-                                                    isEnabled: false,
+                                                    isEnabled: editMode,
                                                   ),
                                                   TextLine(
                                                     labelText: "Is Solved",
@@ -352,10 +361,69 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                                 : 0.9) *
                                                             0.5 -
                                                         118,
-                                                    isEnabled: false,
+                                                    isEnabled: editMode,
                                                   )
                                                 ],
                                               ),
+                                              Row(children: [
+                                                Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                                  child: OutlinedButton (
+                                                    onPressed: (){
+                                                      Get.toNamed('/tickets/${ticket.id}');
+                                                    },
+                                                    child: const Text("Go Back",style: TextStyle(color: Colors.white),),
+                                                  ),
+                                                ),
+                                                const Spacer(),
+                                                Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                                  child: ElevatedButton(
+                                                    onPressed: (){
+                                                      setState(() {
+                                                        editMode = !editMode;
+                                                      });
+                                                    },
+                                                    child: ((){
+                                                      if(editMode){
+                                                        return const Text("Cancel");
+                                                      }
+                                                      return const Text("Edit");
+                                                    })(),
+                                                    style: editMode ? ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(thirdColor5),) : ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(firstColor),),
+                                                  ),
+                                                ),
+                                                if(editMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                                  child: OutlinedButton (
+                                                    onPressed: (){
+                                                      delete();
+                                                      Get.toNamed('/tickets/${ticket.id}');
+                                                    },
+                                                    child: const Text("Delete",style: TextStyle(color: Colors.white),),
+                                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red),),
+                                                  ),
+                                                ),
+                                                if(editMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                                  child: ElevatedButton(
+                                                    onPressed: (){
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext dialogContext){
+                                                          return AssignUserDialog(
+                                                            title: 'Assign User to ticket ${ticket.title}',
+                                                            assignUserFunction: (User user){
+                                                              Ticket.assignUser(ticket, user);
+                                                            }
+                                                          );
+                                                        }
+                                                      );
+                                                      setState(() {
+                                                        editMode = false;
+                                                      });
+                                                    },
+                                                    child: const Text("Assign"),
+                                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.orangeAccent),),
+                                                  ),
+                                                ),
+                                              ],)
                                             ],
                                           ),
                                         ),

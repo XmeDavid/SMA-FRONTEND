@@ -9,7 +9,7 @@ import 'package:sma_frontend/widgets/Card.dart';
 
 
 import '../../models/TicketStates.dart';
-import '../../widgets/ticketView.dart';
+import '../../widgets/tickets_components.dart';
 
 class ListTicketScreen extends StatefulWidget {
   const ListTicketScreen({Key? key}) : super(key: key);
@@ -87,7 +87,8 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
                           padding: EdgeInsets.all(defaultPadding),
                           child: Text("Queues",
                             style: TextStyle(
-                                color: Colors.white
+                              fontSize: 24,
+                              color: Colors.white,
                             ),
                           ),
                         ),

@@ -46,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
       GetStorage().write('user_full_name', user.fullName());
       GetStorage().write('user_first_name', user.firstName);
       GetStorage().write('user_photo_path', user.imagePath ?? '');
+      GetStorage().write('user_entity_id', user.entityId);
       Get.toNamed('/');
     }
   }

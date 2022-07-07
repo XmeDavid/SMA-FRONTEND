@@ -52,7 +52,7 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
 
 
   void saveChanges() async{
-    var _task = Task.update(title.text, description.text, "endDate");
+    var _task = Task.update(task.id ,title.text, description.text, "endDate");
   }
 
   void delete() {

@@ -57,8 +57,7 @@ class _ListEntitiesState extends State<ListEntities> {
   }
 
   void loadEntities(int page) async {
-    var tempPaginatedModel = await Entity.getPaginated(
-        true, 20, page, _selectedFilterEntityTypeId, searchController.text);
+    var tempPaginatedModel = await Entity.getPaginated(true, 20, page, _selectedFilterEntityTypeId, searchController.text);
     setState(() {
       paginatedModel = tempPaginatedModel;
     });

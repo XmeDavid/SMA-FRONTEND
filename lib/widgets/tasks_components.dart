@@ -30,7 +30,6 @@ class _NewTaskDialogState extends State<NewTaskDialog> {
       //TODO Treat Empty Fields
     }
     if(res['code'] == 201){
-      print("all good");
     }
   }
 
@@ -49,13 +48,13 @@ class _NewTaskDialogState extends State<NewTaskDialog> {
                 labelText: "Task",
                 hintText: "Task Title",
                 controller: taskTitleController,
-                size: MediaQuery.of(context).size.height * 0.6,
+                size: MediaQuery.of(context).size.width * 0.6,
               ),
               TextArea(
                 labelText: "Description",
                 hintText: "Task Description",
                 controller: taskDescriptionController,
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.5,
               ),
               ElevatedButton(
                   onPressed: (){
@@ -330,7 +329,9 @@ class TaskView extends StatelessWidget {
             child: Row(
               children: [
                 /** Task Title and start date */
-                TextButton(
+                Expanded(
+                  flex: 4,
+                    child: TextButton(
                   onPressed: () {
                     Get.toNamed('/tickets/tasks/${task!.id}');
                   },
@@ -338,7 +339,6 @@ class TaskView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                          width: 256,
                           child: Padding(
                             padding: const EdgeInsets.only(
                               top: 1,
@@ -369,9 +369,11 @@ class TaskView extends StatelessWidget {
                       ),
                     ],
                   ),
+                )
                 ),
                 /** Category */
-                TextButton(
+                Expanded(flex: 2,
+                  child:TextButton(
                     onPressed: task!.entityId == null
                         ? null
                         : () {
@@ -407,104 +409,114 @@ class TaskView extends StatelessWidget {
                         ],
                       ),
                     )),
+                ),
                 /** Assigned user */
-                TextButton(
-                    onPressed: task!.userId == null
-                        ? null
-                        : () {
-                      Get.toNamed('/users/${task!.userId}');
-                    },
-                    child: Container(
-                      width: 160,
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: const Padding(
-                              padding: EdgeInsets.all(0),
-                              child: Text(
-                                "assigned to",
-                                style:
-                                TextStyle(color: Colors.grey, fontSize: 9),
+                Expanded(
+                  flex: 2,
+                  child: TextButton(
+                        onPressed: task!.userId == null
+                            ? null
+                            : () {
+                          Get.toNamed('/users/${task!.userId}');
+                        },
+                        child: Container(
+                          width: 160,
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                child: const Padding(
+                                  padding: EdgeInsets.all(0),
+                                  child: Text(
+                                    "assigned to",
+                                    style:
+                                    TextStyle(color: Colors.grey, fontSize: 9),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 1,
+                                      bottom: 1,
+                                      right: 5,
+                                      left: 5,
+                                    ),
+                                    child: Text(
+                                      task!.user == null
+                                          ? "Unassigned"
+                                          : task!.user!.fullName().length > 30
+                                          ? "${task!.user!.fullName().substring(0, 30)}..."
+                                          : task!.user!.fullName(),
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  )),
+                            ],
                           ),
-                          Container(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 1,
-                                  bottom: 1,
-                                  right: 5,
-                                  left: 5,
-                                ),
-                                child: Text(
-                                  task!.user == null
-                                      ? "Unassigned"
-                                      : task!.user!.fullName().length > 30
-                                      ? "${task!.user!.fullName().substring(0, 30)}..."
-                                      : task!.user!.fullName(),
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )),
-                        ],
-                      ),
-                    )),
+                        )),
+
+                ),
 
                 /** Created by */
-                if (MediaQuery.of(context).size.width > 1200)
-                  TextButton(
-                      onPressed: () {
-                        //Get.toNamed('tickets/tasks/${task.id}');
-                      },
-                      child: Container(
-                        width: 200,
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              child: const Padding(
-                                padding: EdgeInsets.all(0),
-                                child: Text(
-                                  "End Date",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 9),
+                //if (MediaQuery.of(context).size.width > 1318)
+                  Expanded(
+                    flex: 2,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero
+                      ),
+                        onPressed: () {
+                          //Get.toNamed('tickets/tasks/${task.id}');
+                        },
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                child: const Padding(
+                                  padding: EdgeInsets.all(0),
+                                  child: Text(
+                                    "End Date",
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 9),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 1,
-                                    bottom: 1,
-                                    right: 5,
-                                    left: 5,
-                                  ),
-                                  child: Text(
-                                    task!.entity == null
-                                        ? "Unknown"
-                                        : task!.entity!.name.length > 23
-                                        ? "${task!.entity!.name.substring(0, 23)}..."
-                                        : task!.entity!.name,
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                )),
-                          ],
-                        ),
-                      )),
-                const Spacer(),
-                TextButton(
-                    onPressed: () {
-                      goToTask();
-                    },
-                    child: const Icon(Icons.menu)),
+                              Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 1,
+                                      bottom: 1,
+                                      right: 5,
+                                      left: 5,
+                                    ),
+                                    child: Text(
+                                      task!.entity == null
+                                          ? "Unknown"
+                                          : task!.entity!.name.length > 23
+                                          ? "${task!.entity!.name.substring(0, 23)}..."
+                                          : task!.entity!.name,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        )),
+                  ),
+                IconButton(
+                  onPressed: () {
+                    goToTask();
+                  },
+                  icon: const Icon(Icons.arrow_forward_ios)
+                ),
               ],
             ),
           ));

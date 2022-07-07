@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sma_frontend/screens/assets/details.dart';
 import 'package:sma_frontend/screens/assets/list.dart';
 import 'package:sma_frontend/screens/assets/new.dart';

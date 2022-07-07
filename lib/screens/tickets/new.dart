@@ -153,7 +153,6 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                                       //popupItemDisabled: (String s) => s.startsWith('I'),
                                       showSearchBox: true,
                                       onChanged: (a){
-                                        print(a);
                                         _selectedAssets = a;
                                       },
                                     ),
