@@ -135,10 +135,10 @@ class _ListAssetsState extends State<ListAssetsScreen> {
                                 padding: const EdgeInsets.all(defaultPadding),
                                 child: TextButton(
                                   onPressed: () {
-                                    Get.toNamed("/entities/create");
+                                    Get.toNamed("/assets/new");
                                   },
                                   child: const Text(
-                                    "New Entity",
+                                    "New Asset",
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   style: ButtonStyle(
