@@ -159,6 +159,10 @@ class SideMenu extends StatelessWidget {
                           Divider(),
                           ListTile(
                               leading: Icon(Icons.person),
+                              trailing: IconButton(onPressed: (){
+                                GetStorage().erase();
+                                Get.toNamed('/login');
+                              }, icon: Icon(Icons.login_outlined)),
                               title: Text(GetStorage().read('user_first_name') ?? "User"),
                               onTap: (){
                                 Get.toNamed('/users/me');
