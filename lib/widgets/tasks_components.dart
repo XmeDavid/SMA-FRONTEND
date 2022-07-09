@@ -31,6 +31,7 @@ class _NewTaskDialogState extends State<NewTaskDialog> {
     }
     if(res['code'] == 201){
     }
+    Navigator.of(context).pop();
   }
 
   @override
@@ -89,6 +90,7 @@ class _RegisterInterventionState extends State<RegisterInterventionDialog> {
   void createTask() async{
     try{
       await Intervention.create(widget.taskId, startDate.text, endDate.text, description.text);
+      Navigator.of(context).pop();
     } on Exception catch(_){
 
     }
