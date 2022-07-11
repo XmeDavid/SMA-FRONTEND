@@ -32,10 +32,6 @@ class _ListContracts extends State<ListContracts> {
 
   var searchController = TextEditingController();
 
-  bool isClient() {
-    return false;
-  }
-
   void loadContracts(int page) async {
     var tempContractPaginatedModel =
         await Contract.getPaginated(true, 20, page, searchController.text);

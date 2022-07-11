@@ -40,9 +40,6 @@ class _ListEntitiesState extends State<ListEntities> {
 
   var searchController = TextEditingController();
 
-  bool isClient() {
-    return false;
-  }
 
   void loadEntityTypes() async {
     if (entityTypes.isEmpty) {

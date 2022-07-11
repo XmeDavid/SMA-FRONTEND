@@ -52,9 +52,6 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
   List<TicketCategory> categories = <TicketCategory>[];
   List<Asset> assets = <Asset>[];
 
-  bool isClient(){
-    return false;
-  }
 
   Future<List<String>> getEntityTypesString() async {
     if(entityTypes.isEmpty){

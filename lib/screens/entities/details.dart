@@ -65,9 +65,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   List<Asset> assets = <Asset>[];
 
 
-  bool isClient(){
-    return false;
-  }
+
 
   Future<List<String>> getEntityTypesString() async {
     if(entityTypes.isEmpty){

@@ -41,10 +41,6 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
   List<Asset> assets = <Asset>[];
 
 
-  bool isClient(){
-    return false;
-  }
-
   Future<List<String>> loadEntities() async{
     if(entities.isEmpty){
       entities = await Entity.getAll();
@@ -104,11 +100,6 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            if(!isClient())DropDown(
-                              label: "Client Entity",
-                              callback: (s) => {_selectedClient = s},
-                              getData: loadEntities,
-                            ),
                             TextLine(
                               labelText: "Title",
                               hintText: "Ticket Title",
