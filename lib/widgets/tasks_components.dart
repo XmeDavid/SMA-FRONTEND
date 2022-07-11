@@ -93,7 +93,7 @@ class _RegisterInterventionState extends State<RegisterInterventionDialog> {
 
   void registerIntervention() async{
     try{
-      await Intervention.create(widget.taskId, startDate.text, endDate.text, description.text);
+      await Intervention.create(widget.taskId, startDate.text + ' 00:00:00', endDate.text + ' 00:00:01', description.text);
       Navigator.of(context).pop();
     } on Exception catch(_){
 
@@ -101,7 +101,7 @@ class _RegisterInterventionState extends State<RegisterInterventionDialog> {
   }
 
   void showStartDatePanel()async{
-    var tempDate = await getDateFromPicker(context: context, initialDate: selectedStartDate ?? DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime.now());
+    var tempDate = await getDateFromPicker(context: context, initialDate: selectedStartDate ?? DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2050));
     if(tempDate != null){
       setState(() {
         selectedStartDate = tempDate;
@@ -111,7 +111,7 @@ class _RegisterInterventionState extends State<RegisterInterventionDialog> {
   }
 
   void showEndDatePanel()async{
-    var tempDate = await getDateFromPicker(context: context, initialDate: selectedEndDate ?? DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime.now());
+    var tempDate = await getDateFromPicker(context: context, initialDate: selectedEndDate ?? DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2050));
     if(tempDate != null){
       setState(() {
         selectedEndDate = tempDate;
