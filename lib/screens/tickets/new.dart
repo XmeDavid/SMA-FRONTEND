@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/TicketCategory.dart';
@@ -41,18 +42,12 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
   List<Asset> assets = <Asset>[];
 
 
-  Future<List<String>> loadEntities() async{
-    if(entities.isEmpty){
-      entities = await Entity.getAll();
-    }
-    return entities.map((e) => e.toString()).toList();
-  }
 
   Future<List<String>> loadContracts() async {
     if(contracts.isEmpty){
       contracts = await Contract.getAll();
     }
-    return contracts.map((e) => e.toString()).toList();
+    return contracts.where((element) => element.entitiesId == GetStorage().read('user_entity_id')).map((e) => e.toString()).toList();
   }
   Future<List<String>> loadAssets() async{
     if(assets.isEmpty){
@@ -68,6 +63,14 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
   }
 
 
+  void createTicket() async{
+    var _category = categories.where((element) => element.toString() ==  _selectedCategory).first;
+    var _contract = contracts.where((element) => element.toString() == _selectedContract).first;
+    var _assets = assets.where((element){
+      return _selectedAssets != null ? _selectedAssets!.contains(element.toString()) : false;
+    }).toList();
+    Ticket.create(ticketTitleController.text, ticketDescriptionController.text,_category,_contract,_assets);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,8 +158,8 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
                             //TODO Maybe add option to attach files
                             ElevatedButton(
                                 onPressed: (){
-                                  Ticket.create(entities.where((element) => element.toString() ==_selectedClient).first, ticketTitleController.text, ticketDescriptionController.text,categories.where((element) => element.toString() ==  _selectedCategory).first, contracts.where((element) => element.toString() == _selectedContract).first);
-                                  print("Assets: " + _selectedAssets.toString());
+                                  createTicket();
+                                  Get.toNamed('/tickets');
                                 },
                                 child: const Text("Create Ticket"))
                           ],

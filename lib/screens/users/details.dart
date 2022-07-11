@@ -61,7 +61,6 @@ class _UserDetailsScreenState  extends State<UserDetailsScreen> {
   List<TicketCategory> categories = <TicketCategory>[];
   List<Asset> assets = <Asset>[];
 
-  
 
   Future<List<String>> getEntityTypesString() async {
     if(entityTypes.isEmpty){

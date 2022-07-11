@@ -5,6 +5,7 @@ import 'package:sma_frontend/models/TicketCategory.dart';
 
 import '../api_interactions/api_functions.dart';
 
+import 'Asset.dart';
 import 'Contract.dart';
 import 'User.dart';
 import 'Entity.dart';
@@ -121,7 +122,12 @@ class Ticket {
     return data;
   }
 
-  static Future<Ticket?> create(Entity entity, String title, String description, TicketCategory category, Contract contract) async{
+  static Future<Ticket?> create(String title, String description, TicketCategory category, Contract contract, List<Asset>? assets) async{
+    if(assets != null){
+      for(var asset in assets){
+        print(asset.toString());
+      }
+    }
     var res = await ClientApi.post('tickets', jsonEncode(<String, dynamic>{
       //'entities_id' : entity.id,
       'contracts_id' : contract.id,
