@@ -109,7 +109,7 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontWeight: (TicketState.values[index] == _status.state) ? FontWeight.bold : FontWeight.normal
+                                        fontWeight: (TicketState.values[index] == _status.state && searchController.text == '') ? FontWeight.bold : FontWeight.normal
                                       ),
                                     ),
                                     const Spacer()
