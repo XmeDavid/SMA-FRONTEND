@@ -16,9 +16,9 @@ class Ticket {
   String description;
   int? assistantId;
   User? assistant;
-  int entityId;
+  int? entityId;
   Entity? entity;
-  int contractId;
+  int? contractId;
   Contract? contract;
   int categoryId;
   TicketCategory? category;
@@ -36,7 +36,7 @@ class Ticket {
     this.assistant,
     required this.entityId,
     this.entity,
-    required this.contractId,
+    this.contractId,
     this.contract,
     required this.categoryId,
     this.category,
@@ -71,10 +71,10 @@ class Ticket {
         description : json['body_description'],
         assistantId : json['assistant'] != null ? json['assistant']['id'] : null,
         assistant: json['assistant'] != null ? User.fromJsonDetailed(json['assistant']) : null,
-        entityId : json['entity']['id'],
-        entity: Entity.fromJsonDetailed(json['entity']),
-        contractId : json['contract']['id'],
-        contract: Contract.fromJson(json['contract']),
+        entityId : json['entity'] != null ? json['entity']['id'] : null,
+        entity: json['entity'] != null ? Entity.fromJsonDetailed(json['entity']) : null,
+        contractId : json['contract'] != null ? json['contract']['id'] : null,
+        contract: json['contract'] != null ? Contract.fromJson(json['contract']) : null,
         categoryId : json['category']['id'],
         category: TicketCategory.fromJson(json['category']),
         status : json['status'],
@@ -158,5 +158,9 @@ class Ticket {
     var res = await ClientApi.post('tickets/assign/${ticket.id}?_method=PATCH', jsonEncode(<String, dynamic>{
       'assistant_id' : user.id
     }));
+  }
+
+  static delete(Ticket ticket) async {
+    var res = await ClientApi.remove('tickets/${ticket.id}');
   }
 }

@@ -71,12 +71,11 @@ class _ListEntitiesState extends State<ListEntities> {
     }
   }
 
-  removeClick(Entity e) {
-    Entity.remove(e.id);
-    //loadEntities(paginatedModel.meta.current_page);
+  remove(int id) {
+    Entity.remove(id);
     setState(() {
       paginatedModel.data.removeAt(
-          paginatedModel.data.indexWhere((element) => element.id == e.id));
+          paginatedModel.data.indexWhere((element) => element.id == id));
     });
   }
 
@@ -273,28 +272,6 @@ class _ListEntitiesState extends State<ListEntities> {
                                               ),
                                             ),
                                           ),
-                                          if (paginatedModel
-                                                  .data[index].entityTypeId !=
-                                              1)
-                                            Padding(
-                                              padding: const EdgeInsets.all(5),
-                                              child: TextButton(
-                                                onPressed: () {
-                                                  removeClick(paginatedModel
-                                                      .data[index]);
-                                                },
-                                                child: const Text(
-                                                  "Remove",
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                                style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(Colors.red),
-                                                ),
-                                              ),
-                                            ),
                                         ],
                                       )),
                                     ]);

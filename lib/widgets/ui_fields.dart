@@ -282,3 +282,60 @@ class AddressField extends StatelessWidget {
     );
   }
 }
+
+class ConfirmationDialog extends StatefulWidget {
+
+  final String title;
+  final String message;
+  final Function callback;
+
+  const ConfirmationDialog({Key? key, required this.title, required this.message, required this.callback}) : super(key: key);
+
+  @override
+  State<ConfirmationDialog> createState() => _ConfirmationDialogState();
+}
+
+class _ConfirmationDialogState extends State<ConfirmationDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(widget.title),
+      content: Form(
+        child: Container(
+          height: 128,
+          child: Column(
+            children: [
+              Text(widget.message),
+              const Spacer(),
+              Row(
+                children: [
+                  Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                    child: OutlinedButton (
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                    child: ElevatedButton(
+                        onPressed: (){
+                          Navigator.of(context).pop();
+                          widget.callback();
+                        },
+                        child: const Text('Yes')
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+

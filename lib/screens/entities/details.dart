@@ -111,6 +111,11 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
     var e = Entity.update(entity.id, entityType, nameController.text, emailController.text, phoneNumberController.text, taxNumberController.text, defaultLanguageController.text, entity.addressId);
   }
 
+  void delete() async{
+    Entity.remove(entity.id);
+    Get.toNamed('/entities');
+  }
+
   @override
   void initState(){
     super.initState();
@@ -248,6 +253,20 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                     ),
                                 ),
                                 const Spacer(),
+                                Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                  child: OutlinedButton (
+                                    onPressed: (){
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return ConfirmationDialog(title: 'Confirm Delete', message: 'You are about to delete Entity #${entity.id} - ${entity.name}\nAre you sure you want to continue?', callback: delete);
+                                        },
+                                      );
+                                    },
+                                    child: const Text("Delete",style: TextStyle(color: Colors.white),),
+                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red),),
+                                  ),
+                                ),
                                 Padding(padding: const EdgeInsets.all(defaultPadding/2),
                                   child: ElevatedButton(
                                     onPressed: (){

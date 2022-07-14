@@ -181,7 +181,7 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
                               onPressed: (){
                                 createEntity();
                               },
-                              child: const Text("Create Ticket"))
+                              child: const Text("Create Entity"))
                         ],
                       ),
                     ),

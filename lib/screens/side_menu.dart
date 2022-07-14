@@ -53,31 +53,28 @@ class SideMenu extends StatelessWidget {
                 ],
               ),
               ExpansionTile(
-                title: const Text("Tasks"),
-                leading: const Icon(Icons.task_alt),
+                title: const Text("Assets"),
+                leading: const Icon(Icons.devices),
                 children: <Widget>[
                   ListTile(
-                    title: const Text(
-                      "Create Task",
+                    title: const Text("Register Asset",
                       style: TextStyle(fontSize: 12),
                     ),
                     onTap: (){
-                      Get.toNamed('nothing yet');
-                    },),
-                  const ListTile(
-                    title: Text(
-                      "Tasks",
-                      style: TextStyle(fontSize: 12),),
+                      Get.toNamed('/assets/new');
+                    },
+                  ),
+                  ListTile(
+                    title: const Text("All Assets",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    onTap: (){
+                      Get.toNamed('/assets');
+                    },
                   ),
                 ],
               ),
-              ListTile(
-                leading: const Icon(Icons.devices),
-                title: const Text("Assets"),
-                onTap: (){
-                  Get.toNamed('/assets');
-                },
-              ),
+
               ExpansionTile(
                 title: const Text("Contracts"),
                 leading: const Icon(Icons.history_edu),
@@ -94,7 +91,7 @@ class SideMenu extends StatelessWidget {
                     },),
                   ListTile(
                     title: const Text(
-                      "Contracts",
+                      "All Contracts",
                       style: TextStyle(fontSize: 12),),
                     onTap: (){
                       Get.toNamed(
@@ -104,12 +101,27 @@ class SideMenu extends StatelessWidget {
                   ),
                 ],
               ),
-              ListTile(
-                leading: const Icon(Icons.groups),
+              ExpansionTile(
                 title: const Text("Entities"),
-                onTap: (){
-                  Get.toNamed('/entities');
-                },
+                leading: const Icon(Icons.groups),
+                children: <Widget>[
+                  ListTile(
+                    title: const Text("Register Entity",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    onTap: (){
+                      Get.toNamed('/entities/create',);
+                    },
+                  ),
+                  ListTile(
+                    title: const Text("All Entities",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    onTap: (){
+                      Get.toNamed('/entities');
+                    },
+                  ),
+                ],
               ),
               ExpansionTile(
                 title: const Text("Users"),
@@ -125,24 +137,39 @@ class SideMenu extends StatelessWidget {
                         "/users/register",
                       );
                     },),
+                  const ListTile(
+                    title: Text(
+                      "All Users",
+                      style: TextStyle(fontSize: 12),),
+                    onTap: null
+                  ),
+                ],
+              ),
+              ExpansionTile(
+                title: const Text("Settings"),
+                leading: const Icon(Icons.settings),
+                children: <Widget>[
                   ListTile(
                     title: const Text(
-                      "Users",
+                      "General Settings",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    onTap: (){
+                      Get.toNamed(
+                        "/settings",
+                      );
+                    },),
+                  ListTile(
+                    title: const Text(
+                      "Roles",
                       style: TextStyle(fontSize: 12),),
                     onTap: (){
                       Get.toNamed(
-                        "/users",
+                        "/settings/roles",
                       );
                     },
                   ),
                 ],
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings),
-                title: const Text("Settings"),
-                onTap: (){
-                  Get.toNamed('/settings');
-                },
               ),
             ],
           ),
@@ -162,7 +189,7 @@ class SideMenu extends StatelessWidget {
                               trailing: IconButton(onPressed: (){
                                 GetStorage().erase();
                                 Get.toNamed('/login');
-                              }, icon: Icon(Icons.login_outlined)),
+                              }, icon: Icon(Icons.logout_outlined)),
                               title: Text(GetStorage().read('user_first_name') ?? "User"),
                               onTap: (){
                                 Get.toNamed('/users/me');
