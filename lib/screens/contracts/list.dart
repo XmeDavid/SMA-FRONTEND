@@ -40,14 +40,6 @@ class _ListContracts extends State<ListContracts> {
     });
   }
 
-  removeClick(Contract e) {
-    Contract.remove(e.id);
-    setState(() {
-      paginatedContractModel.data.removeAt(paginatedContractModel.data
-          .indexWhere((element) => element.id == e.id));
-    });
-  }
-
   detailsClick(Contract e) {
     Get.toNamed("/contracts/" + e.id.toString());
   }
@@ -301,28 +293,6 @@ class _ListContracts extends State<ListContracts> {
                                                           MaterialStateProperty
                                                               .all<Color>(
                                                                   firstColor),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(5),
-                                                  child: TextButton(
-                                                    onPressed: () {
-                                                      removeClick(
-                                                          paginatedContractModel
-                                                              .data[index]);
-                                                    },
-                                                    child: const Text(
-                                                      "Remove",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                    style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all<Color>(
-                                                                  Colors.red),
                                                     ),
                                                   ),
                                                 ),

@@ -47,14 +47,6 @@ class _ListAssetsState extends State<ListAssetsScreen> {
     });
   }
 
-  /*removeClick(Asset a) {
-    Asset.remove(a.id);
-    setState(() {
-      paginatedModel.data.removeAt(
-          paginatedModel.data.indexWhere((element) => element.id == e.id));
-    });
-  }*/
-
   detailsClick(Asset a) {
     Get.toNamed("/assets/" + a.id.toString());
   }
@@ -210,24 +202,6 @@ class _ListAssetsState extends State<ListAssetsScreen> {
                                               ),
                                             ),
                                           ),
-                                          Padding(
-                                              padding: const EdgeInsets.all(5),
-                                              child: TextButton(
-                                                onPressed: () {
-                                                  //removeClick(paginatedModel.data[index]);
-                                                },
-                                                child: const Text(
-                                                  "Remove",
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                                style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(Colors.red),
-                                                ),
-                                              ),
-                                            ),
                                         ],
                                       )),
                                     ]);
