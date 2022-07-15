@@ -9,6 +9,7 @@ import 'package:sma_frontend/api_interactions/api_functions.dart';
 import 'package:sma_frontend/consts.dart';
 
 import '../../models/Auth.dart';
+import '../../models/User.dart';
 
 class MfaScreen extends StatefulWidget {
   const MfaScreen({Key? key}) : super(key: key);
@@ -35,6 +36,12 @@ class _MfaScreenState extends State<MfaScreen> {
     Auth auth = await Auth.mfa(mfaController.text);
     GetStorage().write('token', auth.accessToken);
     GetStorage().write('refreshToken', auth.refreshToken);
+    User user = await Auth.user();
+    GetStorage().write('user_id', user.id);
+    GetStorage().write('user_full_name', user.fullName());
+    GetStorage().write('user_first_name', user.firstName);
+    GetStorage().write('user_photo_path', user.imagePath ?? '');
+    GetStorage().write('user_entity_id', user.entityId);
     Get.toNamed('/');
   }
 
