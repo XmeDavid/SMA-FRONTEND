@@ -42,19 +42,8 @@ class _ContractsDetailsScreen extends State<ContractsDetailsScreen> {
 
   bool loaded = false;
   late Contract contract;
-  late EntityType entityType;
   DateTime? selectedDate;
 
-  void getEntityType() async {
-    List<EntityType> entityTypes = await EntityType.getAll();
-    entityTypes.where((element) => element.id != 1).map((e) => e.name).toList();
-    setState(() {
-      entityType = entityTypes
-          .where((element) => element.id == contract.entitiesId)
-          .first;
-      loaded = true;
-    });
-  }
 
   void loadContract() async {
     //var contracts = await ModelApi.getContracts();
@@ -79,7 +68,6 @@ class _ContractsDetailsScreen extends State<ContractsDetailsScreen> {
       isValidated = contract.isValidated;
       loaded = true;
     });
-    getEntityType();
   }
 
   void showDatePanel(TextEditingController controller) async {
@@ -143,8 +131,7 @@ class _ContractsDetailsScreen extends State<ContractsDetailsScreen> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(10),
-                                  child: Text(
-                                    contract.entity?.name ?? 'ss',
+                                  child: Text('Contract #${contract.id}',
                                     style: const TextStyle(fontSize: 32),
                                   ),
                                 ),
@@ -158,13 +145,65 @@ class _ContractsDetailsScreen extends State<ContractsDetailsScreen> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           height: MediaQuery.of(context).size.height * 0.8,
-                          width: MediaQuery.of(context).size.width *
-                              (Responsive.isDesktop(context) ? 0.666 : 0.9),
+                          width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9),
                           child: Form(
                             key: _formKey,
                             child: SingleChildScrollView(
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 8,
+                                      bottom: 8,
+                                    ),
+                                    child: TextButton(
+                                      onPressed: (){
+                                        Get.toNamed('/entities/${contract.entitiesId ?? ''}');
+                                      },
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          color: Color.fromRGBO(225, 97, 6, 1),
+                                          borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Column(
+                                              children: [
+                                                const Padding(
+                                                  padding: EdgeInsets.all(smallPadding/2),
+                                                  child: Text('Entity associated',
+                                                    style: TextStyle(
+                                                      fontSize: 11,
+                                                      color: Colors.white
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                    left: defaultPadding,
+                                                    right: smallPadding/2,
+                                                    bottom: smallPadding/2,
+                                                  ),
+                                                  child: Text(contract.entity != null ? contract.entity!.name : '${contract.entitiesId ?? ''}',
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.white
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            const Spacer(),
+                                            const Icon(Icons.arrow_forward_ios,
+                                              color: Colors.white,
+                                            ),
+                                            const SizedBox(width: 8,)
+                                          ],
+                                        )
+                                      ),
+                                    ),
+                                  ),
                                   TextLine(
                                     isEnabled: isEditMode,
                                     labelText: "Title",
@@ -176,22 +215,12 @@ class _ContractsDetailsScreen extends State<ContractsDetailsScreen> {
                                                 : 0.9) -
                                         98,
                                   ),
-                                  DropDown(
-                                    label: "Entity Type",
-                                    callback: (s) =>
-                                        {entityTypeController.text},
-                                    getData: getEntityType,
-                                    selected: entityTypeController.text,
-                                    enabled: contract.entitiesId == 1
-                                        ? false
-                                        : isEditMode,
-                                  ),
                                   TextArea(
                                     labelText: "Description",
                                     hintText: "Description of the contract",
                                     controller: descriptionController,
                                     height: 160,
-                                    isEnabled: false,
+                                    isEnabled: isEditMode,
                                   ),
                                   Container(
                                       padding: const EdgeInsets.all(

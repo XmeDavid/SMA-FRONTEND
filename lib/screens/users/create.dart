@@ -74,6 +74,12 @@ class _RegisterUserScreenState  extends State<RegisterUserScreen> {
   }
 
   @override
+  void initState() {
+    GetStorage().read('token') ?? Get.toNamed('/login');
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: !Responsive.isDesktop(context)
