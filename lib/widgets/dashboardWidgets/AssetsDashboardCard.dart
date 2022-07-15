@@ -45,13 +45,13 @@ class _AssetsDashboardCardState extends State<AssetsDashboardCard> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: secondColor3,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      child: Column(
+      child: isAssetsLoaded ? Column(
         children: [
-          Chart(assets: assets, assetStatus: status),
+          Chart(assets: assets, assetStatus: status, contextToBeUsed: 'Assets'),
           Container(
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +65,7 @@ class _AssetsDashboardCardState extends State<AssetsDashboardCard> {
             ),
           )
         ],
-      ),
+      ) : const Center(child: CircularProgressIndicator()),
     );
   }
 }

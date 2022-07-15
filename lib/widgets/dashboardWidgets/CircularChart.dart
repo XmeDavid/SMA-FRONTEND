@@ -11,10 +11,12 @@ class Chart extends StatelessWidget {
   const Chart({
     Key? key,
     required this.assets,
-    required this.assetStatus
+    required this.assetStatus,
+    required this.contextToBeUsed
   }) : super(key: key);
   final List<Asset> assets;
   final List<AssetStatus> assetStatus;
+  final String contextToBeUsed;
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +46,12 @@ class Chart extends StatelessWidget {
               children: [
                 SizedBox(height: defaultPadding),
                 Text(
-                  assets.length.toString(),
+                  "${assets.length}\n\n$contextToBeUsed",
+                  textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline4!.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
+                    fontSize: 28,
                     height: 0.5,
                   ),
                 ),
@@ -61,35 +65,4 @@ class Chart extends StatelessWidget {
 }
 
 
-List<PieChartSectionData> paiChartSelectionDatas = [
-  PieChartSectionData(
-    color: Color(0xFF26E5FF),
-    value: 25,
-    showTitle: false,
-    radius: 25,
-  ),
-  PieChartSectionData(
-    color: Color(0xFF26E5FF),
-    value: 20,
-    showTitle: false,
-    radius: 22,
-  ),
-  PieChartSectionData(
-    color: Color(0xFFFFCF26),
-    value: 10,
-    showTitle: false,
-    radius: 19,
-  ),
-  PieChartSectionData(
-    color: Color(0xFFEE2727),
-    value: 15,
-    showTitle: false,
-    radius: 16,
-  ),
-  PieChartSectionData(
-    color: bgColor.withOpacity(0.1),
-    value: 25,
-    showTitle: false,
-    radius: 13,
-  ),
-];
+

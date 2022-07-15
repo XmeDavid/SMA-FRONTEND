@@ -54,7 +54,7 @@ class SMA extends StatelessWidget {
       ),
       initialRoute: '/login',
       getPages: [
-        GetPage(name: '/', page: () => DashboardScreen()),
+        GetPage(name: '/', page: () => const DashboardScreen()),
         GetPage(name: '/login', page: () => const LoginPage()),
         GetPage(name: '/auth/mfa', page: () => const MfaScreen()),
         GetPage(name: '/password/reset', page: () => const ResetPasswordScreen()),
