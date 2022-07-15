@@ -5,6 +5,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/models/Address.dart';
+import 'package:sma_frontend/models/AssetStatus.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/Country.dart';
 import 'package:sma_frontend/models/EntityType.dart';
@@ -37,20 +38,25 @@ class _AssetDetailsState  extends State<AssetDetailsScreen> {
   final brand = TextEditingController();
   final model = TextEditingController();
   final serialNumber = TextEditingController();
-  final status = TextEditingController();
   final purchaseDate = TextEditingController();
   final purchasePrice = TextEditingController();
   final warrantyMonths = TextEditingController();
+
+  int _selectedStatus = -1;
 
   bool isEditMode = false;
 
   bool assetLoaded = false;
   late Asset asset;
 
+  List<AssetStatus> status = [];
+
   void loadAsset() async{
+    var _status = await AssetStatus.getAll();
     var _asset = await Asset.get(int.parse(Get.parameters['id'] ?? ''));
     if(_asset == null) return null;
     setState(() {
+      status = _status;
       asset = _asset;
       model.text = asset.model;
       brand.text = asset.brand;
@@ -58,13 +64,13 @@ class _AssetDetailsState  extends State<AssetDetailsScreen> {
       purchaseDate.text = asset.purchaseDate;
       purchasePrice.text = asset.purchasePrice.toString();
       warrantyMonths.text = asset.warrantyMonths.toString();
-      status.text = asset.assetStatusId.toString();
+      _selectedStatus = asset.assetStatusId;
       assetLoaded = true;
     });
   }
 
   void saveChanges() async{
-    //Asset.update();
+    Asset.update(asset.id,serialNumber.text,brand.text,model.text,purchaseDate.text,purchasePrice.text,int.parse(warrantyMonths.text),_selectedStatus);
   }
 
   void delete() async{
@@ -185,12 +191,18 @@ class _AssetDetailsState  extends State<AssetDetailsScreen> {
                                   ),
                                 ],
                               ),
-                              TextLine(
-                                isEnabled: isEditMode,
-                                labelText: "Status Id",
-                                hintText: "Status Id //TODO WAITING FOR BACKEND",
-                                controller: status,
-                                size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 144,
+                              DropDown(
+                                label: 'Status',
+                                enabled: isEditMode,
+                                selected: assetLoaded ? status.where((element) => element.id == _selectedStatus).first.name : "Unknown",
+                                callback: (s){
+                                  setState((){
+                                    _selectedStatus = status.where((element) => element.id == _selectedStatus).first.id;
+                                  });
+                                },
+                                getData: () async {
+                                  return status.map((e) => e.name).toList();
+                                }
                               ),
 
                               Row(children: [

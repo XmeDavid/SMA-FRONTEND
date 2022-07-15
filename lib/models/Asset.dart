@@ -117,5 +117,17 @@ class Asset{
     return "Asset #" + id.toString() + " - " + brand + " " + model + " - #" + serialNumber;
   }
 
+  static void update(int id, String serialNumber, String brand, String model, String date, String price, int warranty, int statusId) async {
+    var res = await ClientApi.update('assets/$id', jsonEncode(<String, dynamic>{
+      'serial_number' : serialNumber,
+      'brand' : brand,
+      'model' : model,
+      'purchase_date' : date,
+      'purchase_price' : price,
+      'warranty_months' : warranty,
+      'assets_status_id' : statusId,
+    }));
+  }
+
 
 }
