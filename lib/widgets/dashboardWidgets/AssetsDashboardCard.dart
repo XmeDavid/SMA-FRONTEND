@@ -1,28 +1,35 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/models/Asset.dart';
 
 import '../../consts.dart';
+import '../../models/AssetStatus.dart';
 import 'CircularChart.dart';
 import 'AssetsInfoCard.dart';
 
-class AssetsDashboardCart extends StatefulWidget {
-  const AssetsDashboardCart({Key? key}) : super(key: key);
+class AssetsDashboardCard extends StatefulWidget {
+  const AssetsDashboardCard({Key? key}) : super(key: key);
 
   @override
-  State<AssetsDashboardCart> createState() => _AssetsDashboardCartState();
+  State<AssetsDashboardCard> createState() => _AssetsDashboardCardState();
 }
 
-class _AssetsDashboardCartState extends State<AssetsDashboardCart> {
+class _AssetsDashboardCardState extends State<AssetsDashboardCard> {
 
   late List<Asset> assets;
+  List<AssetStatus> status = [];
   bool isAssetsLoaded = false;
 
   void loadAssets() async {
-    var tempAssets = await Asset.getAll();
+    var _status = await AssetStatus.getAll();
+    var _tempAssets = await Asset.getAll();
     setState(() {
-      assets = tempAssets;
+      status = _status.map((status) => AssetStatus(id: status.id, name: status.name, description: status.description,
+          statusColor: Color.fromRGBO(Random().nextInt(255), Random().nextInt(255), Random().nextInt(255), 1))).toList();
+      assets = _tempAssets;
       isAssetsLoaded = true;
     });
   }
@@ -43,38 +50,20 @@ class _AssetsDashboardCartState extends State<AssetsDashboardCart> {
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Assets Details",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
+          Chart(assets: assets, assetStatus: status),
+          Container(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(status.length, (index) {
+                  return AssetInfoCard(
+                    assetStatusColor: status[index].statusColor!,
+                    assetStatusTitle: status[index].name,
+                    assetsQnty: assets.where((asset) => asset.assetStatusId == status[index].id).length,
+                  );
+                })
             ),
-          ),
-          SizedBox(height: defaultPadding),
-          Chart(),
-          AssetInfoCard(
-            assetStatusColor: Colors.red,
-            assetStatusTitle: "Fetch assets types or status",
-            assetsQnty: 0,
-          ),
-          AssetInfoCard(
-            assetStatusColor: Colors.yellow,
-            assetStatusTitle: "Fetch assets types or status",
-            //Enviar conforme o tipo/status do asset
-            assetsQnty: 1,
-          ),
-          AssetInfoCard(
-            assetStatusColor: Colors.blue,
-            assetStatusTitle: "Fetch assets types or status",
-            assetsQnty: 2,
-          ),
-          AssetInfoCard(
-            assetStatusColor: Colors.green,
-            assetStatusTitle: "Fetch assets types or status",
-            assetsQnty: 3,
-          ),
+          )
         ],
       ),
     );

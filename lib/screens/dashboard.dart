@@ -123,7 +123,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 4,
                       ),
-                      Container(
+                      /*Container(
                           decoration: const BoxDecoration(
                               color: secondColor3,
                               borderRadius:
@@ -156,11 +156,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 height: SizeConfig.blockSizeVertical * 5,
                               ),
                             ],
-                          )),
+                          )),*/
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 5,
                       ),
-                      AssetsDashboardCart()
+                      AssetsDashboardCard()
                     ],
                   ),
                 ),
