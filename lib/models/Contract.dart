@@ -55,7 +55,7 @@ class Contract{
       autoRenovation: json['auto_renovation'],
       lastRenovation : json['last_renovation_at'],
       isValidated: json['is_validated'],
-      budget: json['budget'],
+      budget: json['budget'].toDouble(),
     );
   }
   factory Contract.fromJsonDetailed(Map<String, dynamic> json){

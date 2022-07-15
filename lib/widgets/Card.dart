@@ -16,7 +16,7 @@ class TicketCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minWidth: Responsive.isDesktop(context) ? 250 : SizeConfig.screenWidth/2 - 40),
+      constraints: BoxConstraints(minWidth: Responsive.isDesktop(context) ? 250 : SizeConfig.screenWidth - 40),
       padding: EdgeInsets.only(
           top: 20, bottom: 20, left: 20, right: Responsive.isMobile(context) ? 20 : 40),
       decoration: BoxDecoration(

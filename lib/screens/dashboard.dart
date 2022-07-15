@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -24,8 +23,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   bool isTicketsloaded = false;
 
   void loadTickets() async {
-    var tempTickets = await Ticket.getAll(true,"","",-1);
-    if(tempTickets == null) return;
+    var tempTickets = await Ticket.getAll(true, "", "", -1);
+    if (tempTickets == null) return;
     setState(() {
       tickets = tempTickets;
       isTicketsloaded = true;
@@ -86,7 +85,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                       isTicketsloaded
                           ? SizedBox(
-                              width: SizeConfig.screenWidth,
+                              width: MediaQuery.of(context).size.width,
                               child: Wrap(
                                 spacing: 20,
                                 runSpacing: 20,

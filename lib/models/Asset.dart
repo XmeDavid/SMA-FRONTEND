@@ -47,7 +47,7 @@ class Asset{
       assetStatusId: json['assets_status'],
       purchaseDate: json['purchase_date'],
       warrantyMonths : json['warranty_months'],
-      purchasePrice: json['purchase_price'],
+      purchasePrice: json['purchase_price'].toDouble(),
       assetTypeId: json['asset_type'],
     );
   }

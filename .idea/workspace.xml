@@ -9,8 +9,10 @@
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/Asset.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Asset.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/Contract.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Contract.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/tickets/details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/tickets/details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/Card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/Card.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
