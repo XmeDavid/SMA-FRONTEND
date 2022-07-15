@@ -5,6 +5,7 @@ import 'package:sma_frontend/models/Intervention.dart';
 import '../consts.dart';
 import '../models/Task.dart';
 import '../responsive.dart';
+import 'datePicker.dart';
 import 'ui_fields.dart';
 
 class NewTaskDialog extends StatefulWidget {
@@ -31,6 +32,7 @@ class _NewTaskDialogState extends State<NewTaskDialog> {
     }
     if(res['code'] == 201){
     }
+    Navigator.of(context).pop();
   }
 
   @override
@@ -60,7 +62,7 @@ class _NewTaskDialogState extends State<NewTaskDialog> {
                   onPressed: (){
                     createTask();
                   },
-                  child: const Text("Create Ticket"))
+                  child: const Text("Create Task"))
             ],
           ),
         ),
@@ -86,11 +88,35 @@ class _RegisterInterventionState extends State<RegisterInterventionDialog> {
   var endDate = TextEditingController();
   var description = TextEditingController();
 
-  void createTask() async{
+  DateTime? selectedStartDate;
+  DateTime? selectedEndDate;
+
+  void registerIntervention() async{
     try{
-      await Intervention.create(widget.taskId, startDate.text, endDate.text, description.text);
+      await Intervention.create(widget.taskId, startDate.text + ' 00:00:00', endDate.text + ' 00:00:01', description.text);
+      Navigator.of(context).pop();
     } on Exception catch(_){
 
+    }
+  }
+
+  void showStartDatePanel()async{
+    var tempDate = await getDateFromPicker(context: context, initialDate: selectedStartDate ?? DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2050));
+    if(tempDate != null){
+      setState(() {
+        selectedStartDate = tempDate;
+        startDate.text = "${selectedStartDate?.year.toString().padLeft(4,"0") ?? ""}-${selectedStartDate?.month.toString().padLeft(2,"0") ?? ""}-${selectedStartDate?.day.toString().padLeft(2,"0") ?? ""}";
+      });
+    }
+  }
+
+  void showEndDatePanel()async{
+    var tempDate = await getDateFromPicker(context: context, initialDate: selectedEndDate ?? DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2050));
+    if(tempDate != null){
+      setState(() {
+        selectedEndDate = tempDate;
+        endDate.text = "${selectedEndDate?.year.toString().padLeft(4,"0") ?? ""}-${selectedEndDate?.month.toString().padLeft(2,"0") ?? ""}-${selectedEndDate?.day.toString().padLeft(2,"0") ?? ""}";
+      });
     }
   }
 
@@ -105,18 +131,125 @@ class _RegisterInterventionState extends State<RegisterInterventionDialog> {
           width: 400,
           height: 428,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextLine(
-                labelText: "Start Date",
-                hintText: "When the intervention was started",
-                controller: startDate,
-                size: 273,
+              Padding(
+                padding: const EdgeInsets.all(defaultPadding/2),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10)
+                        ),
+                        color: thirdColor5,
+                      ),
+                      height: 40,
+                      child: const Center(
+                          child:Padding(
+                              padding: EdgeInsets.all(5),
+                              child: Text(
+                                "Start Date",
+                                style: TextStyle(fontSize: 20),
+                              )
+                          )
+                      ),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                        color: thirdColor3,
+                      ),
+                      height: 40,
+                      width: 217,
+                      child: Center(
+                        child:TextFormField(
+                          enabled: false,
+                          controller: startDate,
+                          decoration: const InputDecoration(
+                              contentPadding:  EdgeInsets.only(left: 10,bottom: 8),
+                              hintText: "yyyy-mm-dd",
+                              border: InputBorder.none
+                          ),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10)
+                          ),
+                          color: thirdColor5,
+                        ),
+                        height: 40,
+                        child: TextButton(onPressed: showStartDatePanel, child: const Icon(Icons.calendar_month_outlined))
+                    ),
+                  ],
+                ),
               ),
-              TextLine(
-                labelText: "End Date",
-                hintText: "When the intervention was concluded",
-                controller: endDate,
-                size: 284,
+              Padding(
+                padding: const EdgeInsets.all(defaultPadding/2),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10)
+                        ),
+                        color: thirdColor5,
+                      ),
+                      height: 40,
+                      child: const Center(
+                          child:Padding(
+                              padding: EdgeInsets.all(5),
+                              child: Text(
+                                "End Date",
+                                style: TextStyle(fontSize: 20),
+                              )
+                          )
+                      ),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                        color: thirdColor3,
+                      ),
+                      height: 40,
+                      width: 228,
+                      child: Center(
+                        child:TextFormField(
+                          enabled: false,
+                          controller: endDate,
+                          decoration: const InputDecoration(
+                              contentPadding:  EdgeInsets.only(left: 10,bottom: 8),
+                              hintText: "yyyy-mm-dd",
+                              border: InputBorder.none
+                          ),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10)
+                          ),
+                          color: thirdColor5,
+                        ),
+                        height: 40,
+                        child: TextButton(onPressed: showEndDatePanel, child: const Icon(Icons.calendar_month_outlined))
+                    ),
+                  ],
+                ),
               ),
               TextArea(
                 labelText: "Record of the Intervention",
@@ -124,7 +257,13 @@ class _RegisterInterventionState extends State<RegisterInterventionDialog> {
                 controller: description,
                 height: 204,
               ),
-                widget.actions[1],
+              ElevatedButton(
+                  onPressed: (){
+                    registerIntervention();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Create Intervention")
+              ),
               Row(children: [
                 const Spacer(),
                 widget.actions[0],

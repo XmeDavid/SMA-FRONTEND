@@ -52,9 +52,6 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
   List<TicketCategory> categories = <TicketCategory>[];
   List<Asset> assets = <Asset>[];
 
-  bool isClient(){
-    return false;
-  }
 
   Future<List<String>> getEntityTypesString() async {
     if(entityTypes.isEmpty){
@@ -184,7 +181,7 @@ class _NewEntityScreenState  extends State<NewEntityScreen> {
                               onPressed: (){
                                 createEntity();
                               },
-                              child: const Text("Create Ticket"))
+                              child: const Text("Create Entity"))
                         ],
                       ),
                     ),

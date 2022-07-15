@@ -62,10 +62,6 @@ class _UserDetailsScreenState  extends State<UserDetailsScreen> {
   List<Asset> assets = <Asset>[];
 
 
-  bool isClient(){
-    return false;
-  }
-
   Future<List<String>> getEntityTypesString() async {
     if(entityTypes.isEmpty){
       entityTypes = await EntityType.getAll();

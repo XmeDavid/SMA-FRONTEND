@@ -64,7 +64,12 @@ class _AssetDetailsState  extends State<AssetDetailsScreen> {
   }
 
   void saveChanges() async{
+    //Asset.update();
+  }
 
+  void delete() async{
+    Asset.remove(asset.id);
+    Get.toNamed('/assets');
   }
 
   @override
@@ -198,6 +203,20 @@ class _AssetDetailsState  extends State<AssetDetailsScreen> {
                                     ),
                                 ),
                                 const Spacer(),
+                                Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                  child: OutlinedButton (
+                                    onPressed: (){
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return ConfirmationDialog(title: 'Confirm Delete', message: 'You are about to delete Asset #${asset.id} - ${asset.serialNumber}\nAre you sure you want to continue?', callback: delete);
+                                        },
+                                      );
+                                    },
+                                    child: const Text("Delete",style: TextStyle(color: Colors.white),),
+                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red),),
+                                  ),
+                                ),
                                 Padding(padding: const EdgeInsets.all(defaultPadding/2),
                                   child: ElevatedButton(
                                     onPressed: (){

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sma_frontend/models/Intervention.dart';
 import 'package:sma_frontend/widgets/tasks_components.dart';
+import 'package:sma_frontend/widgets/tickets_components.dart';
 
 import '../../models/Task.dart';
 import '../../responsive.dart';
@@ -57,14 +58,7 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
 
   void delete() {
     Task.delete(task.id);
-  }
-
-  void registerIntervention() async{
-    try{
-      await Intervention.create(task.id, startDate.text, endDate.text, description.text);
-    } on Exception catch(_){
-
-    }
+    Get.toNamed('/tickets/${task.ticketId ?? ""}');
   }
 
   @override
@@ -159,6 +153,34 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                                     ),
                                     const Spacer(),
                                     Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                      child: OutlinedButton (
+                                        onPressed: (){
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext dialogContext) {
+                                              return ConfirmationDialog(title: 'Confirm Delete', message: 'You are about to delete Task #${task.id} - ${task.title}\nAre you sure you want to continue?', callback: delete);
+                                            },
+                                          );
+                                        },
+                                        child: const Text("Delete",style: TextStyle(color: Colors.white),),
+                                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red),),
+                                      ),
+                                    ),
+                                    Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                      child: OutlinedButton (
+                                        onPressed: (){
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext dialogContext) {
+                                              return AssignUserDialog(title: 'Assign user to Task #${task.id} - ${task.title}', assignUserFunction: (){});
+                                            },
+                                          );
+                                        },
+                                        child: const Text("Assign",style: TextStyle(color: Colors.white),),
+                                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.orangeAccent),),
+                                      ),
+                                    ),
+                                    Padding(padding: const EdgeInsets.all(defaultPadding/2),
                                       child: ElevatedButton(
                                         onPressed: (){
                                           setState(() {
@@ -172,16 +194,6 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                                           return const Text("Edit");
                                         })(),
                                         style: isEditMode ? ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(thirdColor5),) : ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(firstColor),),
-                                      ),
-                                    ),
-                                    if(isEditMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
-                                      child: OutlinedButton (
-                                        onPressed: (){
-                                          delete();
-                                          Get.toNamed('/tickets/${task.ticketId ?? ""}');
-                                        },
-                                        child: const Text("Delete",style: TextStyle(color: Colors.white),),
-                                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red),),
                                       ),
                                     ),
                                     if(isEditMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
@@ -239,13 +251,6 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                                                       Navigator.of(context).pop();
                                                     },
                                                     child: const Text("Cancel")
-                                                ),
-                                                ElevatedButton(
-                                                    onPressed: (){
-                                                      registerIntervention();
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                    child: const Text("Create Intervention")
                                                 ),
                                               ],
                                             );
@@ -362,6 +367,34 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                           ),
                           const Spacer(),
                           Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                            child: OutlinedButton (
+                              onPressed: (){
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    return ConfirmationDialog(title: 'Confirm Delete', message: 'You are about to delete Task #${task.id} - ${task.title}\nAre you sure you want to continue?', callback: delete);
+                                  },
+                                );
+                              },
+                              child: const Text("Delete",style: TextStyle(color: Colors.white),),
+                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red),),
+                            ),
+                          ),
+                          Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                            child: OutlinedButton (
+                              onPressed: (){
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    return AssignUserDialog(title: 'Assign user to Task #${task.id} - ${task.title}', assignUserFunction: (){});
+                                  },
+                                );
+                              },
+                              child: const Text("Assign",style: TextStyle(color: Colors.white),),
+                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.orangeAccent),),
+                            ),
+                          ),
+                          Padding(padding: const EdgeInsets.all(defaultPadding/2),
                             child: ElevatedButton(
                               onPressed: (){
                                 setState(() {
@@ -375,16 +408,6 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                                 return const Text("Edit");
                               })(),
                               style: isEditMode ? ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(thirdColor5),) : ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(firstColor),),
-                            ),
-                          ),
-                          if(isEditMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
-                            child: OutlinedButton (
-                              onPressed: (){
-                                delete();
-                                Get.toNamed('/tickets/${task.ticketId ?? ""}');
-                              },
-                              child: const Text("Delete",style: TextStyle(color: Colors.white),),
-                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red),),
                             ),
                           ),
                           if(isEditMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
@@ -424,13 +447,6 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                                               Navigator.of(context).pop();
                                             },
                                             child: const Text("Cancel")
-                                        ),
-                                        ElevatedButton(
-                                            onPressed: (){
-                                              registerIntervention();
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text("Create Intervention")
                                         ),
                                       ],
                                     );

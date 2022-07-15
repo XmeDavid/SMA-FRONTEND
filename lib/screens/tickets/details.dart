@@ -80,7 +80,9 @@ class _TicketDetailsState extends State<TicketDetails> {
   void saveChanges() async {
     await Ticket.update(ticket, );
   }
-  delete(){
+  delete() async{
+    Ticket.delete(ticket);
+    Get.toNamed('/tickets');
   }
 
   @override
@@ -376,32 +378,20 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                 ),
                                                 const Spacer(),
                                                 Padding(padding: const EdgeInsets.all(defaultPadding/2),
-                                                  child: ElevatedButton(
-                                                    onPressed: (){
-                                                      setState(() {
-                                                        editMode = !editMode;
-                                                      });
-                                                    },
-                                                    child: ((){
-                                                      if(editMode){
-                                                        return const Text("Cancel");
-                                                      }
-                                                      return const Text("Edit");
-                                                    })(),
-                                                    style: editMode ? ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(thirdColor5),) : ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(firstColor),),
-                                                  ),
-                                                ),
-                                                if(editMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
                                                   child: OutlinedButton (
                                                     onPressed: (){
-                                                      delete();
-                                                      Get.toNamed('/tickets/${ticket.id}');
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext dialogContext) {
+                                                          return ConfirmationDialog(title: 'Confirm Delete', message: 'You are about to delete Ticket #${ticket.id} - ${ticket.title}\nAre you sure you want to continue?', callback: delete);
+                                                        },
+                                                      );
                                                     },
                                                     child: const Text("Delete",style: TextStyle(color: Colors.white),),
                                                     style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red),),
                                                   ),
                                                 ),
-                                                if(editMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                                Padding(padding: const EdgeInsets.all(defaultPadding/2),
                                                   child: ElevatedButton(
                                                     onPressed: (){
                                                       showDialog(
@@ -421,6 +411,34 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                     },
                                                     child: const Text("Assign"),
                                                     style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.orangeAccent),),
+                                                  ),
+                                                ),
+                                                Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                                  child: ElevatedButton(
+                                                    onPressed: (){
+                                                      setState(() {
+                                                        editMode = !editMode;
+                                                      });
+                                                    },
+                                                    child: ((){
+                                                      if(editMode){
+                                                        return const Text("Cancel");
+                                                      }
+                                                      return const Text("Edit");
+                                                    })(),
+                                                    style: editMode ? ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(thirdColor5),) : ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(firstColor),),
+                                                  ),
+                                                ),
+                                                if(editMode)Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                                  child: ElevatedButton(
+                                                    onPressed: (){
+                                                      setState(() {
+                                                        editMode = false;
+                                                      });
+                                                      saveChanges();
+                                                    },
+                                                    child: const Text("Save"),
+                                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green),),
                                                   ),
                                                 ),
                                               ],)

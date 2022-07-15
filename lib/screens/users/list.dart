@@ -30,10 +30,6 @@ class _ListUsersState extends State<ListUsersScreen> {
 
   var searchController = TextEditingController();
 
-  bool isClient() {
-    return false;
-  }
-
   void loadUsers(int page) async {
     var tempUserPaginatedModel =
         await User.getPaginated(true,20,page,"");

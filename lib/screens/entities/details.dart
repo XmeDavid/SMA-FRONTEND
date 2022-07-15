@@ -65,9 +65,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
   List<Asset> assets = <Asset>[];
 
 
-  bool isClient(){
-    return false;
-  }
+
 
   Future<List<String>> getEntityTypesString() async {
     if(entityTypes.isEmpty){
@@ -111,6 +109,11 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
     Address.update(entity.addressId,streetController.text, doorController.text, floorController.text, roomController.text, zipCodeController.text, cityController.text, stateController.text, countryId);
     int entityType = entityTypes.isNotEmpty ? entityTypes.where((element) => element.name == entityTypeController.text).first.id : entity.entityTypeId;
     var e = Entity.update(entity.id, entityType, nameController.text, emailController.text, phoneNumberController.text, taxNumberController.text, defaultLanguageController.text, entity.addressId);
+  }
+
+  void delete() async{
+    Entity.remove(entity.id);
+    Get.toNamed('/entities');
   }
 
   @override
@@ -250,6 +253,20 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                     ),
                                 ),
                                 const Spacer(),
+                                Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                  child: OutlinedButton (
+                                    onPressed: (){
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return ConfirmationDialog(title: 'Confirm Delete', message: 'You are about to delete Entity #${entity.id} - ${entity.name}\nAre you sure you want to continue?', callback: delete);
+                                        },
+                                      );
+                                    },
+                                    child: const Text("Delete",style: TextStyle(color: Colors.white),),
+                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red),),
+                                  ),
+                                ),
                                 Padding(padding: const EdgeInsets.all(defaultPadding/2),
                                   child: ElevatedButton(
                                     onPressed: (){

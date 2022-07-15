@@ -32,23 +32,11 @@ class _ListContracts extends State<ListContracts> {
 
   var searchController = TextEditingController();
 
-  bool isClient() {
-    return false;
-  }
-
   void loadContracts(int page) async {
     var tempContractPaginatedModel =
         await Contract.getPaginated(true, 20, page, searchController.text);
     setState(() {
       paginatedContractModel = tempContractPaginatedModel;
-    });
-  }
-
-  removeClick(Contract e) {
-    Contract.remove(e.id);
-    setState(() {
-      paginatedContractModel.data.removeAt(paginatedContractModel.data
-          .indexWhere((element) => element.id == e.id));
     });
   }
 
@@ -305,28 +293,6 @@ class _ListContracts extends State<ListContracts> {
                                                           MaterialStateProperty
                                                               .all<Color>(
                                                                   firstColor),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(5),
-                                                  child: TextButton(
-                                                    onPressed: () {
-                                                      removeClick(
-                                                          paginatedContractModel
-                                                              .data[index]);
-                                                    },
-                                                    child: const Text(
-                                                      "Remove",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                    style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all<Color>(
-                                                                  Colors.red),
                                                     ),
                                                   ),
                                                 ),

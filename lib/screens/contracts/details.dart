@@ -100,6 +100,11 @@ class _ContractsDetailsScreen extends State<ContractsDetailsScreen> {
     print("saving");
   }
 
+  void delete() async{
+    Contract.remove(contract.id);
+    Get.toNamed('/contracts');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -587,6 +592,20 @@ class _ContractsDetailsScreen extends State<ContractsDetailsScreen> {
                                         ),
                                       ),
                                       const Spacer(),
+                                      Padding(padding: const EdgeInsets.all(defaultPadding/2),
+                                        child: OutlinedButton (
+                                          onPressed: (){
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext dialogContext) {
+                                                return ConfirmationDialog(title: 'Confirm Delete', message: 'You are about to delete Contract #${contract.id} - ${contract.title}\nAre you sure you want to continue?', callback: delete);
+                                              },
+                                            );
+                                          },
+                                          child: const Text("Delete",style: TextStyle(color: Colors.white),),
+                                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red),),
+                                        ),
+                                      ),
                                       Padding(
                                         padding: const EdgeInsets.all(
                                             defaultPadding / 2),

@@ -5,6 +5,7 @@ import 'package:sma_frontend/models/TicketCategory.dart';
 
 import '../api_interactions/api_functions.dart';
 
+import 'Asset.dart';
 import 'Contract.dart';
 import 'User.dart';
 import 'Entity.dart';
@@ -15,9 +16,9 @@ class Ticket {
   String description;
   int? assistantId;
   User? assistant;
-  int entityId;
+  int? entityId;
   Entity? entity;
-  int contractId;
+  int? contractId;
   Contract? contract;
   int categoryId;
   TicketCategory? category;
@@ -35,7 +36,7 @@ class Ticket {
     this.assistant,
     required this.entityId,
     this.entity,
-    required this.contractId,
+    this.contractId,
     this.contract,
     required this.categoryId,
     this.category,
@@ -70,10 +71,10 @@ class Ticket {
         description : json['body_description'],
         assistantId : json['assistant'] != null ? json['assistant']['id'] : null,
         assistant: json['assistant'] != null ? User.fromJsonDetailed(json['assistant']) : null,
-        entityId : json['entity']['id'],
-        entity: Entity.fromJsonDetailed(json['entity']),
-        contractId : json['contract']['id'],
-        contract: Contract.fromJson(json['contract']),
+        entityId : json['entity'] != null ? json['entity']['id'] : null,
+        entity: json['entity'] != null ? Entity.fromJsonDetailed(json['entity']) : null,
+        contractId : json['contract'] != null ? json['contract']['id'] : null,
+        contract: json['contract'] != null ? Contract.fromJson(json['contract']) : null,
         categoryId : json['category']['id'],
         category: TicketCategory.fromJson(json['category']),
         status : json['status'],
@@ -103,8 +104,11 @@ class Ticket {
   }
 
   static Future<List<Ticket>?> getAll(bool detailed, String status, String search, int categoryId) async{
-    var url = "tickets${detailed ? '?format=detailed' : ''}${status != "" ? "&status=$status" : ""}${(search != null && search != "") ? "&search=$search" : ""}${categoryId != -1 ? "&categories_id=$categoryId" : ""}";
-    var res = await ClientApi.get(url);
+    var url = "tickets${detailed ? '?format=detailed' : ''}${status != "" ? "&status=$status" : ""}${categoryId != -1 ? "&categories_id=$categoryId" : ""}";
+    if(search != ''){
+      url = "tickets${detailed ? '?format=detailed' : ''}${(search != null && search != "") ? "&search=$search" : ""}${categoryId != -1 ? "&categories_id=$categoryId" : ""}";
+    }
+     var res = await ClientApi.get(url);
     if(res.statusCode == 401){
       Get.toNamed('login');
       return null;
@@ -118,7 +122,12 @@ class Ticket {
     return data;
   }
 
-  static Future<Ticket?> create(Entity entity, String title, String description, TicketCategory category, Contract contract) async{
+  static Future<Ticket?> create(String title, String description, TicketCategory category, Contract contract, List<Asset>? assets) async{
+    if(assets != null){
+      for(var asset in assets){
+        print(asset.toString());
+      }
+    }
     var res = await ClientApi.post('tickets', jsonEncode(<String, dynamic>{
       //'entities_id' : entity.id,
       'contracts_id' : contract.id,
@@ -149,5 +158,9 @@ class Ticket {
     var res = await ClientApi.post('tickets/assign/${ticket.id}?_method=PATCH', jsonEncode(<String, dynamic>{
       'assistant_id' : user.id
     }));
+  }
+
+  static delete(Ticket ticket) async {
+    var res = await ClientApi.remove('tickets/${ticket.id}');
   }
 }
