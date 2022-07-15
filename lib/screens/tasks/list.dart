@@ -51,6 +51,7 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
 
   @override
   void initState() {
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadTickets();
     loadCategories();

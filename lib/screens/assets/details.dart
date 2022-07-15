@@ -80,6 +80,7 @@ class _AssetDetailsState  extends State<AssetDetailsScreen> {
 
   @override
   void initState(){
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadAsset();
   }
@@ -197,7 +198,7 @@ class _AssetDetailsState  extends State<AssetDetailsScreen> {
                                 selected: assetLoaded ? status.where((element) => element.id == _selectedStatus).first.name : "Unknown",
                                 callback: (s){
                                   setState((){
-                                    _selectedStatus = status.where((element) => element.id == _selectedStatus).first.id;
+                                    _selectedStatus = status.where((element) => element.name == s).first.id;
                                   });
                                 },
                                 getData: () async {

@@ -37,6 +37,7 @@ class _RecoverPasswordState extends State<RecoverPasswordScreen> {
 
   @override
   void initState() {
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
   }
 

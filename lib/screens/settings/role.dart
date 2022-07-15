@@ -35,6 +35,7 @@ class _RoleState extends State<RoleScreen> {
 
   @override
   void initState() {
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadRoles();
   }

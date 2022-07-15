@@ -107,6 +107,7 @@ class _ContractsDetailsScreen extends State<ContractsDetailsScreen> {
 
   @override
   void initState() {
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadContract();
   }

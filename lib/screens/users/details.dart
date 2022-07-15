@@ -104,6 +104,7 @@ class _UserDetailsScreenState  extends State<UserDetailsScreen> {
 
   @override
   void initState(){
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadEntity();
   }

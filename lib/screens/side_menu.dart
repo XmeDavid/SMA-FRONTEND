@@ -137,11 +137,13 @@ class SideMenu extends StatelessWidget {
                         "/users/register",
                       );
                     },),
-                  const ListTile(
-                    title: Text(
+                  ListTile(
+                    title: const Text(
                       "All Users",
                       style: TextStyle(fontSize: 12),),
-                    onTap: null
+                    onTap: (){
+                      Get.toNamed('/users');
+                    }
                   ),
                 ],
               ),

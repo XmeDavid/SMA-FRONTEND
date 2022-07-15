@@ -63,6 +63,7 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
 
   @override
   void initState(){
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadTask();
   }

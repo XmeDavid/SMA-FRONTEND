@@ -12,6 +12,7 @@ import 'package:sma_frontend/models/TicketCategory.dart';
 
 
 import '../../api_interactions/api_functions.dart';
+import '../../models/AssetStatus.dart';
 import '../../models/Entity.dart';
 import '../../models/Asset.dart';
 import '../../responsive.dart';
@@ -35,18 +36,31 @@ class _NewAssetState  extends State<NewAssetScreen> {
   final brand = TextEditingController();
   final model = TextEditingController();
   final serialNumber = TextEditingController();
-  final status = TextEditingController();
   final purchaseDate = TextEditingController();
   final purchasePrice = TextEditingController();
   final warrantyMonths = TextEditingController();
+
+  int _selectedStatus = 1;
+  bool loaded = false;
+  late List<AssetStatus> status;
 
   void create() async{
     await Asset.create(serialNumber.text,brand.text,model.text,purchaseDate.text,double.parse(purchasePrice.text),int.parse(warrantyMonths.text));
   }
 
+  void loadStatus() async {
+    var _status = await AssetStatus.getAll();
+    setState((){
+      status = _status;
+      loaded = true;
+    });
+  }
+
   @override
   void initState(){
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
+    loadStatus();
   }
 
   @override
@@ -156,12 +170,20 @@ class _NewAssetState  extends State<NewAssetScreen> {
                                   ),
                                 ],
                               ),
-                              TextLine(
-                                isEnabled: true,
-                                labelText: "Status Id",
-                                hintText: "Status Id //TODO WAITING FOR BACKEND",
-                                controller: status,
-                                size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 144,
+                              DropDown(
+                                  label: 'Status',
+                                  enabled: true,
+                                  selected: loaded ? status.where((element) => element.id == _selectedStatus).first.name : "Unknown",
+                                  callback: (s){
+                                    setState((){
+                                      _selectedStatus = status.where((element) => element.name == s).first.id;
+                                    });
+                                    print(_selectedStatus);
+
+                                  },
+                                  getData: () async {
+                                    return status.map((e) => e.name).toList();
+                                  }
                               ),
 
                               Row(children: [

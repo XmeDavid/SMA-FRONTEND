@@ -29,6 +29,7 @@ class _SettingsState extends State<SettingsScreen> {
 
   @override
   void initState() {
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadRoles();
   }

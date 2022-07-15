@@ -53,6 +53,7 @@ class _ListAssetsState extends State<ListAssetsScreen> {
 
   @override
   void initState() {
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadAssets(1);
   }

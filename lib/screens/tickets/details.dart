@@ -87,6 +87,7 @@ class _TicketDetailsState extends State<TicketDetails> {
 
   @override
   void initState() {
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     load();
     loadTasks();

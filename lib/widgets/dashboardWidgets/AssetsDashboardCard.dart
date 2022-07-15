@@ -27,6 +27,7 @@ class _AssetsDashboardCartState extends State<AssetsDashboardCart> {
 
   @override
   void initState() {
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadAssets();
   }

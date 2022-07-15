@@ -52,6 +52,7 @@ class _ListUsersState extends State<ListUsersScreen> {
 
   @override
   void initState() {
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadUsers(1);
   }

@@ -46,6 +46,7 @@ class _ListContracts extends State<ListContracts> {
 
   @override
   void initState() {
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadContracts(1);
   }

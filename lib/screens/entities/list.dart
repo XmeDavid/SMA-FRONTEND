@@ -85,6 +85,7 @@ class _ListEntitiesState extends State<ListEntities> {
 
   @override
   void initState() {
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadEntityTypes();
     loadEntities(1);

@@ -118,6 +118,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
 
   @override
   void initState(){
+    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     loadEntity();
   }
