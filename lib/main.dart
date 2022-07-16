@@ -64,7 +64,6 @@ class SMA extends StatelessWidget {
         GetPage(name: '/settings/roles/:role', page: () => const RoleScreen()),
         GetPage(name: '/users', page: () => const ListUsersScreen()),
         GetPage(name: '/users/register', page: () => const RegisterUserScreen()),
-        GetPage(name: '/users/me', page: () => const UserDetailsScreen()),
         GetPage(name: '/users/:id', page: () => const UserDetailsScreen()),
         GetPage(name: '/entities', page: () => const ListEntities()),
         GetPage(name: '/entities/create', page: () => const NewEntityScreen()),

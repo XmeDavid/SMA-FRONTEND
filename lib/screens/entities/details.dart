@@ -182,7 +182,7 @@ class _EntityDetailsScreen  extends State<EntityDetailsScreen> {
                                 enabled: entity.entityTypeId == 1 ? false : isEditMode,
                               ),
                               TextLine(
-                                isEnabled: isEditMode,
+                                isEnabled: false,
                                 labelText: "Email",
                                 hintText: "Entity email",
                                 controller: emailController,

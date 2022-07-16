@@ -98,13 +98,6 @@ class _ListAssetsState extends State<ListAssetsScreen> {
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ),
-                              const Padding(
-                                padding: EdgeInsets.all(defaultPadding),
-                                child: Text(
-                                  "Entity Type:",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
                               Padding(
                                 padding: const EdgeInsets.all(defaultPadding),
                                 child: SizedBox(

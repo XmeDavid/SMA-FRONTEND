@@ -17,6 +17,7 @@ import '../../models/Entity.dart';
 import '../../models/Asset.dart';
 import '../../responsive.dart';
 import '../../consts.dart';
+import '../../widgets/datePicker.dart';
 import '../../widgets/ui_fields.dart';
 import '../side_menu.dart';
 
@@ -43,6 +44,19 @@ class _NewAssetState  extends State<NewAssetScreen> {
   int _selectedStatus = 1;
   bool loaded = false;
   late List<AssetStatus> status;
+
+  DateTime? selectedPurchaseDate;
+
+  void showDatePanel() async {
+    var tempDate = await getDateFromPicker(context: context, initialDate: selectedPurchaseDate ?? DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2050));
+    if(tempDate != null){
+      setState(() {
+        selectedPurchaseDate = tempDate;
+        purchaseDate.text = "${selectedPurchaseDate?.year.toString().padLeft(4,"0") ?? ""}-${selectedPurchaseDate?.month.toString().padLeft(2,"0") ?? ""}-${selectedPurchaseDate?.day.toString().padLeft(2,"0") ?? ""}";
+      });
+    }
+  }
+
 
   void create() async{
     await Asset.create(serialNumber.text,brand.text,model.text,purchaseDate.text,double.parse(purchasePrice.text),int.parse(warrantyMonths.text));
@@ -87,7 +101,7 @@ class _NewAssetState  extends State<NewAssetScreen> {
                           children:  const [
                             Text("Create Asset",
                               style: TextStyle(
-                                  fontSize: 28
+                                  fontSize: 48
                               ),
                             ),
                             Spacer()
@@ -128,12 +142,64 @@ class _NewAssetState  extends State<NewAssetScreen> {
                                 controller: model,
                                 size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 119,
                               ),
-                              TextLine(
-                                isEnabled: true,
-                                labelText: "Date",
-                                hintText: "Purchase Date",
-                                controller: purchaseDate,
-                                size: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 106,
+                              Padding(
+                                padding: const EdgeInsets.all(defaultPadding/2),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            bottomLeft: Radius.circular(10)
+                                        ),
+                                        color: thirdColor5,
+                                      ),
+                                      height: 40,
+                                      child: const Center(
+                                          child:Padding(
+                                              padding: EdgeInsets.all(5),
+                                              child: Text(
+                                                "Purchase Date",
+                                                style: TextStyle(fontSize: 20),
+                                              )
+                                          )
+                                      ),
+                                    ),
+                                    Container(
+                                      decoration: const BoxDecoration(
+                                        color: thirdColor3,
+                                      ),
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width * (Responsive.isDesktop(context) ? 0.666 : 0.9) - 261,
+                                      child: Center(
+                                        child:TextFormField(
+                                          enabled: false,
+                                          controller: purchaseDate,
+                                          decoration: const InputDecoration(
+                                              contentPadding:  EdgeInsets.only(left: 10,bottom: 8),
+                                              hintText: "yyyy-mm-dd",
+                                              border: InputBorder.none
+                                          ),
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(10),
+                                              bottomRight: Radius.circular(10)
+                                          ),
+                                          color: thirdColor5,
+                                        ),
+                                        height: 40,
+                                        child: TextButton(onPressed: showDatePanel, child: const Icon(Icons.calendar_month_outlined,color: Colors.white,))
+                                    ),
+                                  ],
+                                ),
                               ),
                               Responsive.isDesktop(context) ? Row(
                                 children: [

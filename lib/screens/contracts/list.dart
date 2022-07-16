@@ -97,13 +97,6 @@ class _ListContracts extends State<ListContracts> {
                                     ),
                                     const Padding(
                                       padding: EdgeInsets.all(defaultPadding),
-                                      child: Text(
-                                        "Entity Type:",
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.all(defaultPadding),
                                       /*child: DropdownButton(
                                     items: entityTypes.map((e) => DropdownMenuItem(value: e.id,child: Text(e.name))).toList(),
                                     onChanged: (dynamic newValue){
