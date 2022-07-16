@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:sma_frontend/models/Contract.dart';
+import 'package:sma_frontend/models/paginated_model/PaginatedModel.dart';
 import 'package:sma_frontend/responsive.dart';
 
 import '../consts.dart';
@@ -339,3 +340,95 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
   }
 }
 
+
+class PaginatedNavigation extends StatelessWidget {
+  final PaginatedModel paginatedModel;
+  final Function callback;
+  const PaginatedNavigation({Key? key, required this.paginatedModel, required this.callback,}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        if (paginatedModel.meta.current_page > 1)Padding(
+          padding: const EdgeInsets.all(smallPadding),
+          child: SizedBox(
+            width: 40,
+            child: OutlinedButton(
+              onPressed: () {
+                callback(1);
+              },
+              child: const Text('1',style: TextStyle(color: Colors.white),)
+            ),
+          ),
+        ),
+        if(paginatedModel.meta.current_page > 3) const Text(' . . . '),
+        if (paginatedModel.meta.current_page > 2)Padding(
+          padding: const EdgeInsets.all(smallPadding),
+          child: SizedBox(
+            width: 40,
+            child: OutlinedButton(
+                onPressed: () {
+                  callback(paginatedModel.meta.current_page -1);
+                },
+                child: Text('${paginatedModel.meta.current_page -1}',
+                  style: const TextStyle(color: Colors.white),
+                )
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(smallPadding),
+          child: SizedBox(
+            width: 40,
+            child: OutlinedButton(
+              onPressed: null,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.blueAccent.withOpacity(0.3))
+              ),
+              child: Text(paginatedModel.meta.current_page.toString(),
+                style: const TextStyle(
+                  color: Colors.white
+                ),
+              )
+            ),
+          ),
+        ),
+        if (paginatedModel.meta.current_page < paginatedModel.meta.last_page-1)Padding(
+          padding: const EdgeInsets.all(smallPadding),
+          child: SizedBox(
+            width: 40,
+            child: OutlinedButton(
+              onPressed: () {
+                callback(paginatedModel.meta.current_page + 1);
+              },
+              child: Text('${paginatedModel.meta.current_page +1}',
+                style: const TextStyle(
+                  color: Colors.white
+                ),
+              )
+            ),
+          ),
+        ),
+        if(paginatedModel.meta.current_page < paginatedModel.meta.last_page - 3) const Text(' . . . '),
+        if (paginatedModel.meta.current_page < paginatedModel.meta.last_page-2)Padding(
+          padding: const EdgeInsets.all(smallPadding),
+          child: SizedBox(
+            width: 40,
+            child: OutlinedButton(
+              onPressed: () {
+              callback(paginatedModel
+                  .meta.last_page-1);
+              },
+              child: Text('${paginatedModel.meta.last_page -1}',
+                style: const TextStyle(
+                  color: Colors.white
+                ),
+              )
+            ),
+          ),
+        ),
+      ]
+    );
+  }
+}

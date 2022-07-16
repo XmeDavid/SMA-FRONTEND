@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/paginated_model/Meta.dart';
 import 'package:sma_frontend/models/paginated_model/PaginatedModel.dart';
+import 'package:sma_frontend/widgets/ui_fields.dart';
 
 import '../../responsive.dart';
 import '../../consts.dart';
@@ -56,7 +57,10 @@ class _ListContracts extends State<ListContracts> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: !Responsive.isDesktop(context)
-          ? AppBar(title: const Text("Contracts"), backgroundColor: bgColor)
+          ? AppBar(
+            title: const Text("Contracts"),
+            backgroundColor: bgColor,
+          )
           : null,
       drawer: const SideMenu(),
       body: SafeArea(
@@ -297,122 +301,125 @@ class _ListContracts extends State<ListContracts> {
                                         }),
                                       ),
                                     ))),
-                            Row(
-                              children: [
-                                const Spacer(),
-                                const Padding(
-                                  padding: EdgeInsets.all(defaultPadding),
-                                  child: Spacer(),
-                                ),
-                                if (paginatedContractModel.meta.current_page !=
-                                    1)
-                                  TextButton(
-                                    onPressed: () {
-                                      loadContracts(1);
-                                    },
-                                    child: const Text(
-                                      "<<",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                if (paginatedContractModel.meta.current_page !=
-                                    1)
-                                  TextButton(
-                                      onPressed: () {
-                                        loadContracts(paginatedContractModel
-                                                .meta.current_page -
-                                            1);
-                                      },
-                                      child: const Text(
-                                        "<",
-                                        style: TextStyle(color: Colors.white),
-                                      )),
-                                Padding(
-                                  padding: const EdgeInsets.all(defaultPadding),
-                                  child: TextButton(
-                                      onPressed: null,
-                                      child: Text(
-                                        paginatedContractModel.meta.current_page
-                                            .toString(),
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      )),
-                                ),
-                                if (paginatedContractModel.meta.current_page !=
-                                    paginatedContractModel.meta.last_page)
-                                  TextButton(
-                                      onPressed: () {
-                                        loadContracts(paginatedContractModel
-                                                .meta.current_page +
-                                            1);
-                                      },
-                                      child: const Text(
-                                        ">",
-                                        style: TextStyle(color: Colors.white),
-                                      )),
-                                if (paginatedContractModel.meta.current_page !=
-                                    paginatedContractModel.meta.last_page)
-                                  TextButton(
-                                      onPressed: () {
-                                        loadContracts(paginatedContractModel
-                                            .meta.last_page);
-                                      },
-                                      child: const Text(
-                                        ">>",
-                                        style: TextStyle(color: Colors.white),
-                                      )),
-                                const Spacer(),
-                              ],
-                            )
+                              PaginatedNavigation(
+                                  paginatedModel: paginatedContractModel,
+                                  callback: loadContracts
+                              )
                             //)
                           ])),
                         ),
                       ],
                     )
-                  : Center(
-                      child: ListView.builder(
-                        itemCount: paginatedContractModel.data.length,
-                        itemBuilder: (context, index) {
-                          final contract = paginatedContractModel.data[index];
-                          return Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Column(children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(30.0),
-                                clipBehavior: Clip.hardEdge,
-                                child: ListTile(
-                                  trailing: const Icon(Icons.arrow_forward),
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                          bottomLeft: Radius.circular(20))),
-                                  tileColor: cardColor,
-                                  leading: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: const [
-                                      Icon(Icons.history_edu),
-                                      VerticalDivider(),
-                                    ],),
-                                  textColor: Colors.grey,
-                                  title: Text(contract.toString(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
-                                  subtitle: Text(
-                                    'Entity: ${contract.entity?.name ?? 'No entity associated'}',
+                  : Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 90,
+                        color: const Color.fromRGBO(51, 52, 67, 1),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.all(smallPadding),
+                                  child: SizedBox(
+                                    width: 160,
+                                    height: 30,
+                                    child: TextField(
+                                      controller: searchController,
+                                      decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText: "Search"),
+                                      onChanged: (e) {
+                                        loadContracts(paginatedContractModel
+                                            .meta.current_page);
+                                      },
+                                    ),
                                   ),
-                                  onTap: () {
-                                    detailsClick(contract);
-                                  },
                                 ),
+                                Spacer(),
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.all(smallPadding),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Get.toNamed("/contracts/create");
+                                    },
+                                    child: const Text(
+                                      "New Contract",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          firstColor),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Row(
+                                children: [
+                                  const Spacer(),
+                                  PaginatedNavigation(paginatedModel: paginatedContractModel, callback: loadContracts),
+                                  const Spacer(),
+                                ],
                               ),
-                            ]),
-                          );
-                        },
+                            ),
+                          ],
+                        ),
                       ),
-                    )
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height - 156,
+                          child: ListView.builder(
+                            itemCount: paginatedContractModel.data.length,
+                            itemBuilder: (context, index) {
+                              final contract = paginatedContractModel.data[index];
+                              return Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: Column(children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    clipBehavior: Clip.hardEdge,
+                                    child: ListTile(
+                                      trailing: const Icon(Icons.arrow_forward),
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20),
+                                              bottomRight: Radius.circular(20),
+                                              bottomLeft: Radius.circular(20))),
+                                      tileColor: cardColor,
+                                      leading: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: const [
+                                          Icon(Icons.history_edu),
+                                          VerticalDivider(),
+                                        ],),
+                                      textColor: Colors.grey,
+                                      title: Text(contract.toString(),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white)),
+                                      subtitle: Text(
+                                        'Entity: ${contract.entity?.name ?? 'No entity associated'}',
+                                      ),
+                                      onTap: () {
+                                        detailsClick(contract);
+                                      },
+                                    ),
+                                  ),
+                                ]),
+                              );
+                            },
+                          ),
+                        ),
+                    ],
+                  )
               : const Center(child: CircularProgressIndicator())),
     );
   }
