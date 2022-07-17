@@ -270,16 +270,34 @@ class _ListAssetsState extends State<ListAssetsScreen> {
                   itemCount: paginatedModel.data.length,
                   itemBuilder: (context, index) {
                     final asset = paginatedModel.data[index];
-                    return Card(
+                    return Padding(
+                      padding: const EdgeInsets.all(smallPadding),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30.0),
                         clipBehavior: Clip.hardEdge,
                         child: ListTile(
-                          tileColor: bgColor,
-                          title: Text(asset.model),
+                          trailing: const Icon(Icons.arrow_forward),
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(20))
+                          ),
+                          tileColor: cardColor,
+                          leading: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(Icons.devices),
+                              VerticalDivider(),
+                            ],
+                          ),
+                          textColor: Colors.grey,
+                          title: Text(asset.model,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white
+                            ),
+                          ),
                           subtitle: Text(
                             asset.brand,
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           ),
                           onTap: () {
                             detailsClick(asset);

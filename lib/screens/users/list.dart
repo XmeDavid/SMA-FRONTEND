@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/models/Contract.dart';
 import 'package:sma_frontend/models/paginated_model/Meta.dart';
 import 'package:sma_frontend/models/paginated_model/PaginatedModel.dart';
+import 'package:sma_frontend/widgets/ui_fields.dart';
 
 import '../../models/User.dart';
 import '../../responsive.dart';
@@ -32,8 +33,7 @@ class _ListUsersState extends State<ListUsersScreen> {
   var searchController = TextEditingController();
 
   void loadUsers(int page) async {
-    var tempUserPaginatedModel =
-        await User.getPaginated(true,20,page,"");
+    var tempUserPaginatedModel = await User.getPaginated(true,20,page,"");
     setState(() {
       paginatedUserModel = tempUserPaginatedModel;
     });
@@ -62,7 +62,7 @@ class _ListUsersState extends State<ListUsersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: !Responsive.isDesktop(context)
-          ? AppBar(title: const Text("Contracts"), backgroundColor: bgColor)
+          ? AppBar(title: const Text("Users"), backgroundColor: bgColor)
           : null,
       drawer: const SideMenu(),
       body: SafeArea(
@@ -217,9 +217,7 @@ class _ListUsersState extends State<ListUsersScreen> {
                                     SelectableText(
                                         paginatedUserModel.data[index].lastLoginAt ?? '-', textAlign: TextAlign.center),
                                   ),
-                                  DataCell(Row(
-                                    children: [
-                                      Padding(
+                                  DataCell(Padding(
                                         padding: const EdgeInsets.all(5),
                                         child: TextButton(
                                           onPressed: () {
@@ -237,140 +235,126 @@ class _ListUsersState extends State<ListUsersScreen> {
                                                     Color>(firstColor),
                                           ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: TextButton(
-                                          onPressed: () {
-                                            removeClick(paginatedUserModel
-                                                .data[index]);
-                                          },
-                                          child: const Text(
-                                            "Remove",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all<
-                                                    Color>(Colors.red),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
                                   )),
                                 ]);
                               }),
                             ),
                         ))),
-                Row(
-                  children: [
-                    const Spacer(),
-                    const Padding(
-                      padding: EdgeInsets.all(defaultPadding),
-                      child: Spacer(),
-                    ),
-                    if (paginatedUserModel.meta.current_page != 1)
-                      TextButton(
-                        onPressed: () {
-                          loadUsers(1);
-                        },
-                        child: const Text(
-                          "<<",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    if (paginatedUserModel.meta.current_page != 1)
-                      TextButton(
-                          onPressed: () {
-                            loadUsers(
-                                paginatedUserModel.meta.current_page - 1);
-                          },
-                          child: const Text(
-                            "<",
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    Padding(
-                      padding: const EdgeInsets.all(defaultPadding),
-                      child: TextButton(
-                          onPressed: null,
-                          child: Text(
-                            paginatedUserModel.meta.current_page.toString(),
-                            style: const TextStyle(color: Colors.white),
-                          )),
-                    ),
-                    if (paginatedUserModel.meta.current_page !=
-                        paginatedUserModel.meta.last_page)
-                      TextButton(
-                          onPressed: () {
-                            loadUsers(
-                                paginatedUserModel.meta.current_page + 1);
-                          },
-                          child: const Text(
-                            ">",
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    if (paginatedUserModel.meta.current_page !=
-                        paginatedUserModel.meta.last_page)
-                      TextButton(
-                          onPressed: () {
-                            loadUsers(
-                                paginatedUserModel.meta.last_page);
-                          },
-                          child: const Text(
-                            ">>",
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    const Spacer(),
-                  ],
-                )
+
+                        PaginatedNavigation(paginatedModel: paginatedUserModel, callback: loadUsers),
+
                 //)
               ])),
             ),
           ],
-        ) : Center(
-          child: ListView.builder(
-            itemCount: paginatedUserModel.data.length,
-            itemBuilder: (context, index) {
-              final user = paginatedUserModel.data[index];
-              return Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(30.0),
-                    clipBehavior: Clip.hardEdge,
-                    child: ListTile(
-                      trailing: const Icon(Icons.arrow_forward),
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                              bottomLeft: Radius.circular(20))),
-                      tileColor: cardColor,
-                      leading: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          Icon(Icons.person),
-                          VerticalDivider(),
-                        ],),
-                      textColor: Colors.grey,
-                      title: Text(user.fullName(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
-                      subtitle: Text(
-                        user.email,
+        ) : Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 90,
+              color: const Color.fromRGBO(51, 52, 67, 1),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding:
+                        const EdgeInsets.all(smallPadding),
+                        child: SizedBox(
+                          width: 160,
+                          height: 30,
+                          child: TextField(
+                            controller: searchController,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Search"),
+                            onChanged: (e) {
+                              loadUsers(paginatedUserModel
+                                  .meta.current_page);
+                            },
+                          ),
+                        ),
                       ),
-                      onTap: () {
-                        detailsClick(user);
-                      },
+                      const Spacer(),
+                      Padding(
+                        padding:
+                        const EdgeInsets.all(smallPadding),
+                        child: TextButton(
+                          onPressed: () {
+                            Get.toNamed("/users/register");
+                          },
+                          child: const Text(
+                            "Register New User",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor:
+                            MaterialStateProperty.all<Color>(
+                                firstColor),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      children: [
+                        const Spacer(),
+                        PaginatedNavigation(paginatedModel: paginatedUserModel, callback: loadUsers),
+                        const Spacer(),
+                      ],
                     ),
                   ),
-                ]),
-              );
-            },
-          ),
+                ],
+              ),
+            ),
+            (true) ? SizedBox(
+              height: MediaQuery.of(context).size.height - 146,
+              child: ListView.builder(
+                itemCount: paginatedUserModel.data.length-1,
+                itemBuilder: (context, index) {
+                  final user = paginatedUserModel.data[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(30.0),
+                        clipBehavior: Clip.hardEdge,
+                        child: ListTile(
+                          trailing: const Icon(Icons.arrow_forward),
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20))),
+                          tileColor: cardColor,
+                          leading: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(Icons.person),
+                              VerticalDivider(),
+                            ],),
+                          textColor: Colors.grey,
+                          title: Text(user.fullName(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white)),
+                          subtitle: Text(
+                            user.email,
+                          ),
+                          onTap: () {
+                            detailsClick(user);
+                          },
+                        ),
+                      ),
+                    ]),
+                  );
+                },
+              ),
+            ) : Center(child: Text('No Data Found'),),
+          ],
         ): const Center(child: CircularProgressIndicator()),
       ),
     );

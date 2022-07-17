@@ -349,6 +349,7 @@ class PaginatedNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (paginatedModel.meta.current_page > 1)Padding(
           padding: const EdgeInsets.all(smallPadding),
@@ -410,17 +411,17 @@ class PaginatedNavigation extends StatelessWidget {
             ),
           ),
         ),
-        if(paginatedModel.meta.current_page < paginatedModel.meta.last_page - 3) const Text(' . . . '),
-        if (paginatedModel.meta.current_page < paginatedModel.meta.last_page-2)Padding(
+        if(paginatedModel.meta.current_page < paginatedModel.meta.last_page - 2) const Text(' . . . '),
+        if (paginatedModel.meta.current_page < paginatedModel.meta.last_page)Padding(
           padding: const EdgeInsets.all(smallPadding),
           child: SizedBox(
             width: 40,
             child: OutlinedButton(
               onPressed: () {
               callback(paginatedModel
-                  .meta.last_page-1);
+                  .meta.last_page);
               },
-              child: Text('${paginatedModel.meta.last_page -1}',
+              child: Text('${paginatedModel.meta.last_page}',
                 style: const TextStyle(
                   color: Colors.white
                 ),

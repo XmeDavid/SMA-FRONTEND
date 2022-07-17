@@ -45,9 +45,9 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
 
   Future<List<String>> loadContracts() async {
     if(contracts.isEmpty){
-      contracts = await Contract.getAll();
+      contracts = await Entity.getContracts(GetStorage().read('user_entity_id'));
     }
-    return contracts.where((element) => element.entitiesId == GetStorage().read('user_entity_id')).map((e) => e.toString()).toList();
+    return contracts.map((e) => e.toString()).toList();
   }
   Future<List<String>> loadAssets() async{
     if(assets.isEmpty){

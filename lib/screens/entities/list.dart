@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:get/get.dart';
@@ -60,15 +62,10 @@ class _ListEntitiesState extends State<ListEntities> {
     });
   }
 
-  Color isEntityTypeColor(entity) {
-    switch (entity.entityType?.name) {
-      case "Clients":
-        return Colors.grey;
-      case "Suppliers":
-        return Colors.white;
-      default:
-        return Colors.cyan;
-    }
+
+  Color isEntityTypeColor(Entity entity) {
+    var rand = Random(entity.entityTypeId);
+    return Color.fromRGBO(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255), 1);
   }
 
   remove(int id) {
@@ -279,66 +276,7 @@ class _ListEntitiesState extends State<ListEntities> {
                                   }),
                                 ),
                               ))),
-                      Row(
-                        children: [
-                          const Spacer(),
-                          const Padding(
-                            padding: EdgeInsets.all(defaultPadding),
-                            child: Spacer(),
-                          ),
-                          if (paginatedModel.meta.current_page != 1)
-                            TextButton(
-                              onPressed: () {
-                                loadEntities(1);
-                              },
-                              child: const Text(
-                                "<<",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          if (paginatedModel.meta.current_page != 1)
-                            TextButton(
-                                onPressed: () {
-                                  loadEntities(
-                                      paginatedModel.meta.current_page - 1);
-                                },
-                                child: const Text(
-                                  "<",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          Padding(
-                            padding: const EdgeInsets.all(defaultPadding),
-                            child: TextButton(
-                                onPressed: null,
-                                child: Text(
-                                  paginatedModel.meta.current_page.toString(),
-                                  style: const TextStyle(color: Colors.white),
-                                )),
-                          ),
-                          if (paginatedModel.meta.current_page !=
-                              paginatedModel.meta.last_page)
-                            TextButton(
-                                onPressed: () {
-                                  loadEntities(
-                                      paginatedModel.meta.current_page + 1);
-                                },
-                                child: const Text(
-                                  ">",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          if (paginatedModel.meta.current_page !=
-                              paginatedModel.meta.last_page)
-                            TextButton(
-                                onPressed: () {
-                                  loadEntities(paginatedModel.meta.last_page);
-                                },
-                                child: const Text(
-                                  ">>",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          const Spacer(),
-                        ],
-                      )
+                      PaginatedNavigation(paginatedModel: paginatedModel, callback: loadEntities)
                       //)
                     ])),
                   ),
@@ -349,13 +287,31 @@ class _ListEntitiesState extends State<ListEntities> {
                   itemCount: paginatedModel.data.length,
                   itemBuilder: (context, index) {
                     final entity = paginatedModel.data[index];
-                    return Card(
+                    return Padding(
+                      padding: EdgeInsets.all(smallPadding),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30.0),
                         clipBehavior: Clip.hardEdge,
                         child: ListTile(
-                          tileColor: bgColor,
-                          title: Text(entity.name),
+                          trailing: const Icon(Icons.arrow_forward),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20))
+                          ),
+                          tileColor: cardColor,
+                          leading: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(Icons.domain),
+                              VerticalDivider()
+                            ],
+                          ),
+                          textColor: Colors.grey,
+                          title: Text(entity.name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white
+                            ),
+                          ),
                           subtitle: Text(
                             entity.entityType?.name ?? "",
                             style: TextStyle(color: isEntityTypeColor(entity)),

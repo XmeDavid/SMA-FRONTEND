@@ -456,6 +456,7 @@ class _AssignUserDialogState extends State<AssignUserDialog> {
                 ElevatedButton(
                   onPressed: (){
                     widget.assignUserFunction(user);
+                    Navigator.pop(context);
                   },
                   child: const Text("Assign",
                     style: TextStyle(

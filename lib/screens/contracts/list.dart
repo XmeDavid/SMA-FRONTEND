@@ -34,9 +34,9 @@ class _ListContracts extends State<ListContracts> {
 
   var searchController = TextEditingController();
 
+
   void loadContracts(int page) async {
-    var tempContractPaginatedModel =
-        await Contract.getPaginated(true, 20, page, searchController.text);
+    var tempContractPaginatedModel = await Contract.getPaginated(true, 20, page, searchController.text);
     setState(() {
       paginatedContractModel = tempContractPaginatedModel;
     });
@@ -338,7 +338,7 @@ class _ListContracts extends State<ListContracts> {
                                     ),
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Padding(
                                   padding:
                                   const EdgeInsets.all(smallPadding),
@@ -372,7 +372,7 @@ class _ListContracts extends State<ListContracts> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      paginatedContractModel.data.isNotEmpty ? SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height - 156,
                           child: ListView.builder(
@@ -380,7 +380,7 @@ class _ListContracts extends State<ListContracts> {
                             itemBuilder: (context, index) {
                               final contract = paginatedContractModel.data[index];
                               return Padding(
-                                padding: const EdgeInsets.all(15),
+                                padding: const EdgeInsets.all(smallPadding),
                                 child: Column(children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(30.0),
@@ -417,7 +417,7 @@ class _ListContracts extends State<ListContracts> {
                               );
                             },
                           ),
-                        ),
+                        ) : const Center(child: Text('No Results'),),
                     ],
                   )
               : const Center(child: CircularProgressIndicator())),

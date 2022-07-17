@@ -5,6 +5,7 @@ import 'package:sma_frontend/models/Address.dart';
 import 'package:sma_frontend/models/EntityType.dart';
 import 'package:sma_frontend/models/paginated_model/PaginatedModel.dart';
 
+import 'Contract.dart';
 import 'paginated_model/Meta.dart';
 
 class Entity{
@@ -109,6 +110,17 @@ class Entity{
       data: data,
       meta: Meta.fromJson(json['meta']),
     );
+  }
+
+  static Future<List<Contract>> getContracts(int id) async{
+    var res = await ClientApi.get("entities/$id/contracts");
+    dynamic json = jsonDecode(res.body);
+    List<Contract> data = <Contract>[];
+    for(var contractJson in json){
+      Contract contract = Contract.fromJson(contractJson);
+      data.add(contract);
+    }
+    return data;
   }
 
   static Future<Entity> update(int id,int entityTypeId, String fullName, String email, String phoneNumber, String taxNumber, String defaultLanguage, int addressId) async{

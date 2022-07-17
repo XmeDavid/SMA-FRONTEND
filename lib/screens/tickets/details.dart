@@ -26,6 +26,7 @@ class TicketDetails extends StatefulWidget {
 class _TicketDetailsState extends State<TicketDetails> {
   final ticketTitleController = TextEditingController();
   final ticketContractController = TextEditingController();
+  final ticketAssignedController = TextEditingController();
   final ticketDescriptionController = TextEditingController();
   final ticketCategoryController = TextEditingController();
   final ticketEntityController = TextEditingController();
@@ -55,6 +56,7 @@ class _TicketDetailsState extends State<TicketDetails> {
       ticketDescriptionController.text = ticket.description;
       ticketCategoryController.text = "${ticket.category}";
       ticketContractController.text = "${ticket.contractId}";
+      ticketAssignedController.text = ticket.assistant?.fullName() ?? 'Unassigned';
       ticketEntityController.text = ticket.entity.toString();
       ticketStatusController.text = ticket.status;
       ticketStartDateController.text = ticket.startDate;
@@ -228,10 +230,10 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                     isEnabled: editMode,
                                                   ),
                                                   TextLine(
-                                                    labelText: "Assistant ID",
+                                                    labelText: "Assigned To",
                                                     hintText: "no. 23213",
                                                     controller:
-                                                        ticketContractController,
+                                                        ticketAssignedController,
                                                     size: MediaQuery.of(context)
                                                                 .size
                                                                 .width *
@@ -241,7 +243,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                                 ? 0.666
                                                                 : 0.9) *
                                                             0.5 -
-                                                        162,
+                                                        167,
                                                     isEnabled: editMode,
                                                   ),
                                                 ],
@@ -402,6 +404,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                             title: 'Assign User to ticket ${ticket.title}',
                                                             assignUserFunction: (User user){
                                                               Ticket.assignUser(ticket, user);
+                                                              ticketAssignedController.text = user.fullName();
                                                             }
                                                           );
                                                         }
@@ -490,10 +493,10 @@ class _TicketDetailsState extends State<TicketDetails> {
                                       isEnabled: false,
                                     ),
                                     TextLine(
-                                      labelText: "Assistant ID",
+                                      labelText: "Assigned To",
                                       hintText: "no. 23213",
-                                      controller: ticketContractController,
-                                      size: MediaQuery.of(context).size.width * 0.5 - 141,
+                                      controller: ticketAssignedController,
+                                      size: MediaQuery.of(context).size.width * 0.5 - 146,
                                       isEnabled: false,
                                     ),
                                   ],

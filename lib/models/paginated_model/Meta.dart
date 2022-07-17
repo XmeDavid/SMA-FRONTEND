@@ -20,11 +20,11 @@ class Meta{
   factory Meta.fromJson(Map<String, dynamic> json){
     return Meta(
         current_page: json['current_page'],
-        from: json['from'],
+        from: json['from'] ?? 0,
         last_page: json['last_page'],
         path: json['path'],
         per_page: json['per_page'],
-        to: json['to'],
+        to: json['to'] ?? 0,
         total: json['total']
     );
   }
