@@ -238,11 +238,6 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              Text("data")
-                            ],
-                          )
                         ],
                       ),
                     ),

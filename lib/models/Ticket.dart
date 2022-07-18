@@ -123,11 +123,6 @@ class Ticket {
   }
 
   static Future<Ticket?> create(String title, String description, TicketCategory category, Contract contract, List<Asset>? assets) async{
-    if(assets != null){
-      for(var asset in assets){
-        print(asset.toString());
-      }
-    }
     var res = await ClientApi.post('tickets', jsonEncode(<String, dynamic>{
       //'entities_id' : entity.id,
       'contracts_id' : contract.id,

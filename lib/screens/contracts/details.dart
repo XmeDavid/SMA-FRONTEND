@@ -86,7 +86,7 @@ class _ContractsDetailsScreen extends State<ContractsDetailsScreen> {
   }
 
   void saveChanges() {
-    print("saving");
+    Contract.update(contract,titleController.text,descriptionController.text, contract.entitiesId ?? -1,startDateController.text,endDateController.text,durationController.text,budgetController.text,lastRenovationController.text, autoRenovation, isValidated, '0' ,'0' );
   }
 
   void delete() async{

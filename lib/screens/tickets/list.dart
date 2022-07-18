@@ -153,9 +153,6 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
                                 ),
                               ),
                             ),
-                            /**
-                             * Convert from Ticket State to Category
-                             */
                             if(categories != null)Padding(
                               padding: const EdgeInsets.all(defaultPadding),
                               child: DropdownButton(
@@ -210,14 +207,22 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
                   children: [
                     Container(
                       color: secondColor3,
-                      height: 160,
+                      height: 80,
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         children: [
                           Row(
                             children: [
+                              const Padding(
+                                padding: EdgeInsets.all(smallPadding),
+                                child: Text('TicketStatus:',
+                                  style: TextStyle(
+                                    fontSize: 16
+                                  ),
+                                ),
+                              ),
                               Padding(
-                                padding: const EdgeInsets.all(defaultPadding),
+                                padding: const EdgeInsets.all(smallPadding),
                                 child: DropdownButton(
                                   items: List.generate(
                                       TicketState.values.length,
@@ -241,19 +246,57 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
                                   ),
                                 ),
                               ),
+                              SizedBox(width: 8,),
+                              if(categories != null) const Padding(
+                                padding: EdgeInsets.all(smallPadding),
+                                child: Text('Category:',
+                                  style: TextStyle(
+                                      fontSize: 16
+                                  ),
+                                ),
+                              ),
+                              if(categories != null)Padding(
+                                padding: const EdgeInsets.all(defaultPadding),
+                                child: DropdownButton(
+                                  items: List.generate(
+                                      categories!.length,
+                                          (index){
+                                        return DropdownMenuItem(
+                                            value: categories![index].id,
+                                            child: Text(categories![index].name)
+                                        );
+                                      }
+                                  ),
+                                  onChanged: (dynamic newValue) {
+                                    setState(() {
+                                      _category = newValue;
+                                      loaded = false;
+                                    });
+                                    loadTickets();
+                                  },
+                                  value: _category,
+                                  underline: DropdownButtonHideUnderline(
+                                    child: Container(),
+                                  ),
+                                ),
+                              ),
+                              const Spacer(),
+                              Padding(
+                                padding: const EdgeInsets.all(smallPadding),
+                                child: ElevatedButton(
+                                  onPressed: (){
+                                    Get.toNamed('/tickets/new');
+                                  },
+                                  child: const Icon(Icons.add)),
+                              )
                             ],
                           ),
-                          Row(
-                            children: [
-                              Text("data")
-                            ],
-                          )
                         ],
                       ),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height-216,
+                      height: MediaQuery.of(context).size.height-136,
                       child: ListView.builder(
                           itemBuilder: (context, index){
                             return TicketView(ticket: tickets[index], isCard: true,);

@@ -269,9 +269,7 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                                             );
                                           },
                                         );
-                                        print('before');
                                         loadTask();
-                                        print('later');
                                       }, 
                                       icon: const Icon(Icons.add)
                                     )

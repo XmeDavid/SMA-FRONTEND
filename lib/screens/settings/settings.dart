@@ -331,7 +331,7 @@ class _SettingsState extends State<SettingsScreen> {
             ),
           ],
         ) : /** MOBILE */
-        const Text("data"),
+        const Text("A implementar no futuro"),
       ),
     );
   }

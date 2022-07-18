@@ -289,7 +289,6 @@ class TaskView extends StatelessWidget {
   }
 
   void goToTask() {
-    print("/tickets/${task?.ticketId ?? -1}/tasks/${task?.id ?? ""}");
     Get.toNamed("/tickets/${task?.ticketId ?? -1}/tasks/${task?.id ?? ""}");
   }
 

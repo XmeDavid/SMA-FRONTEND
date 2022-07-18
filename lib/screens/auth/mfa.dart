@@ -33,7 +33,6 @@ class _MfaScreenState extends State<MfaScreen> {
   }
 
   mfa() async{
-    print('object');
     Auth auth = await Auth.mfa(mfaController.text, GetStorage().read('refreshToken'));
     GetStorage().write('token', auth.accessToken);
     GetStorage().write('refreshToken', auth.refreshToken);

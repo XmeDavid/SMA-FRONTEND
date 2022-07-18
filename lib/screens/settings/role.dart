@@ -260,7 +260,7 @@ class _RoleState extends State<RoleScreen> {
             ),
           ],
         ) : /** MOBILE */
-        const Text("data"),
+        const Text("A implementar no futuro"),
       ),
     );
   }

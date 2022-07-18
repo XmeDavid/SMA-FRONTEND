@@ -244,8 +244,6 @@ class _NewAssetState  extends State<NewAssetScreen> {
                                     setState((){
                                       _selectedStatus = status.where((element) => element.name == s).first.id;
                                     });
-                                    print(_selectedStatus);
-
                                   },
                                   getData: () async {
                                     return status.map((e) => e.name).toList();

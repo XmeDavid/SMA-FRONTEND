@@ -460,8 +460,9 @@ class _TicketDetailsState extends State<TicketDetails> {
                                         children: [
                                           Row(
                                             children: [
-                                              const Text('Create Task'),
-                                              IconButton(onPressed: () async{
+                                              const Spacer(),
+
+                                              ElevatedButton(onPressed: () async{
                                                 await showDialog(
                                                   context: context,
                                                   builder: (BuildContext dialogContext) {
@@ -469,7 +470,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                   },
                                                 );
                                                 loadTasks();
-                                              }, icon: const Icon(Icons.add))
+                                              }, child: const Text('Create Task'))
                                             ],
                                           ),
                                           SizedBox(
@@ -484,7 +485,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                           ),
                                         ],
                                       ) : const CircularProgressIndicator(),
-                                      Text("Assets WAITING FOR BACKEND"),
+                                      const Center(child: Text('Funcionalidade a implementar no futuro.'),),
                                     ],
                                   ),
                                 ),
@@ -586,29 +587,35 @@ class _TicketDetailsState extends State<TicketDetails> {
                             child: Column(
                               children: [
                                 SizedBox(
-                                  height: 30,
-                                  width: 200,
+                                  height: 40,
                                   child: Row(
                                     children: [
-                                      Text("Create Task: "),
-                                      TextButton(
-                                          onPressed: () async {
-                                            await showDialog(
-                                              context: context,
-                                              builder: (BuildContext dialogContext) {
-                                                return NewTaskDialog(title: 'Create task for Ticket #${ticket.id} - ${ticket.title}', actions: [],userId: GetStorage().read('user_id'), ticketId: ticket.id,);
-                                              },
-                                            );
-                                            loadTasks();
-                                          },
-                                          child: const Icon(Icons.add)
+                                      Spacer(),
+                                      Padding(
+                                        padding: const EdgeInsets.all(smallPadding),
+                                        child: ElevatedButton(
+                                            onPressed: () async {
+                                              await showDialog(
+                                                context: context,
+                                                builder: (BuildContext dialogContext) {
+                                                  return NewTaskDialog(title: 'Create task for Ticket #${ticket.id} - ${ticket.title}', actions: [],userId: GetStorage().read('user_id'), ticketId: ticket.id,);
+                                                },
+                                              );
+                                              loadTasks();
+                                            },
+                                            child: const Text('Create Task',
+                                              style: TextStyle(
+                                                color: Colors.white
+                                              ),
+                                            )
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
                                 Container(
                                   width: MediaQuery.of(context).size.width,
-                                  height: MediaQuery.of(context).size.height - 416,
+                                  height: MediaQuery.of(context).size.height - 426,
                                   child: ListView.builder(
                                       itemBuilder: (context, index) {
                                         return TaskView(

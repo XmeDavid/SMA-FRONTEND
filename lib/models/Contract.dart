@@ -126,6 +126,25 @@ class Contract{
     return Contract.fromJson(jsonDecode(res.body));
   }
 
+
+  static Future<Contract?> update(Contract contract, String title, String description, int entityId,String startDate, String endDate, String duration, String budget, String lastRenovation, bool autoRenovation, bool isValidated, String totalHours, String totalKms) async {
+    var cover = jsonEncode(<String, dynamic> {
+      'hours_total' : int.parse(totalHours),
+      'dislocation_km' : int.parse(totalKms),
+    });
+    var res = await ClientApi.update("contracts/${contract.id}", jsonEncode(<String, dynamic>{
+      'title': title,
+      'description': description,
+      'entities_id': '$entityId',
+      'start_date': startDate,
+      'duration_months': duration,
+      'auto_renovation': autoRenovation,
+      'cover': cover,
+      'budget': budget,
+    }));
+    return Contract.fromJson(jsonDecode(res.body));
+  }
+
   static void remove(int contractId) async{
     await ClientApi.remove('contracts/$contractId');
   }
@@ -134,4 +153,5 @@ class Contract{
   String toString() {
     return "Contract #" + id.toString() + " - " + description.substring(0,25) + "...";
   }
+
 }
