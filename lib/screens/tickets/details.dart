@@ -461,13 +461,14 @@ class _TicketDetailsState extends State<TicketDetails> {
                                           Row(
                                             children: [
                                               const Text('Create Task'),
-                                              IconButton(onPressed: (){
-                                                showDialog(
+                                              IconButton(onPressed: () async{
+                                                await showDialog(
                                                   context: context,
                                                   builder: (BuildContext dialogContext) {
                                                     return NewTaskDialog(title: 'Create task for Ticket #${ticket.id} - ${ticket.title}', actions: [],userId: GetStorage().read('user_id'), ticketId: ticket.id,);
                                                   },
                                                 );
+                                                loadTasks();
                                               }, icon: const Icon(Icons.add))
                                             ],
                                           ),
@@ -591,13 +592,14 @@ class _TicketDetailsState extends State<TicketDetails> {
                                     children: [
                                       Text("Create Task: "),
                                       TextButton(
-                                          onPressed: () {
-                                            showDialog(
+                                          onPressed: () async {
+                                            await showDialog(
                                               context: context,
                                               builder: (BuildContext dialogContext) {
                                                 return NewTaskDialog(title: 'Create task for Ticket #${ticket.id} - ${ticket.title}', actions: [],userId: GetStorage().read('user_id'), ticketId: ticket.id,);
                                               },
                                             );
+                                            loadTasks();
                                           },
                                           child: const Icon(Icons.add)
                                       ),

@@ -181,6 +181,10 @@ class _ListTicketScreenState extends State<ListTicketScreen> {
                                 ),
                               ),
                             ),/**/
+                            Spacer(),
+                            ElevatedButton(onPressed: (){
+                              Get.toNamed('/tickets/new');
+                            }, child: Text('Create Ticket'))
                           ]
                         ),
                       ),

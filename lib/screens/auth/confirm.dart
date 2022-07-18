@@ -38,7 +38,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   void initState() {
-    GetStorage().read('token') ?? Get.toNamed('/login');
     super.initState();
     email.text = Get.parameters['email'] ?? "";
     token.text = Get.parameters['token'] ?? "";

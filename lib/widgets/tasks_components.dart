@@ -32,7 +32,7 @@ class _NewTaskDialogState extends State<NewTaskDialog> {
     }
     if(res['code'] == 201){
     }
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 
   @override
@@ -76,7 +76,9 @@ class RegisterInterventionDialog extends StatefulWidget {
   final List<Widget> actions;
   final int taskId;
 
-  const RegisterInterventionDialog({Key? key, required this.title, required this.actions, required this.taskId}) : super(key: key);
+  final Function registerFunction;
+
+  const RegisterInterventionDialog({Key? key, required this.title, required this.actions, required this.taskId, required this.registerFunction}) : super(key: key);
 
   @override
   State<RegisterInterventionDialog> createState() => _RegisterInterventionState();
@@ -91,14 +93,7 @@ class _RegisterInterventionState extends State<RegisterInterventionDialog> {
   DateTime? selectedStartDate;
   DateTime? selectedEndDate;
 
-  void registerIntervention() async{
-    try{
-      await Intervention.create(widget.taskId, startDate.text + ' 00:00:00', endDate.text + ' 00:00:01', description.text);
-      Navigator.of(context).pop();
-    } on Exception catch(_){
 
-    }
-  }
 
   void showStartDatePanel()async{
     var tempDate = await getDateFromPicker(context: context, initialDate: selectedStartDate ?? DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2050));
@@ -259,7 +254,7 @@ class _RegisterInterventionState extends State<RegisterInterventionDialog> {
               ),
               ElevatedButton(
                   onPressed: (){
-                    registerIntervention();
+                    widget.registerFunction(startDate.text + ' 00:00:00', endDate.text + ' 00:00:01', description.text);
                     Navigator.of(context).pop();
                   },
                   child: const Text("Create Intervention")

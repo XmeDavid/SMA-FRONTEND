@@ -62,6 +62,16 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
     Get.toNamed('/tickets/${task.ticketId ?? ""}');
   }
 
+  void registerIntervention(String startDate, String endDate, String description) async{
+    try{
+      await Intervention.create(task.id, startDate, endDate, description);
+      Navigator.of(context).pop();
+    } on Exception catch(_){
+
+    }
+    loadTask();
+  }
+
   @override
   void initState(){
     GetStorage().read('token') ?? Get.toNamed('/login');
@@ -255,9 +265,13 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                                                     child: const Text("Cancel")
                                                 ),
                                               ],
+                                              registerFunction: registerIntervention,
                                             );
                                           },
                                         );
+                                        print('before');
+                                        loadTask();
+                                        print('later');
                                       }, 
                                       icon: const Icon(Icons.add)
                                     )
@@ -451,6 +465,7 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                                             child: const Text("Cancel")
                                         ),
                                       ],
+                                      registerFunction: registerIntervention,
                                     );
                                   },
                                 );
