@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:get_storage/get_storage.dart';
 import 'package:sma_frontend/api_interactions/api_functions.dart';
@@ -10,12 +11,14 @@ class AssetStatus {
   final int id;
   final String name;
   final String description;
+  final Color? statusColor;
 
 
   const AssetStatus({
     required this.id,
     required this.name,
-    required this.description
+    required this.description,
+    this.statusColor,
   });
 
   factory AssetStatus.fromJson(Map<String, dynamic> json){

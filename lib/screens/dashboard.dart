@@ -20,14 +20,14 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   late List<Ticket> tickets;
-  bool isTicketsloaded = false;
+  bool isTicketsLoaded = false;
 
   void loadTickets() async {
     var tempTickets = await Ticket.getAll(true, "", "", -1);
     if (tempTickets == null) return;
     setState(() {
       tickets = tempTickets;
-      isTicketsloaded = true;
+      isTicketsLoaded = true;
     });
   }
 
@@ -83,7 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 4,
                       ),
-                      isTicketsloaded
+                      isTicketsLoaded
                           ? SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: Wrap(
@@ -91,31 +91,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 runSpacing: 20,
                                 alignment: WrapAlignment.spaceBetween,
                                 children: [
-                                  TicketCard(
-                                      icon: Icons.person_add_alt_1_rounded,
-                                      label: 'Unassigned Tickets',
-                                      amount:
-                                          filterBy("PENDING").length.toString(),
-                                      color: Colors.red),
-                                  TicketCard(
-                                      icon: Icons.access_time,
-                                      label: 'On going Tickets',
-                                      amount:
-                                          filterBy("ONGOING").length.toString(),
-                                      color: Colors.orange),
-                                  TicketCard(
-                                      icon: Icons.check_circle,
-                                      label: 'Resolved Tickets',
-                                      amount:
-                                          filterBy("SOLVED").length.toString(),
-                                      color: Colors.green),
-                                  TicketCard(
-                                      icon: Icons.search,
-                                      label: 'Needing Validation',
-                                      amount: filterBy("VALIDATION")
-                                          .length
-                                          .toString(),
-                                      color: firstColor),
+                                  GestureDetector(
+                                    child: TicketCard(
+                                        icon: Icons.person_add_alt_1_rounded,
+                                        label: 'Unassigned Tickets',
+                                        amount: filterBy("PENDING")
+                                            .length
+                                            .toString(),
+                                        color: Colors.red),
+                                    onTap: () => Get.toNamed("/tickets/"),
+                                  ),
+                                  GestureDetector(
+                                    child: TicketCard(
+                                        icon: Icons.access_time,
+                                        label: 'On going Tickets',
+                                        amount: filterBy("ONGOING")
+                                            .length
+                                            .toString(),
+                                        color: Colors.orange),
+                                    onTap: () => Get.toNamed("/tickets/"),
+                                  ),
+                                  GestureDetector(
+                                    child: TicketCard(
+                                        icon: Icons.check_circle,
+                                        label: 'Resolved Tickets',
+                                        amount: filterBy("SOLVED")
+                                            .length
+                                            .toString(),
+                                        color: Colors.green),
+                                    onTap: () => Get.toNamed("/tickets/"),
+                                  ),
+                                  GestureDetector(
+                                    child: TicketCard(
+                                        icon: Icons.search,
+                                        label: 'Needing Validation',
+                                        amount: filterBy("VALIDATION")
+                                            .length
+                                            .toString(),
+                                        color: firstColor),
+                                    onTap: () => Get.toNamed("/tickets/"),
+                                  ),
                                 ],
                               ),
                             )
@@ -130,37 +145,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   BorderRadius.all(Radius.circular(20))),
                           padding: const EdgeInsets.all(20),
                           height: 300,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Column(
+                          child: isTicketsLoaded
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [Text("Performance")]),
-                                  Text("Mensal")
-                                ],
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 3,
-                              ),
-                              Container(
-                                height: 178,
-                                child: BarChartComponent(),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 5,
-                              ),
-                            ],
-                          )),
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text("Tickets Registados")
+                                            ]),
+                                        Text("Mensal")
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 3,
+                                    ),
+                                    Container(
+                                      height: 170,
+                                      child:
+                                          BarChartComponent(tickets: tickets),
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 5,
+                                    ),
+                                  ],
+                                )
+                              : const Center(
+                                  child: CircularProgressIndicator())),
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 5,
                       ),
-                      AssetsDashboardCart()
+                      AssetsDashboardCard()
                     ],
                   ),
                 ),

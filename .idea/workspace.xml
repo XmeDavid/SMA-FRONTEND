@@ -5,14 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0e2811f8-48fc-4a25-9718-2434da2a1635" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/models/Task.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/Asset.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Asset.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/Contract.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Contract.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/dashboard.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/Card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/Card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/auth/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/auth/login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/side_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/side_menu.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/BarChartComponent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/BarChartComponent.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/dashboardWidgets/AssetsDashboardCard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/dashboardWidgets/AssetsDashboardCard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/dashboardWidgets/CircularChart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/dashboardWidgets/CircularChart.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sma_frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sma_frontend.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,6 +76,7 @@
       <updated>1651076640356</updated>
       <workItem from="1651076642335" duration="138000" />
       <workItem from="1651617228009" duration="31424000" />
+      <workItem from="1658098054178" duration="3743000" />
     </task>
     <servers />
   </component>
