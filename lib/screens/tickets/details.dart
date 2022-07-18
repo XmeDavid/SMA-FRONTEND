@@ -455,15 +455,34 @@ class _TicketDetailsState extends State<TicketDetails> {
                                           ),
                                         ),
                                       ),
-                                      tasksLoaded
-                                          ? ListView.builder(
-                                              itemBuilder: (context, index) {
-                                                return TaskView(
-                                                    task: tasks[index],
-                                                    isLine: true);
-                                              },
-                                              itemCount: tasks.length)
-                                          : const CircularProgressIndicator(),
+                                      tasksLoaded ? Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Text('Create Task'),
+                                              IconButton(onPressed: (){
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext dialogContext) {
+                                                    return NewTaskDialog(title: 'Create task for Ticket #${ticket.id} - ${ticket.title}', actions: [],userId: GetStorage().read('user_id'), ticketId: ticket.id,);
+                                                  },
+                                                );
+                                              }, icon: const Icon(Icons.add))
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: MediaQuery.of(context).size.height > 760 ? 598 : MediaQuery.of(context).size.height -212,
+                                            child: ListView.builder(
+                                                itemBuilder: (context, index) {
+                                                  return TaskView(
+                                                      task: tasks[index],
+                                                      isLine: true);
+                                                },
+                                                itemCount: tasks.length),
+                                          ),
+                                        ],
+                                      ) : const CircularProgressIndicator(),
                                       Text("Assets WAITING FOR BACKEND"),
                                     ],
                                   ),

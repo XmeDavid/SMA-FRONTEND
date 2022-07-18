@@ -165,16 +165,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       ],
                                     ),
                                     SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 3,
+                                      height: 8,
                                     ),
                                     Container(
-                                      height: 170,
+                                      height: 231,
                                       child:
                                           BarChartComponent(tickets: tickets),
                                     ),
-                                    SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 5,
-                                    ),
+                                    Spacer()
                                   ],
                                 )
                               : const Center(
