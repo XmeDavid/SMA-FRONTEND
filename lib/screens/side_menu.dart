@@ -22,7 +22,7 @@ class SideMenu extends StatelessWidget {
                 child: TextButton(
                   child : Image.asset("assets/logo.png"),
                   onPressed: (){
-                    Get.toNamed( "/");
+                    Get.toNamed( "/dashboard");
                   },
                 ),
               ),

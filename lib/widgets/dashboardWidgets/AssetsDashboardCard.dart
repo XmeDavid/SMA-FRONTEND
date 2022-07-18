@@ -27,8 +27,13 @@ class _AssetsDashboardCardState extends State<AssetsDashboardCard> {
     var _status = await AssetStatus.getAll();
     var _tempAssets = await Asset.getAll();
     setState(() {
-      status = _status.map((status) => AssetStatus(id: status.id, name: status.name, description: status.description,
-          statusColor: Color.fromRGBO(Random().nextInt(255), Random().nextInt(255), Random().nextInt(255), 1))).toList();
+      status = _status.map((status) => AssetStatus(
+          id: status.id,
+          name: status.name,
+          description: status.description,
+          statusColor: Color.fromRGBO(Random().nextInt(255),
+              Random().nextInt(255),
+              Random().nextInt(255), 1))).toList();
       assets = _tempAssets;
       isAssetsLoaded = true;
     });

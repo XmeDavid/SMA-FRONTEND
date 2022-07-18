@@ -247,8 +247,7 @@ double getTicketsByMonth(List<Ticket> tickets, int month) {
 /// adds + 5 to always have a higher y value inside the bar itself
 /// BOTH METHODS WORK, ONE IS IMPLEMENTED BY AND THE OTHER USES .MATH PACKAGE*/
 double getMostRegisteredTicketMonth(List<Ticket> tickets) {
-  //int newMax = 0;
-  //int oldMax = 0;
+
   List<int> listOfTicketsPerMonth = [];
   for (var month = 1; month <= 12; month++) {
     listOfTicketsPerMonth.add(tickets

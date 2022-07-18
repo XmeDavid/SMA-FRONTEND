@@ -30,7 +30,8 @@ class Chart extends StatelessWidget {
               centerSpaceRadius: 70,
               startDegreeOffset: -90,
               sections: List<PieChartSectionData>.generate(assetStatus.length, (index) {
-                var value = (assets.where((element) => element.assetStatusId == assetStatus[index].id).toList().length/assets.length)*100;
+                var value = (assets.where((element) => element.assetStatusId
+                    == assetStatus[index].id).toList().length/assets.length)*100;
                 return PieChartSectionData(
                   color: assetStatus[index].statusColor,
                   value: value,
