@@ -8,8 +8,8 @@ import 'User.dart';
 class Auth{
   final String tokenType;
   final int expiresIn;
-  final String accessToken;
-  final String refreshToken;
+  final String? accessToken;
+  final String? refreshToken;
   final bool? needsMfa;
 
   const Auth({
@@ -40,11 +40,11 @@ class Auth{
     return Auth.fromJson(jsonDecode(res.body));
   }
 
-  static Future<Auth> mfa(String mfaCode) async{
+  static Future<Auth> mfa(String mfaCode, String refreshToken) async{
     var res = await ClientApi.post('mfa/verification',
         jsonEncode(<String, String>{
           'mfaCode': mfaCode,
-          'refresh_token' : GetStorage().read('refreshToken'),
+          'refresh_token' : refreshToken,
         })
     );
     return Auth.fromJson(jsonDecode(res.body));

@@ -36,11 +36,11 @@ class _LoginPageState extends State<LoginPage> {
 
   login() async{
     Auth auth = await Auth.login(emailText.text, passwordText.text);
+    GetStorage().write('token', auth.accessToken);
+    GetStorage().write('refreshToken', auth.refreshToken);
     if(auth.needsMfa ?? false){
       Get.toNamed('/auth/mfa');
     }else{
-      GetStorage().write('token', auth.accessToken);
-      GetStorage().write('refreshToken', auth.refreshToken);
       User user = await Auth.user();
       GetStorage().write('user_id', user.id);
       GetStorage().write('user_full_name', user.fullName());
