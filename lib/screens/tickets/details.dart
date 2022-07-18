@@ -81,10 +81,18 @@ class _TicketDetailsState extends State<TicketDetails> {
 
   void saveChanges() async {
     await Ticket.update(ticket, );
+    Get.snackbar('Ticket Updated!', 'Your changes have been saved.', backgroundColor: Colors.green.withOpacity(0.5));
   }
   delete() async{
     Ticket.delete(ticket);
+    Get.snackbar('Ticket Deleted!', 'Ticket #${ticket.id} ${ticket.title} has been deleted', backgroundColor: Colors.redAccent.withOpacity(0.5));
     Get.toNamed('/tickets');
+  }
+
+  assignUser(User user){
+    Ticket.assignUser(ticket, user);
+    ticketAssignedController.text = user.fullName();
+    Get.snackbar('User Assigned!', '${user.fullName()} has been assigned to Ticket #${ticket.id} ${ticket.title}', backgroundColor: Colors.green.withOpacity(0.5));
   }
 
   @override
@@ -402,10 +410,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                                                         builder: (BuildContext dialogContext){
                                                           return AssignUserDialog(
                                                             title: 'Assign User to ticket ${ticket.title}',
-                                                            assignUserFunction: (User user){
-                                                              Ticket.assignUser(ticket, user);
-                                                              ticketAssignedController.text = user.fullName();
-                                                            }
+                                                            assignUserFunction: assignUser
                                                           );
                                                         }
                                                       );

@@ -138,21 +138,19 @@ class Ticket {
     }));
     if(res.statusCode == 401){
       throw Exception("Unauthenticated");
-      return null;
     }
     if(res.statusCode == 500){
-      print(res.body);
       throw Exception("Internal Server Error: ${res.body}");
     }
     if(res.statusCode == 422){
-      print(res.body);
       throw Exception("Unprocessable Content (Something in the request is wrong, wrong user, expired contract, etc...): ${res.body}");
     }
-    //TODO if everything is alright parse the res.body into a Ticket and return it
-    return null;
+    return Ticket.fromJsonDetailed(jsonDecode(res.body));
   }
 
-  static update(Ticket ticket) {}
+  static update(Ticket ticket) {
+
+  }
 
   static void assignUser(Ticket ticket, User user) async {
     var res = await ClientApi.post('tickets/assign/${ticket.id}?_method=PATCH', jsonEncode(<String, dynamic>{

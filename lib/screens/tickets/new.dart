@@ -69,7 +69,17 @@ class _NewTicketScreenState  extends State<NewTicketScreen> {
     var _assets = assets.where((element){
       return _selectedAssets != null ? _selectedAssets!.contains(element.toString()) : false;
     }).toList();
-    Ticket.create(ticketTitleController.text, ticketDescriptionController.text,_category,_contract,_assets);
+    try{
+      var res = await Ticket.create(ticketTitleController.text, ticketDescriptionController.text,_category,_contract,_assets);
+      if(res == null){
+        Get.snackbar('Error', 'Something went wrong!',backgroundColor: Colors.redAccent.withOpacity(0.5));
+      }else{
+        Get.snackbar('Ticket Created!', 'Ticket #${res.id} - ${res.title} Created',backgroundColor: Colors.green.withOpacity(0.5));
+        Get.toNamed('/tickets/${res.id}');
+      }
+    } on Exception catch(_){
+      Get.snackbar('Error', '$_',backgroundColor: Colors.redAccent.withOpacity(0.5));
+    }
   }
 
   @override

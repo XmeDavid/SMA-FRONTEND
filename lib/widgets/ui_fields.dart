@@ -367,12 +367,12 @@ class PaginatedNavigation extends StatelessWidget {
         if (paginatedModel.meta.current_page > 2)Padding(
           padding: const EdgeInsets.all(smallPadding),
           child: SizedBox(
-            width: 40,
+            width: paginatedModel.meta.current_page - 1 < 10 ? 40 : 50,
             child: OutlinedButton(
                 onPressed: () {
                   callback(paginatedModel.meta.current_page -1);
                 },
-                child: Text('${paginatedModel.meta.current_page -1}',
+                child: Text('${paginatedModel.meta.current_page - 1}',
                   style: const TextStyle(color: Colors.white),
                 )
             ),
@@ -381,7 +381,7 @@ class PaginatedNavigation extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(smallPadding),
           child: SizedBox(
-            width: 40,
+            width: paginatedModel.meta.current_page < 10 ? 40 : 50,
             child: OutlinedButton(
               onPressed: null,
               style: ButtonStyle(
@@ -398,7 +398,7 @@ class PaginatedNavigation extends StatelessWidget {
         if (paginatedModel.meta.current_page < paginatedModel.meta.last_page-1)Padding(
           padding: const EdgeInsets.all(smallPadding),
           child: SizedBox(
-            width: 40,
+            width: paginatedModel.meta.current_page + 1 < 10 ? 40 : 50,
             child: OutlinedButton(
               onPressed: () {
                 callback(paginatedModel.meta.current_page + 1);
@@ -415,7 +415,7 @@ class PaginatedNavigation extends StatelessWidget {
         if (paginatedModel.meta.current_page < paginatedModel.meta.last_page)Padding(
           padding: const EdgeInsets.all(smallPadding),
           child: SizedBox(
-            width: 40,
+            width: paginatedModel.meta.last_page < 10 ? 40 : 50,
             child: OutlinedButton(
               onPressed: () {
               callback(paginatedModel
