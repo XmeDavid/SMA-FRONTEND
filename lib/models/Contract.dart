@@ -151,7 +151,7 @@ class Contract{
 
   @override
   String toString() {
-    return "Contract #" + id.toString() + " - " + description.substring(0,25) + "...";
+    return "Contract #" + id.toString() + " - " + (title.length > 25 ? title.substring(0,25) + "..." : title);
   }
 
 }

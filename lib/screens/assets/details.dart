@@ -210,7 +210,7 @@ class _AssetDetailsState  extends State<AssetDetailsScreen> {
                                 Padding(padding: const EdgeInsets.all(defaultPadding/2),
                                     child: OutlinedButton (
                                       onPressed: (){
-                                        Get.toNamed('/entities');
+                                        Get.toNamed('/assets');
                                       },
                                       child: const Text("Go Back",style: TextStyle(color: Colors.white),),
                                     ),

@@ -315,7 +315,7 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                                                       )
                                                     ],
                                                   ),
-                                                  Text("from ${interventions[index].startDate} to ${interventions[index].endDate}"),
+                                                  Text("from ${interventions[index].startDate.substring(0,10)} to ${interventions[index].endDate.substring(0,10)}"),
                                                   SizedBox(height: 10,),
                                                   Text("${interventions[index].description}")
                                                 ],
@@ -511,7 +511,7 @@ class _TaskDetailsState  extends State<TaskDetailsScreen> {
                                               )
                                             ],
                                           ),
-                                          Text("from ${interventions[index].startDate} to ${interventions[index].endDate}"),
+                                          Text("from ${interventions[index].startDate.substring(0,10)} to ${interventions[index].endDate.substring(0,10)}"),
                                           SizedBox(height: 10,),
                                           Text("${interventions[index].description}")
                                         ],

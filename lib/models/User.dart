@@ -125,7 +125,7 @@ class User{
     await ClientApi.post('password/reset', jsonEncode(<String, dynamic>{
       'email' : email,
       'password' : password,
-      'password-validation' : confirmationPassword,
+      'password_confirmation' : confirmationPassword,
       'token' : token
     }));
   }
